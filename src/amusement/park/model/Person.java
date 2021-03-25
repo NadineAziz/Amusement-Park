@@ -12,7 +12,7 @@ public class Person {
         try {
             icon = new ImageIcon(Paths.get("images/person/" + pictureName).toUri().toURL());
         } catch (MalformedURLException ex) {
-            Logger.getLogger(Person.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Person.class.getName()).log(Level.INFO, "AAAAA", ex);
         }
     }
 
