@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static amusement.park.GameGUI.SCREEN_SIZE;
+import amusement.park.model.buildings.Path;
 
 public class GamePanel extends JPanel {
       private BuildingItem selectedItem;
@@ -35,7 +36,7 @@ public class GamePanel extends JPanel {
         setLayout(new BorderLayout());
         JPanel itemsPanel = new JPanel();
         itemsPanel.setBackground(Color.LIGHT_GRAY);
-        itemsPanel.setPreferredSize(new Dimension(SCREEN_SIZE.width, 120));
+        itemsPanel.setPreferredSize(new Dimension(SCREEN_SIZE.width,150));
         itemsPanel.setLayout(new FlowLayout());
         itemsPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
@@ -47,11 +48,14 @@ public class GamePanel extends JPanel {
         buildingItem3.addActionListener(createItemClickedListener());
         BuildingItem buildingItem4 = new BuildingItem(new CornDogStand());
         buildingItem4.addActionListener(createItemClickedListener());
+        BuildingItem buildingItem5 = new BuildingItem(new Path(0,0));
+        buildingItem5.addActionListener(createItemClickedListener());
 
         itemsPanel.add(buildingItem1);
         itemsPanel.add(buildingItem2);
         itemsPanel.add(buildingItem3);
         itemsPanel.add(buildingItem4);
+        itemsPanel.add(buildingItem5);
 
         JPanel jPanel1 = new JPanel();
         jPanel1.setPreferredSize(new Dimension(200, SCREEN_SIZE.height));
