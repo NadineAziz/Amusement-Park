@@ -60,6 +60,10 @@ public class Guest extends Person {
         g.drawImage(getIcon().getImage(), x, y, UNIT_SIZE, UNIT_SIZE - 15, null);
     }
 
+    public void call_security() {
+
+    }
+
     enum Direction {
         DOWN, UP, LEFT, RIGHT;
     }
