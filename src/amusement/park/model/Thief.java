@@ -15,12 +15,17 @@ public Thief(int skillevel) {
         this.skillevel = skillevel;
     }
 
-
+ /**
+     * This method is for thief to steal money from the guest.
+     *
+     * @param guest
+     */
 public void steal_money(Guest guest) {
        Random  rnd=new Random();
        int randomnumber= rnd.nextInt(100);
        if(skillevel>randomnumber){
           guest.pay(skillevel);
+          guest.changeMood(skillevel);
        }
        else{
            guest.call_security();
@@ -28,7 +33,11 @@ public void steal_money(Guest guest) {
        
        }
     }
-
+ /**
+     * This method is for thief to run away from the police officers.
+     *
+     * @param 
+     */
 public void run(){}
 }
 
