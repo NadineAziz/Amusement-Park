@@ -1,12 +1,10 @@
 
 package amusement.park.model.buildings.games;
 
-import amusement.park.model.buildings.Building;
 
-
-public class FirstGame extends Building {
-    
+public class FirstGame extends BaseGame {
     public FirstGame() {
-        super("games/game1.png", 5, 10, 10);
+        super("games/game1.png", 5, 15, 10);
     }
+
 }
