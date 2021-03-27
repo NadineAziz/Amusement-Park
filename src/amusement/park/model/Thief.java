@@ -14,7 +14,7 @@ public Thief(int skillevel) {
         skillevel =  random.nextInt(100);
         this.skillevel = skillevel;
     }
-
+//int 
  /**
      * This method is for thief to steal money from the guest.
      *
