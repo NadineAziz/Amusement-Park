@@ -14,3 +14,4 @@ public class FirstGame extends Building {
         return new FirstGame();
     }
 }
+}
