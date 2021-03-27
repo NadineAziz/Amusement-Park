@@ -16,7 +16,7 @@ import static amusement.park.GameGUI.SCREEN_SIZE;
 import amusement.park.model.buildings.Path;
 
 public class GamePanel extends JPanel {
-    private BuildingItem selectedItem;
+      private BuildingItem selectedItem;
     private final int numberOfQuests = 1;
     private final List<Guest> guests = new ArrayList<>();
     private int fps;
