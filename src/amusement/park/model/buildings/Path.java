@@ -19,10 +19,20 @@ private int trashCount;
         this.tileCost = tileCost;
         this.trashCount = trashCount;
     }
- 
+  /**
+     * This method is going to build the path for the  guests
+     * and decrease their money
+     *
+     * @param numberoftiles
+     */
     public void buildPath(int numberoftiles){
     
     }
+     /**
+     * This method is going to check whether path has trashcan or not
+     *
+     * @param 
+     */
     public boolean hasTrashCan(){return false;}
     public int countTrashs(){
         int cnt=0;
