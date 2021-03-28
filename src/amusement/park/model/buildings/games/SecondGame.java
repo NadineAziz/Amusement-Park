@@ -11,6 +11,6 @@ public class SecondGame extends Building {
 
         @Override
     public Object clone() {
-        return new FirstGame();
+        return new SecondGame();
     }
 }

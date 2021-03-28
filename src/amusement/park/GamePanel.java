@@ -2,7 +2,9 @@ package amusement.park;
 
 import amusement.park.model.Guest;
 import amusement.park.model.buildings.games.*;
-import amusement.park.model.buildings.restaurants.CornDogStand;
+import amusement.park.model.buildings.restaurants.HotDogStand;
+import amusement.park.model.buildings.restaurants.Buffet;
+import amusement.park.model.buildings.restaurants.SweetShop;
 import amusement.park.ui.BuildingItem;
 
 import javax.swing.*;
@@ -46,16 +48,22 @@ public class GamePanel extends JPanel {
         buildingItem2.addActionListener(createItemClickedListener());
         BuildingItem buildingItem3 = new BuildingItem(new ThirdGame());
         buildingItem3.addActionListener(createItemClickedListener());
-        BuildingItem buildingItem4 = new BuildingItem(new CornDogStand());
+        BuildingItem buildingItem4 = new BuildingItem(new HotDogStand());
         buildingItem4.addActionListener(createItemClickedListener());
         BuildingItem buildingItem5 = new BuildingItem(new Path(0,0));
         buildingItem5.addActionListener(createItemClickedListener());
+        BuildingItem buildingItem6 = new BuildingItem(new Buffet());
+        buildingItem6.addActionListener(createItemClickedListener());
+        BuildingItem buildingItem7 = new BuildingItem(new SweetShop());
+        buildingItem7.addActionListener(createItemClickedListener());
 
         itemsPanel.add(buildingItem1);
         itemsPanel.add(buildingItem2);
         itemsPanel.add(buildingItem3);
         itemsPanel.add(buildingItem4);
         itemsPanel.add(buildingItem5);
+        itemsPanel.add(buildingItem6);
+        itemsPanel.add(buildingItem7);
 
         JPanel jPanel1 = new JPanel();
         jPanel1.setPreferredSize(new Dimension(200, SCREEN_SIZE.height));
