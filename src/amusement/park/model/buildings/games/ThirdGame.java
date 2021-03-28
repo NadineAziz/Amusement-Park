@@ -1,7 +1,15 @@
 package amusement.park.model.buildings.games;
 
-public class ThirdGame extends BaseGame {
+import amusement.park.model.buildings.Building;
+
+
+public class ThirdGame extends Building {
      public ThirdGame() {
-        super("games/game3.png", 5, 25, 10);
+        super("games/game3.png", 5, 10, 10);
+    }
+
+    @Override
+    public Object clone() {
+        return new ThirdGame();
     }
 }
