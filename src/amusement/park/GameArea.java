@@ -1,4 +1,3 @@
-
 package amusement.park;
 
 import amusement.park.model.Guest;
@@ -49,7 +48,6 @@ public class GameArea extends JPanel{
     }
 
     private boolean addBuilding(BasicBuilding building, int indexX, int indexY) {
-       if (!checkIfBuildingExists(building) ) {
         if (indexX < numberOfCols && indexY < numberOfRows) {
             if (placesMatrix[indexX][indexY] == null) {
                 placesMatrix[indexX][indexY] = building;
@@ -60,24 +58,6 @@ public class GameArea extends JPanel{
         } else {
             return false;
         }
-        }else {
-                return false;
-        }
-    }
-
-        private boolean checkIfBuildingExists(BasicBuilding building) {
-        System.out.println( building.getClass().getName());
-        for (int i= 0; i < numberOfCols; i ++) {
-            for (int j = 0; j < numberOfRows; j++) {
-                building.getClass().getName();
-                
-              if (placesMatrix[i][j] != null && building.getClass().getName().equals(placesMatrix[i][j].getClass().getName())) {
-                  return true;
-              }
-              
-            }
-        }
-        return false;
     }
 
     public BasicBuilding getBuilding(int posX, int posY) {
