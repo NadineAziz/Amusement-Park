@@ -23,7 +23,7 @@ public class GameGUI {
         frame.getContentPane().add(BorderLayout.NORTH, coinsPanel);
         frame.getContentPane().add(BorderLayout.CENTER, engine);
 
-        //setupFrameAppearance(frame);
+        setupFrameAppearance(frame);
 
     }
 

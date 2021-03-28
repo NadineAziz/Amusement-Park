@@ -1,8 +1,12 @@
 package amusement.park.model.buildings.games;
 
-public class SecondGame extends BaseGame {
+import amusement.park.model.buildings.Building;
+
+
+public class SecondGame extends Building {
+    
     public SecondGame() {
-        super("games/game2.png", 5, 20, 10);
+        super("games/game2.png", 5, 10, 10);
     }
 
         @Override

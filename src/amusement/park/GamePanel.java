@@ -2,7 +2,6 @@ package amusement.park;
 
 import amusement.park.model.Guest;
 import amusement.park.model.buildings.games.*;
-import amusement.park.model.buildings.gardens.*;
 import amusement.park.model.buildings.restaurants.CornDogStand;
 import amusement.park.ui.BuildingItem;
 
@@ -16,7 +15,7 @@ import static amusement.park.GameGUI.SCREEN_SIZE;
 import amusement.park.model.buildings.Path;
 
 public class GamePanel extends JPanel {
-      private BuildingItem selectedItem;
+    private BuildingItem selectedItem;
     private final int numberOfQuests = 1;
     private final List<Guest> guests = new ArrayList<>();
     private int fps;
@@ -37,7 +36,7 @@ public class GamePanel extends JPanel {
         setLayout(new BorderLayout());
         JPanel itemsPanel = new JPanel();
         itemsPanel.setBackground(Color.LIGHT_GRAY);
-        itemsPanel.setPreferredSize(new Dimension(SCREEN_SIZE.width,130));
+        itemsPanel.setPreferredSize(new Dimension(SCREEN_SIZE.width,150));
         itemsPanel.setLayout(new FlowLayout());
         itemsPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
@@ -51,21 +50,12 @@ public class GamePanel extends JPanel {
         buildingItem4.addActionListener(createItemClickedListener());
         BuildingItem buildingItem5 = new BuildingItem(new Path(0,0));
         buildingItem5.addActionListener(createItemClickedListener());
-        BuildingItem buildingItem6 = new BuildingItem(new Grass());
-        buildingItem6.addActionListener(createItemClickedListener());
-        BuildingItem buildingItem7 = new BuildingItem(new Tree());
-        buildingItem7.addActionListener(createItemClickedListener());
-        BuildingItem buildingItem8 = new BuildingItem(new Shrub());
-        buildingItem8.addActionListener(createItemClickedListener());
 
         itemsPanel.add(buildingItem1);
         itemsPanel.add(buildingItem2);
         itemsPanel.add(buildingItem3);
         itemsPanel.add(buildingItem4);
         itemsPanel.add(buildingItem5);
-        itemsPanel.add(buildingItem6);
-        itemsPanel.add(buildingItem7);
-        itemsPanel.add(buildingItem8);
 
         JPanel jPanel1 = new JPanel();
         jPanel1.setPreferredSize(new Dimension(200, SCREEN_SIZE.height));
