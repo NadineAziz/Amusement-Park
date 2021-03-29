@@ -2,8 +2,8 @@ package amusement.park.model.buildings.restaurants;
 
 import amusement.park.model.buildings.Building;
 
-public class CornDogStand extends Building{
-        public CornDogStand() {
-        super("restaurants/corn_dog_stand.jpg", 5, 3, 5);
+public class HotDogStand extends Building{
+        public HotDogStand() {
+        super("restaurants/hot_dog_stand.png", 5, 3, 5);
     }
 }
