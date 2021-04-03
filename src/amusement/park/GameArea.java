@@ -94,6 +94,7 @@ public class GameArea extends JPanel{
      * Moves the guests in the matrix
      */
     public void moveGuests() {
+        guest.changeDirection();
 
      }
 

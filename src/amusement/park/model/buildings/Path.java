@@ -26,7 +26,7 @@ private int trashCount;
      * @param numberoftiles
      */
     public void buildPath(int numberoftiles){
-    //mm
+
     }
      /**
      * This method is going to check whether path has trashcan or not
