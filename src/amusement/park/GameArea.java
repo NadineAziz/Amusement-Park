@@ -61,6 +61,7 @@ public class GameArea extends JPanel{
         }
     }
 
+
     public BasicBuilding getBuilding(int posX, int posY) {
         return placesMatrix[posX][posY];
     }
@@ -93,6 +94,7 @@ public class GameArea extends JPanel{
      * Moves the guests in the matrix
      */
     public void moveGuests() {
+        guest.changeDirection();
 
      }
 
