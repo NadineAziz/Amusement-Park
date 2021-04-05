@@ -43,19 +43,23 @@ public class Person {
 
     public void changeDirection() {
         //Guest.Direction.values()[random.nextInt(4)]
-        switch (Guest.Direction.values()[random.nextInt(4)]) {
-            case UP:
-                move(50, 0);     
-                break;
-            case DOWN:
-                move(-50, 0);
-                break;
-            case LEFT:
-                move(0, 50);
-                break;
-            case RIGHT:
-                move(0, -50);
-                break;
+        Direction dir = Guest.Direction.values()[random.nextInt(4)];
+        if (dir==Direction.UP){
+            if(this.y>0){
+                move(0, -50); 
+            }
+        }else if (dir==Direction.DOWN){
+            if(!(this.y>=450)){
+                move(0, 50); 
+            }
+        }else if (dir==Direction.LEFT){
+            if(this.x>0){
+                move(-50, 0); 
+            }
+        }else if (dir==Direction.RIGHT){
+            if(this.y>0){
+                move(50, 0);  
+            }
         }
     }
 
