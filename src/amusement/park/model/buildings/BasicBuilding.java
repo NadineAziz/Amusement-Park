@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class BasicBuilding implements Cloneable {
     private final String picture;
@@ -61,21 +59,23 @@ public class BasicBuilding implements Cloneable {
 
 
     public void draw(Graphics graphics, int x, int y) {
-        graphics.drawImage(getIcon().getImage(),  x, y, UNIT_SIZE, UNIT_SIZE, null);
-        if (auxTurnsToBeReady > 0) {
-            graphics.setColor(Color.yellow);
-            ((Graphics2D) graphics).setStroke(new BasicStroke(5));
-            graphics.drawLine(x, y, x + (UNIT_SIZE * auxTurnsToBeReady) / turnsToBeReady, y);
-            decreaseTurnsToBeReady();
-        } else {
-            if (auxTurnsToBeBroken > 0) {
-                graphics.setColor(Color.green);
+        graphics.drawImage(getIcon().getImage(), x, y, UNIT_SIZE, UNIT_SIZE, null);
+        if (turnsToBeReady > 0) {
+            if (auxTurnsToBeReady > 0) {
+                graphics.setColor(Color.yellow);
                 ((Graphics2D) graphics).setStroke(new BasicStroke(5));
-                graphics.drawLine(x, y, x + (UNIT_SIZE * auxTurnsToBeBroken) / turnsToBeBroken, y);
-            } else if (auxTurnsToBeRepaired > 0){
-                graphics.setColor(Color.red);
-                ((Graphics2D) graphics).setStroke(new BasicStroke(5));
-                graphics.drawLine(x, y, x + (UNIT_SIZE * auxTurnsToBeRepaired) / turnsToBeRepaired, y);
+                graphics.drawLine(x, y, x + (UNIT_SIZE * auxTurnsToBeReady) / turnsToBeReady, y);
+                decreaseTurnsToBeReady();
+            } else {
+                if (auxTurnsToBeBroken > 0) {
+                    graphics.setColor(Color.green);
+                    ((Graphics2D) graphics).setStroke(new BasicStroke(5));
+                    graphics.drawLine(x, y, x + (UNIT_SIZE * auxTurnsToBeBroken) / turnsToBeBroken, y);
+                } else if (auxTurnsToBeRepaired > 0) {
+                    graphics.setColor(Color.red);
+                    ((Graphics2D) graphics).setStroke(new BasicStroke(5));
+                    graphics.drawLine(x, y, x + (UNIT_SIZE * auxTurnsToBeRepaired) / turnsToBeRepaired, y);
+                }
             }
         }
     }

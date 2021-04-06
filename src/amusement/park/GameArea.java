@@ -4,20 +4,25 @@ package amusement.park;
 import amusement.park.model.Guest;
 import amusement.park.model.buildings.ATM;
 import amusement.park.model.buildings.BasicBuilding;
-import amusement.park.model.buildings.ThiefDen;
 import amusement.park.model.buildings.PoliceStation;
+import amusement.park.model.buildings.ThiefDen;
+import amusement.park.model.buildings.games.BaseGame;
+import amusement.park.model.buildings.games.FirstGame;
+import amusement.park.model.buildings.games.SecondGame;
+import amusement.park.model.buildings.games.ThirdGame;
 
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Random;
 
 public class GameArea extends JPanel{
     public static final int UNIT_SIZE = 50;
     private static final int GAME_AREA_WIDTH = 850;
-    private static final int GAME_AREA_HEIGHT = 500;
+    private static final int GAME_AREA_HEIGHT = 450;
 
     private final BasicBuilding[][] placesMatrix;
     private final static Random random = new Random();
@@ -27,20 +32,21 @@ public class GameArea extends JPanel{
 
     public GameArea(GamePanel gamePanel) {
         super();
-        placesMatrix = new BasicBuilding[numberOfCols][numberOfRows];
+        placesMatrix = new BasicBuilding[numberOfRows][numberOfCols];
         placeRandomBuildings();
 
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
                 if (gamePanel.getSelectedItem() != null) {
                     BasicBuilding building = (BasicBuilding) gamePanel.getSelectedItem().getBuilding();
                     int indexX = (e.getX() / UNIT_SIZE);
                     int indexY = (e.getY() / UNIT_SIZE);
-                    addBuilding(building, indexX, indexY);
+                    addBuilding(building, indexY, indexX);
+                    repaint();
+                } else {
+                    System.out.println("null");
                 }
-                repaint();
             }
         });
 
@@ -49,16 +55,42 @@ public class GameArea extends JPanel{
     }
 
     private boolean addBuilding(BasicBuilding building, int indexX, int indexY) {
-        if (indexX < numberOfCols && indexY < numberOfRows) {
-            if (placesMatrix[indexX][indexY] == null) {
-                placesMatrix[indexX][indexY] = building;
-                return true;
-            } else  {
+        if (!checkIfGameExists(building)) {
+            if (indexX < numberOfRows && indexY < numberOfCols) {
+                if (placesMatrix[indexX][indexY] == null) {
+                    placesMatrix[indexX][indexY] = building;
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
                 return false;
             }
         } else {
             return false;
         }
+    }
+    
+        private boolean checkIfGameExists(BasicBuilding building) {
+        if (building instanceof BaseGame) {
+            System.out.println(building.getClass());
+            for (int i = 0; i < numberOfRows; i++) {
+                for (int j = 0; j < numberOfCols; j++) {
+                    if (building instanceof FirstGame && placesMatrix[i][j] instanceof FirstGame) {
+                        return true;
+                    }
+
+                    if (building instanceof SecondGame && placesMatrix[i][j] instanceof SecondGame) {
+                        return true;
+                    }
+
+                    if (building instanceof ThirdGame && placesMatrix[i][j] instanceof ThirdGame) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 
@@ -85,8 +117,8 @@ public class GameArea extends JPanel{
 
     private void tryPlacingBuilding(BasicBuilding building, int indexX, int indexY) {
         while (!addBuilding(building, indexX, indexY)) {
-            indexX = random.nextInt(numberOfCols - 1);
-            indexY = random.nextInt(numberOfRows - 1);
+            indexX = random.nextInt(numberOfRows - 1);
+            indexY = random.nextInt(numberOfCols - 1);
         }
     }
 
@@ -113,17 +145,14 @@ public class GameArea extends JPanel{
         g.setColor(Color.orange);
 //          Display a grid
         for (int i = 0; i <= GAME_AREA_WIDTH / UNIT_SIZE; i++) {
-            g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, GAME_AREA_HEIGHT );
+            g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, GAME_AREA_HEIGHT);
             g.drawLine(0, i * UNIT_SIZE, GAME_AREA_WIDTH, i * UNIT_SIZE);
         }
 
-        guest.draw(g);
-        guest.changeMood(5);
-
-        for (int i = 0; i < numberOfCols; ++i) {
-            for (int j = 0; j < numberOfRows; ++j) {
+        for (int i = 0; i < numberOfRows; ++i) {
+            for (int j = 0; j < numberOfCols; ++j) {
                 if (placesMatrix[i][j] != null) {
-                    placesMatrix[i][j].draw(g, i * UNIT_SIZE, j * UNIT_SIZE);
+                    placesMatrix[i][j].draw(g, j * UNIT_SIZE, i * UNIT_SIZE);
                 }
             }
         }
