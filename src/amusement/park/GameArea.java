@@ -1,5 +1,6 @@
 package amusement.park;
 
+import amusement.park.model.Guest;
 import amusement.park.model.buildings.ATM;
 import amusement.park.model.buildings.BasicBuilding;
 import amusement.park.model.buildings.PoliceStation;
@@ -26,10 +27,6 @@ public class GameArea extends JPanel {
     private final BasicBuilding[][] placesMatrix;
     private final int numberOfRows = GAME_AREA_HEIGHT / UNIT_SIZE;
     private final int numberOfCols = GAME_AREA_WIDTH / UNIT_SIZE;
-
-    public GameArea(GamePanel gamePanel) {
-        super();
-    //private Guest guest = new Guest(100);
     private final List<Guest> guests;
 
     public GameArea(GamePanel gamePanel) {
@@ -102,27 +99,6 @@ public class GameArea extends JPanel {
         }
     }
     
-        private boolean checkIfGameExists(BasicBuilding building) {
-        if (building instanceof BaseGame) {
-            System.out.println(building.getClass());
-            for (int i = 0; i < numberOfRows; i++) {
-                for (int j = 0; j < numberOfCols; j++) {
-                    if (building instanceof FirstGame && placesMatrix[i][j] instanceof FirstGame) {
-                        return true;
-                    }
-
-                    if (building instanceof SecondGame && placesMatrix[i][j] instanceof SecondGame) {
-                        return true;
-                    }
-
-                    if (building instanceof ThirdGame && placesMatrix[i][j] instanceof ThirdGame) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
 
     private boolean checkIfGameExists(BasicBuilding building) {
         if (building instanceof BaseGame) {
@@ -222,12 +198,4 @@ public class GameArea extends JPanel {
         }
     }
 
-    class NewFrameListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            moveGuests();
-            repaint();
-        }
-    }
 }

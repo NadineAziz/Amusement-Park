@@ -22,7 +22,7 @@ import java.util.List;
 import static amusement.park.GameGUI.SCREEN_SIZE;
 
 public class GamePanel extends JPanel {
-    private final int numberOfQuests = 1;
+    private final int numberOfQuests = 2;
     private final List<Guest> guests = new ArrayList<>();
     private BuildingItem selectedItem;
     private int fps;
