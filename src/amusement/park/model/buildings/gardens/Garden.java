@@ -7,10 +7,9 @@ package amusement.park.model.buildings.gardens;
 import amusement.park.model.buildings.Building;
 
 /**
- *
  * @author khaligov
  */
-public class Garden extends Building{
+public class Garden extends Building {
     
     public Garden(String pic){
         super(pic, 5, 3, 5);

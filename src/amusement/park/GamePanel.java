@@ -1,9 +1,16 @@
 package amusement.park;
 
 import amusement.park.model.Guest;
-import amusement.park.model.buildings.games.*;
-import amusement.park.model.buildings.gardens.*;
-import amusement.park.model.buildings.restaurants.*;
+import amusement.park.model.buildings.Path;
+import amusement.park.model.buildings.games.FirstGame;
+import amusement.park.model.buildings.games.SecondGame;
+import amusement.park.model.buildings.games.ThirdGame;
+import amusement.park.model.buildings.gardens.Grass;
+import amusement.park.model.buildings.gardens.Shrub;
+import amusement.park.model.buildings.gardens.Tree;
+import amusement.park.model.buildings.restaurants.Buffet;
+import amusement.park.model.buildings.restaurants.HotDogStand;
+import amusement.park.model.buildings.restaurants.SweetShop;
 import amusement.park.ui.BuildingItem;
 
 import javax.swing.*;
@@ -13,12 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static amusement.park.GameGUI.SCREEN_SIZE;
-import amusement.park.model.buildings.Path;
 
 public class GamePanel extends JPanel {
-    private BuildingItem selectedItem;
     private final int numberOfQuests = 1;
     private final List<Guest> guests = new ArrayList<>();
+    private BuildingItem selectedItem;
     private int fps;
     private CoinsPanel coinsPanel;
 
@@ -37,7 +43,7 @@ public class GamePanel extends JPanel {
         setLayout(new BorderLayout());
         JPanel itemsPanel = new JPanel();
         itemsPanel.setBackground(Color.LIGHT_GRAY);
-        itemsPanel.setPreferredSize(new Dimension(SCREEN_SIZE.width,120));
+        itemsPanel.setPreferredSize(new Dimension(SCREEN_SIZE.width, 120));
         itemsPanel.setLayout(new FlowLayout());
         itemsPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
@@ -47,7 +53,7 @@ public class GamePanel extends JPanel {
         buildingItem2.addActionListener(createItemClickedListener());
         BuildingItem buildingItem3 = new BuildingItem(new ThirdGame());
         buildingItem3.addActionListener(createItemClickedListener());
-        BuildingItem buildingItem5 = new BuildingItem(new Path(0,0));
+        BuildingItem buildingItem5 = new BuildingItem(new Path(0, 0));
         buildingItem5.addActionListener(createItemClickedListener());
         BuildingItem buildingItem6 = new BuildingItem(new Grass());
         buildingItem6.addActionListener(createItemClickedListener());
@@ -61,7 +67,7 @@ public class GamePanel extends JPanel {
         buildingItem9.addActionListener(createItemClickedListener());
         BuildingItem buildingItem10 = new BuildingItem(new Buffet());
         buildingItem10.addActionListener(createItemClickedListener());
-        
+
 
         itemsPanel.add(buildingItem1);
         itemsPanel.add(buildingItem2);
@@ -95,8 +101,37 @@ public class GamePanel extends JPanel {
         return fps;
     }
 
+    private int getPrice() {
+        while (true) {
+            try {
+                String value = JOptionPane.showInputDialog(
+                        GamePanel.this,
+                        "Price of the building",
+                        0
+                );
+                return Integer.parseInt(value);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+    }
+
     private ActionListener createItemClickedListener() {
-        return e -> selectedItem = (BuildingItem) e.getSource();
+        return e -> {
+            selectedItem = (BuildingItem) e.getSource();
+            if (!selectedItem.getBuilding().hasPrice()) {
+                int buildingPrice = getPrice();
+                selectedItem.getBuilding().setBuildingPrice(buildingPrice);
+            }
+        };
+    }
+
+    public boolean hasEnoughMoney() {
+        return coinsPanel.hasEnoughMoney(getSelectedItem().getBuilding().getBuildingPrice());
+    }
+
+    public boolean buyBuilding() {
+        return coinsPanel.decreaseCoins(getSelectedItem().getBuilding().getBuildingPrice());
     }
 
     public BuildingItem getSelectedItem() {

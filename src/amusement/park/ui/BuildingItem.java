@@ -1,26 +1,30 @@
 package amusement.park.ui;
 
-import amusement.park.model.buildings.BasicBuilding;
+import amusement.park.model.buildings.Building;
 import amusement.park.model.buildings.games.BaseGame;
 
 import javax.swing.*;
 
 public class BuildingItem extends JButton {
-        private final BasicBuilding building;
+    private final Building building;
 
-    public BuildingItem(BasicBuilding building) {
+    public BuildingItem(Building building) {
         this.building = building;
         setIcon(building.getIcon());
         this.setBackground(null);
     }
-    
+
     public BuildingItem(BaseGame building) {
         this.building = building;
         setIcon(building.getIcon());
         this.setBackground(null);
     }
 
-    public Object getBuilding() {
-        return building.clone();
+    public Building getBuilding() {
+        return building;
+    }
+
+    public Building createBuilding() {
+        return (Building) building.clone();
     }
 }
