@@ -137,6 +137,14 @@ public class GamePanel extends JPanel {
     public BuildingItem getSelectedItem() {
         return selectedItem;
     }
+    
+    public void moveGuests() {
+        for (int i = 0; i < numberOfQuests; i++) {
+            this.guests.get(i).changeDirection();
+        }
+
+     }
+    
 
     @Override
     protected void paintComponent(Graphics g) {

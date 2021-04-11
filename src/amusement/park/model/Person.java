@@ -15,8 +15,8 @@ import javax.swing.*;
 
 public class Person {
     private ImageIcon icon;
-    private int x = 0;
-    private int y = 0;
+    private int x = 50;
+    private int y = 50;
     BasicBuilding[][] placesMatrix;
     private final static Random random = new Random();
 
@@ -43,19 +43,23 @@ public class Person {
 
     public void changeDirection() {
         //Guest.Direction.values()[random.nextInt(4)]
-        switch (Guest.Direction.values()[random.nextInt(4)]) {
-            case UP:
-                move(50, 0);     
-                break;
-            case DOWN:
-                move(-50, 0);
-                break;
-            case LEFT:
-                move(0, 50);
-                break;
-            case RIGHT:
-                move(0, -50);
-                break;
+        Direction dir = Guest.Direction.values()[random.nextInt(4)];
+        if (dir==Direction.UP){
+            if(this.y>0){
+                move(0, -50); 
+            }
+        }else if (dir==Direction.DOWN){
+            if(this.y<400){
+                move(0, 50); 
+            }
+        }else if (dir==Direction.LEFT){
+            if(this.x>0){
+                move(-50, 0); 
+            }
+        }else if (dir==Direction.RIGHT){
+            if(this.x<800){
+                move(50, 0);  
+            }
         }
     }
 

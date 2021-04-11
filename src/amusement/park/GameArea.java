@@ -9,6 +9,7 @@ import amusement.park.model.buildings.games.FirstGame;
 import amusement.park.model.buildings.games.SecondGame;
 import amusement.park.model.buildings.games.ThirdGame;
 
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,6 +29,12 @@ public class GameArea extends JPanel {
 
     public GameArea(GamePanel gamePanel) {
         super();
+    //private Guest guest = new Guest(100);
+    private final List<Guest> guests;
+
+    public GameArea(GamePanel gamePanel) {
+        super();
+        this.guests = gamePanel.getGuests();
         placesMatrix = new BasicBuilding[numberOfRows][numberOfCols];
         placeRandomBuildings();
 
@@ -94,6 +101,28 @@ public class GameArea extends JPanel {
             return false;
         }
     }
+    
+        private boolean checkIfGameExists(BasicBuilding building) {
+        if (building instanceof BaseGame) {
+            System.out.println(building.getClass());
+            for (int i = 0; i < numberOfRows; i++) {
+                for (int j = 0; j < numberOfCols; j++) {
+                    if (building instanceof FirstGame && placesMatrix[i][j] instanceof FirstGame) {
+                        return true;
+                    }
+
+                    if (building instanceof SecondGame && placesMatrix[i][j] instanceof SecondGame) {
+                        return true;
+                    }
+
+                    if (building instanceof ThirdGame && placesMatrix[i][j] instanceof ThirdGame) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 
     private boolean checkIfGameExists(BasicBuilding building) {
         if (building instanceof BaseGame) {
@@ -142,15 +171,30 @@ public class GameArea extends JPanel {
     /**
      * Moves the guests in the matrix
      */
-    public void moveGuests() {
+    public void moveAllGuests() {
+        this.guests.forEach(guest -> {
+            guest.changeDirection();
+        });
+     }
 
+     class NewFrameListener implements ActionListener {
 
-    }
+         @Override
+         public void actionPerformed(ActionEvent e) {
+             moveAllGuests();
+             repaint();
+         }
+     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.orange);
+        this.guests.forEach(guest -> {
+            guest.draw(g);
+        });
+        //guest.draw(g);
+        //guest.changeMood(5);
 //          Display a grid
         for (int i = 0; i <= GAME_AREA_WIDTH / UNIT_SIZE; i++) {
             g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, GAME_AREA_HEIGHT);

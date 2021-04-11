@@ -3,6 +3,6 @@ package amusement.park.model.buildings;
 
 public class ThiefDen extends BasicBuilding {
     public ThiefDen() {
-        super("cave.png", 2);
+        super("cave.png", -1);
     }
 }

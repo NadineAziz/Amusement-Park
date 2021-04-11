@@ -1,9 +1,9 @@
 package amusement.park.model.buildings;
 
 
-public class ATM extends BasicBuilding{
-    
+public class ATM extends BasicBuilding {
+
     public ATM() {
-        super("atm.jpg", 0);
+        super("atm.jpg", -1);
     }
 }
