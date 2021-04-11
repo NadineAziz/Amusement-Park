@@ -14,10 +14,11 @@ import java.util.List;
 
 import static amusement.park.GameGUI.SCREEN_SIZE;
 import amusement.park.model.buildings.Path;
+import java.awt.event.ActionEvent;
 
 public class GamePanel extends JPanel {
     private BuildingItem selectedItem;
-    private final int numberOfQuests = 1;
+    private final int numberOfQuests = 2;
     private final List<Guest> guests = new ArrayList<>();
     private int fps;
     private CoinsPanel coinsPanel;
@@ -102,6 +103,14 @@ public class GamePanel extends JPanel {
     public BuildingItem getSelectedItem() {
         return selectedItem;
     }
+    
+    public void moveGuests() {
+        for (int i = 0; i < numberOfQuests; i++) {
+            this.guests.get(i).changeDirection();
+        }
+
+     }
+    
 
     @Override
     protected void paintComponent(Graphics g) {

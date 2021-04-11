@@ -15,8 +15,8 @@ import javax.swing.*;
 
 public class Person {
     private ImageIcon icon;
-    private int x = 0;
-    private int y = 0;
+    private int x = 50;
+    private int y = 50;
     BasicBuilding[][] placesMatrix;
     private final static Random random = new Random();
 
@@ -49,7 +49,7 @@ public class Person {
                 move(0, -50); 
             }
         }else if (dir==Direction.DOWN){
-            if(!(this.y>=450)){
+            if(this.y<400){
                 move(0, 50); 
             }
         }else if (dir==Direction.LEFT){
@@ -57,7 +57,7 @@ public class Person {
                 move(-50, 0); 
             }
         }else if (dir==Direction.RIGHT){
-            if(this.y>0){
+            if(this.x<800){
                 move(50, 0);  
             }
         }

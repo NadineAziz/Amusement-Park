@@ -11,6 +11,7 @@ import amusement.park.model.buildings.games.FirstGame;
 import amusement.park.model.buildings.games.SecondGame;
 import amusement.park.model.buildings.games.ThirdGame;
 
+import java.util.List;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,10 +29,12 @@ public class GameArea extends JPanel{
     private final static Random random = new Random();
     private final int numberOfRows = GAME_AREA_HEIGHT / UNIT_SIZE;
     private final int numberOfCols = GAME_AREA_WIDTH / UNIT_SIZE;
-    private Guest guest = new Guest(100);
+    //private Guest guest = new Guest(100);
+    private final List<Guest> guests;
 
     public GameArea(GamePanel gamePanel) {
         super();
+        this.guests = gamePanel.getGuests();
         placesMatrix = new BasicBuilding[numberOfRows][numberOfCols];
         placeRandomBuildings();
 
@@ -125,16 +128,17 @@ public class GameArea extends JPanel{
     /**
      * Moves the guests in the matrix
      */
-    public void moveGuests() {
-        guest.changeDirection();
-
+    public void moveAllGuests() {
+        this.guests.forEach(guest -> {
+            guest.changeDirection();
+        });
      }
 
      class NewFrameListener implements ActionListener {
 
          @Override
          public void actionPerformed(ActionEvent e) {
-             moveGuests();
+             moveAllGuests();
              repaint();
          }
      }
@@ -143,6 +147,11 @@ public class GameArea extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(Color.orange);
+        this.guests.forEach(guest -> {
+            guest.draw(g);
+        });
+        //guest.draw(g);
+        //guest.changeMood(5);
 //          Display a grid
         for (int i = 0; i <= GAME_AREA_WIDTH / UNIT_SIZE; i++) {
             g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, GAME_AREA_HEIGHT);
