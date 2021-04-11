@@ -1,35 +1,44 @@
 package amusement.park.model.buildings;
 
-import static amusement.park.GameArea.*;
 import amusement.park.model.Guest;
 
 import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import static amusement.park.GameArea.UNIT_SIZE;
 
 public class BasicBuilding implements Cloneable {
     private final String picture;
-    private ImageIcon icon;
     private final int turnsToBeReady;
     private final int turnsToBeBroken = 10;
+    private ImageIcon icon;
     private int auxTurnsToBeBroken = turnsToBeBroken;
     private int turnsToBeRepaired = 15;
     private int auxTurnsToBeRepaired = turnsToBeRepaired;
     private int auxTurnsToBeReady;
+    private final int size;
 
     public BasicBuilding(String picture, int turnsToBeReady) {
+        this(picture, turnsToBeReady, 1);
+    }
+
+    public BasicBuilding(String picture, int turnsToBeReady, int size) {
         this.picture = picture;
+        this.size = size;
         this.turnsToBeReady = turnsToBeReady;
         auxTurnsToBeReady = turnsToBeReady;
         try {
             icon = new ImageIcon(Paths.get("images/" + picture).toUri().toURL());
         } catch (MalformedURLException ex) {
-       
+
             icon = null;
         }
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public int getTurnsToBeReady() {
@@ -61,21 +70,25 @@ public class BasicBuilding implements Cloneable {
 
 
     public void draw(Graphics graphics, int x, int y) {
-        graphics.drawImage(getIcon().getImage(),  x, y, UNIT_SIZE, UNIT_SIZE, null);
-        if (auxTurnsToBeReady > 0) {
-            graphics.setColor(Color.yellow);
-            ((Graphics2D) graphics).setStroke(new BasicStroke(5));
-            graphics.drawLine(x, y, x + (UNIT_SIZE * auxTurnsToBeReady) / turnsToBeReady, y);
-            decreaseTurnsToBeReady();
-        } else {
-            if (auxTurnsToBeBroken > 0) {
-                graphics.setColor(Color.green);
+        int unitSize = UNIT_SIZE * getSize();
+        graphics.drawImage(getIcon().getImage(), x, y, unitSize, unitSize, null);
+
+        if (turnsToBeReady > 0) {
+            if (auxTurnsToBeReady > 0) {
+                graphics.setColor(Color.yellow);
                 ((Graphics2D) graphics).setStroke(new BasicStroke(5));
-                graphics.drawLine(x, y, x + (UNIT_SIZE * auxTurnsToBeBroken) / turnsToBeBroken, y);
-            } else if (auxTurnsToBeRepaired > 0){
-                graphics.setColor(Color.red);
-                ((Graphics2D) graphics).setStroke(new BasicStroke(5));
-                graphics.drawLine(x, y, x + (UNIT_SIZE * auxTurnsToBeRepaired) / turnsToBeRepaired, y);
+                graphics.drawLine(x, y, x + (unitSize* auxTurnsToBeReady) / turnsToBeReady, y);
+                decreaseTurnsToBeReady();
+            } else {
+                if (auxTurnsToBeBroken > 0) {
+                    graphics.setColor(Color.green);
+                    ((Graphics2D) graphics).setStroke(new BasicStroke(5));
+                    graphics.drawLine(x, y, x + (unitSize * auxTurnsToBeBroken) / turnsToBeBroken, y);
+                } else if (auxTurnsToBeRepaired > 0) {
+                    graphics.setColor(Color.red);
+                    ((Graphics2D) graphics).setStroke(new BasicStroke(5));
+                    graphics.drawLine(x, y, x + (unitSize * auxTurnsToBeRepaired) / turnsToBeRepaired, y);
+                }
             }
         }
     }
