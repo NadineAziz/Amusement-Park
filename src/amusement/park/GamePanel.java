@@ -20,22 +20,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static amusement.park.GameGUI.SCREEN_SIZE;
+import java.awt.event.ActionEvent;
 
 public class GamePanel extends JPanel {
-    private final int numberOfQuests = 2;
+    private int numberOfQuests = 0;
     private final List<Guest> guests = new ArrayList<>();
     private BuildingItem selectedItem;
     private int fps;
     private CoinsPanel coinsPanel;
+    private JButton startButton = new JButton("Start game");
 
     public GamePanel(int fps, CoinsPanel coinsPanel) {
         super();
         this.fps = fps;
         this.coinsPanel = coinsPanel;
-
-        for (int i = 0; i < numberOfQuests; i++) {
-            guests.add(new Guest(100));
-        }
 
         GameArea gameArea = new GameArea(this);
         gameArea.setBackground(new Color(0x76909F));
@@ -83,6 +81,7 @@ public class GamePanel extends JPanel {
         JPanel jPanel1 = new JPanel();
         jPanel1.setPreferredSize(new Dimension(200, SCREEN_SIZE.height));
         jPanel1.setBackground(new Color(0x76909F));
+        jPanel1.add(startButton);
         JPanel jPanel2 = new JPanel();
         jPanel2.setPreferredSize(new Dimension(200, SCREEN_SIZE.height));
         jPanel2.setBackground(new Color(0x76909F));
@@ -100,6 +99,13 @@ public class GamePanel extends JPanel {
     public int getFps() {
         return fps;
     }
+    
+    public void setNumOfGuests(int num){
+        this.numberOfQuests = num;
+        for (int i = 0; i < numberOfQuests; i++) {
+            guests.add(new Guest(100));
+        }
+    }
 
     private int getPrice() {
         while (true) {
@@ -115,6 +121,10 @@ public class GamePanel extends JPanel {
             }
         }
     }
+    
+    public JButton getStartButton(){
+        return this.startButton;
+    }
 
     private ActionListener createItemClickedListener() {
         return e -> {
@@ -125,6 +135,7 @@ public class GamePanel extends JPanel {
             }
         };
     }
+    
 
     public boolean hasEnoughMoney() {
         return coinsPanel.hasEnoughMoney(getSelectedItem().getBuilding().getBuildingPrice());
