@@ -25,15 +25,21 @@ public class GameArea extends JPanel {
     private static final int GAME_AREA_HEIGHT = 450;
     private final static Random random = new Random();
     private final BasicBuilding[][] placesMatrix;
+    private GamePanel gamePanel;
     private final int numberOfRows = GAME_AREA_HEIGHT / UNIT_SIZE;
     private final int numberOfCols = GAME_AREA_WIDTH / UNIT_SIZE;
-    private final List<Guest> guests;
+    private List<Guest> guests;
+    Clicklistener click = new Clicklistener();
+    JButton startButton;
 
     public GameArea(GamePanel gamePanel) {
         super();
+        this.gamePanel = gamePanel;
+        startButton = gamePanel.getStartButton();
         this.guests = gamePanel.getGuests();
         placesMatrix = new BasicBuilding[numberOfRows][numberOfCols];
         placeRandomBuildings();
+        startButton.addActionListener(click);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -119,6 +125,17 @@ public class GameArea extends JPanel {
             }
         }
         return false;
+    }
+    
+    
+    private class Clicklistener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            gamePanel.setNumOfGuests(3);
+            guests = gamePanel.getGuests();
+            System.out.println("Button is clicked");
+            moveAllGuests();
+        }
     }
 
     /**
