@@ -15,9 +15,8 @@ import javax.swing.*;
 
 public class Person {
     private ImageIcon icon;
-    private int x = 50;
-    private int y = 50;
-    BasicBuilding[][] placesMatrix;
+    private int x = 100;
+    private int y = 0;
     private final static Random random = new Random();
 
     public Person(String pictureName) {
@@ -27,41 +26,24 @@ public class Person {
             Logger.getLogger(Person.class.getName()).log(Level.INFO, "AAAAA", ex);
         }
     }
-    
-    enum Direction {
-        DOWN, UP, LEFT, RIGHT;
-    }
 
     public ImageIcon getIcon() {
         return icon;
     }
     
-    private void move(int dx, int dy) {
+    public void move(int dx, int dy) {
         x += dx;
         y += dy;
     }
-
-    public void changeDirection() {
-        //Guest.Direction.values()[random.nextInt(4)]
-        Direction dir = Guest.Direction.values()[random.nextInt(4)];
-        if (dir==Direction.UP){
-            if(this.y>0){
-                move(0, -50); 
-            }
-        }else if (dir==Direction.DOWN){
-            if(this.y<400){
-                move(0, 50); 
-            }
-        }else if (dir==Direction.LEFT){
-            if(this.x>0){
-                move(-50, 0); 
-            }
-        }else if (dir==Direction.RIGHT){
-            if(this.x<800){
-                move(50, 0);  
-            }
-        }
+    
+    public int getX(){
+        return this.x;
     }
+    
+    public int getY(){
+        return this.y;
+    }
+
 
     public void draw(Graphics g) {
         g.setColor(Color.green);
