@@ -10,8 +10,8 @@ public class BaseGame extends Building {
     private int numOfGuests = 0;
     private State state;
 
-    public BaseGame(String picture, int moodChange, int valueOfTheProduct, int turnsToBeReady) {
-        super(picture, moodChange, valueOfTheProduct, turnsToBeReady, 2);
+    public BaseGame(String picture, int moodChange, int valueOfTheProduct, int turnsToBeReady, String buildingType) {
+        super(picture, moodChange, valueOfTheProduct, turnsToBeReady, 2, buildingType);
     }
 
     public void setCapacity(int capacity) {

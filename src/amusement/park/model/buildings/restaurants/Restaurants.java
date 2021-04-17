@@ -6,8 +6,8 @@ public class Restaurants extends Building {
     private final int price=5;
     private final int capacity=10;
 
-    public Restaurants(String picture, int moodChange, int valueOfTheProduct, int turnsToBeReady) {
-        super(picture, moodChange, valueOfTheProduct, turnsToBeReady, 2);
+    public Restaurants(String picture, int moodChange, int valueOfTheProduct, int turnsToBeReady, String buildingType) {
+        super(picture, moodChange, valueOfTheProduct, turnsToBeReady, 2, buildingType);
     }
 
     
