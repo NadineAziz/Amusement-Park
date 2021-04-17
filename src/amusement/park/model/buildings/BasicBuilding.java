@@ -19,15 +19,17 @@ public class BasicBuilding implements Cloneable {
     private int auxTurnsToBeRepaired = turnsToBeRepaired;
     private int auxTurnsToBeReady;
     private final int size;
+    private String buildingType;
 
-    public BasicBuilding(String picture, int turnsToBeReady) {
-        this(picture, turnsToBeReady, 1);
+    public BasicBuilding(String picture, int turnsToBeReady,String buildingType) {
+        this(picture, turnsToBeReady, 1, buildingType);
     }
 
-    public BasicBuilding(String picture, int turnsToBeReady, int size) {
+    public BasicBuilding(String picture, int turnsToBeReady, int size, String buildingType) {
         this.picture = picture;
         this.size = size;
         this.turnsToBeReady = turnsToBeReady;
+        this.buildingType = buildingType;
         auxTurnsToBeReady = turnsToBeReady;
         try {
             icon = new ImageIcon(Paths.get("images/" + picture).toUri().toURL());
@@ -35,6 +37,10 @@ public class BasicBuilding implements Cloneable {
 
             icon = null;
         }
+    }
+    
+    public String getBuildingType(){
+        return buildingType;
     }
 
     public int getSize() {
@@ -95,6 +101,6 @@ public class BasicBuilding implements Cloneable {
 
     @Override
     public Object clone() {
-        return new BasicBuilding(picture, turnsToBeReady);
+        return new BasicBuilding(picture, turnsToBeReady, buildingType);
     }
 }

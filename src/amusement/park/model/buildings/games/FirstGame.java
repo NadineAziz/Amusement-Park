@@ -4,7 +4,7 @@ package amusement.park.model.buildings.games;
 public class FirstGame extends BaseGame {
 
     public FirstGame(int moodChange, int valueOfTheProduct, int turnsToBeReady) {
-        super("games/game1.png", moodChange, valueOfTheProduct, turnsToBeReady);
+        super("games/game1.png", moodChange, valueOfTheProduct, turnsToBeReady, "FirstGame");
     }
 
     public FirstGame() {

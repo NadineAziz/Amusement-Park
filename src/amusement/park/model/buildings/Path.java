@@ -15,7 +15,7 @@ private boolean hasTrash=false;
 private int trashCount;
 
     public Path(int tileCost, int trashCount) {
-        super("tile.jpg", 5, 10, 10);
+        super("path3.png", 5, 10, 10,"Path");
         this.tileCost = tileCost;
         this.trashCount = trashCount;
     }

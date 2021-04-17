@@ -12,7 +12,7 @@ import amusement.park.model.buildings.Building;
 public class Garden extends Building {
     
     public Garden(String pic){
-        super(pic, 5, 3, 5);
+        super(pic, 5, 3, 5,"Garden");
     }
     
 }

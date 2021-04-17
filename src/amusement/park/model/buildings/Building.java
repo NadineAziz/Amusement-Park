@@ -13,8 +13,8 @@ public class Building extends BasicBuilding {
     public Building(String picture,
                     int moodChange,
                     int valueOfTheProduct,
-                    int turnsToBeReady, int size) {
-        super(picture, turnsToBeReady, size);
+                    int turnsToBeReady, int size, String buildingType) {
+        super(picture, turnsToBeReady, size, buildingType);
         this.moodChange = moodChange;
         this.valueOfTheProduct = valueOfTheProduct;
     }
@@ -23,8 +23,8 @@ public class Building extends BasicBuilding {
     public Building(String picture,
                     int moodChange,
                     int valueOfTheProduct,
-                    int turnsToBeReady) {
-        super(picture, turnsToBeReady);
+                    int turnsToBeReady, String buildingType) {
+        super(picture, turnsToBeReady, buildingType);
         this.moodChange = moodChange;
         this.valueOfTheProduct = valueOfTheProduct;
     }
@@ -48,6 +48,6 @@ public class Building extends BasicBuilding {
 
     @Override
     public Object clone() {
-        return new Building(getPicture(), moodChange, valueOfTheProduct, getTurnsToBeReady(), getSize());
+        return new Building(getPicture(), moodChange, valueOfTheProduct, getTurnsToBeReady(), getSize(), getBuildingType());
     }
 }

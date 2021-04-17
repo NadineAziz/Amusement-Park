@@ -1,8 +1,11 @@
 package amusement.park;
 
 import amusement.park.model.Guest;
+import amusement.park.model.Person;
 import amusement.park.model.buildings.ATM;
 import amusement.park.model.buildings.BasicBuilding;
+import amusement.park.model.buildings.Building;
+import amusement.park.model.buildings.Path;
 import amusement.park.model.buildings.PoliceStation;
 import amusement.park.model.buildings.ThiefDen;
 import amusement.park.model.buildings.games.BaseGame;
@@ -17,29 +20,35 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.Random;
+
+enum Direction {
+        DOWN, UP, LEFT, RIGHT;
+    }
 
 public class GameArea extends JPanel {
     public static final int UNIT_SIZE = 50;
     private static final int GAME_AREA_WIDTH = 850;
     private static final int GAME_AREA_HEIGHT = 450;
     private final static Random random = new Random();
+    private int numberOfQuests = 0;
     private final BasicBuilding[][] placesMatrix;
-    private GamePanel gamePanel;
     private final int numberOfRows = GAME_AREA_HEIGHT / UNIT_SIZE;
     private final int numberOfCols = GAME_AREA_WIDTH / UNIT_SIZE;
-    private List<Guest> guests;
+    private boolean parkOpen = false;
+    private final List<Guest> guests = new ArrayList<>();
     Clicklistener click = new Clicklistener();
     JButton startButton;
 
     public GameArea(GamePanel gamePanel) {
         super();
-        this.gamePanel = gamePanel;
         startButton = gamePanel.getStartButton();
-        this.guests = gamePanel.getGuests();
         placesMatrix = new BasicBuilding[numberOfRows][numberOfCols];
         placeRandomBuildings();
         startButton.addActionListener(click);
+        
+        
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -70,6 +79,17 @@ public class GameArea extends JPanel {
             return placesMatrix[indexX][indexY] == null;
         } else {
             return false;
+        }
+    }
+    
+    public BasicBuilding getBuilding(int posX, int posY) {
+        return placesMatrix[posX][posY];
+    }
+    
+    public void setNumOfGuests(int num){
+        this.numberOfQuests = num;
+        for (int i = 0; i < numberOfQuests; i++) {
+            guests.add(new Guest(100));
         }
     }
 
@@ -131,10 +151,12 @@ public class GameArea extends JPanel {
     private class Clicklistener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            gamePanel.setNumOfGuests(3);
-            guests = gamePanel.getGuests();
-            System.out.println("Button is clicked");
-            moveAllGuests();
+            if(!parkOpen){
+                setNumOfGuests(3);
+                System.out.println("Button is clicked");
+                moveAllGuests();
+                parkOpen = true;
+            }
         }
     }
 
@@ -164,9 +186,53 @@ public class GameArea extends JPanel {
     /**
      * Moves the guests in the matrix
      */
+    public boolean guestMoveInPath(int nextX, int nextY){
+        int row = (nextX/50);
+        int column = (nextY/50);
+        BasicBuilding building = placesMatrix[row][column];
+        if(building != null){ 
+            if (building.getBuildingType().equals("Path")){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    public void changeDirection(Guest guest) {
+        Direction dir = Direction.values()[random.nextInt(4)];
+        if (dir==Direction.UP){
+            if(guest.getY()>0){
+                if(guestMoveInPath(guest.getX(),(guest.getY()-50))){
+                    guest.move(0, -50); 
+                }
+            }
+        }else if (dir==Direction.DOWN){
+            if(guest.getY()<400){
+                if(guestMoveInPath(guest.getX(),guest.getY()+50)){
+                    guest.move(0, 50); 
+                }
+            }
+        }else if (dir==Direction.LEFT){
+            if(guest.getX()>0){
+                if(guestMoveInPath((guest.getX()-50),guest.getY())){
+                    guest.move(-50, 0); 
+                }
+            }
+        }else if (dir==Direction.RIGHT){
+            if(guest.getX()<800){
+                System.out.println();
+                if(guestMoveInPath(guest.getX()+50,guest.getY())){
+                    guest.move(50, 0); 
+                }
+            }
+        }
+    }
+    
+    
     public void moveAllGuests() {
         this.guests.forEach(guest -> {
-            guest.changeDirection();
+            changeDirection(guest);
         });
      }
 

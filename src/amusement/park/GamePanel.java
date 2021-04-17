@@ -23,8 +23,6 @@ import static amusement.park.GameGUI.SCREEN_SIZE;
 import java.awt.event.ActionEvent;
 
 public class GamePanel extends JPanel {
-    private int numberOfQuests = 0;
-    private final List<Guest> guests = new ArrayList<>();
     private BuildingItem selectedItem;
     private int fps;
     private CoinsPanel coinsPanel;
@@ -92,19 +90,9 @@ public class GamePanel extends JPanel {
         add(BorderLayout.SOUTH, itemsPanel);
     }
 
-    public List<Guest> getGuests() {
-        return guests;
-    }
 
     public int getFps() {
         return fps;
-    }
-    
-    public void setNumOfGuests(int num){
-        this.numberOfQuests = num;
-        for (int i = 0; i < numberOfQuests; i++) {
-            guests.add(new Guest(100));
-        }
     }
 
     private int getPrice() {
@@ -148,13 +136,6 @@ public class GamePanel extends JPanel {
     public BuildingItem getSelectedItem() {
         return selectedItem;
     }
-    
-    public void moveGuests() {
-        for (int i = 0; i < numberOfQuests; i++) {
-            this.guests.get(i).changeDirection();
-        }
-
-     }
     
 
     @Override
