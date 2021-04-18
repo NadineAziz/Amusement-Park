@@ -15,8 +15,8 @@ import javax.swing.*;
 
 public class Person {
     private ImageIcon icon;
-    private int x = 100;
-    private int y = 0;
+    private int x = 0;
+    private int y = 100;
     private final static Random random = new Random();
 
     public Person(String pictureName) {

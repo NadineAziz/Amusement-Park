@@ -46,6 +46,8 @@ public class BasicBuilding implements Cloneable {
     public int getSize() {
         return size;
     }
+    
+    
 
     public int getTurnsToBeReady() {
         return turnsToBeReady;

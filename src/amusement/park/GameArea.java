@@ -82,10 +82,6 @@ public class GameArea extends JPanel {
         }
     }
     
-    public BasicBuilding getBuilding(int posX, int posY) {
-        return placesMatrix[posX][posY];
-    }
-    
     public void setNumOfGuests(int num){
         this.numberOfQuests = num;
         for (int i = 0; i < numberOfQuests; i++) {
@@ -187,14 +183,15 @@ public class GameArea extends JPanel {
      * Moves the guests in the matrix
      */
     public boolean guestMoveInPath(int nextX, int nextY){
-        int row = (nextX/50);
-        int column = (nextY/50);
-        BasicBuilding building = placesMatrix[row][column];
-        if(building != null){ 
-            if (building.getBuildingType().equals("Path")){
+        int row = (nextY/50);
+        int column = (nextX/50);
+        if (placesMatrix[row][column]!= null){
+            if(placesMatrix[row][column].getBuildingType().equals("Path")){
+                System.out.println(placesMatrix[row][column].getBuildingType() + " row " + row + " column " + column );
                 return true;
             }
         }
+        
         return false;
     }
     
@@ -232,6 +229,9 @@ public class GameArea extends JPanel {
     
     public void moveAllGuests() {
         this.guests.forEach(guest -> {
+            //if guest has destination, move to the destination
+            
+            //else move randomly on path
             changeDirection(guest);
         });
      }
