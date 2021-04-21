@@ -10,7 +10,7 @@ public class Guest extends Person {
     private final static String[] Destinations= {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand"};
     private final static Random random = new Random();
 
-    private int money;
+    private int money=random.nextInt(10000)+1;
     private int mood = 50;
 
     public Guest(int money) {
@@ -32,6 +32,7 @@ public class Guest extends Person {
 
 
     public void call_security() {
+        Messagebox.infoBox("Thief is running", "Security is called");
 
     }
     

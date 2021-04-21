@@ -5,14 +5,17 @@ import java.util.Random;
 
 
 public class Thief extends Person {
-     private final int skillevel;
+
+  
+     public static int skillevel;
     // Random  randomnumber=new Random();
     //stealmoney()
-public Thief(int skillevel) {
+public Thief(int VOR) {
         super("thief.png");
         Random random = new Random();
-        skillevel =  random.nextInt(100);
-        this.skillevel = skillevel;
+        VOR =  random.nextInt(100)+1;
+        this.skillevel = VOR;
+        this.setX(200);
     }
 //int 
  /**
@@ -22,23 +25,35 @@ public Thief(int skillevel) {
      */
 public void steal_money(Guest guest) {
        Random  rnd=new Random();
-       int randomnumber= rnd.nextInt(100);
+       int randomnumber= rnd.nextInt(100)+1;
        if(skillevel>randomnumber){
+           Messagebox.infoBox("Money is stolen", "Attention");
           guest.pay(skillevel);
           guest.changeMood(skillevel);
        }
        else{
+           
            guest.call_security();
            run();
        
        }
     }
+
+    public static int getSkillevel() {
+        return skillevel;
+    }
+
+
  /**
      * This method is for thief to run away from the police officers.
      *
      * @param 
      */
-public void run(){}
+public void run(){
+Messagebox.infoBox("Thief is running back to den", "Attention");
+}
+
+
 }
 
 

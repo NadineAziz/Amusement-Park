@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static amusement.park.GameGUI.SCREEN_SIZE;
+import amusement.park.model.buildings.ATM;
 import java.awt.event.ActionEvent;
 
 public class GamePanel extends JPanel {
@@ -39,7 +40,8 @@ public class GamePanel extends JPanel {
         setLayout(new BorderLayout());
         JPanel itemsPanel = new JPanel();
         itemsPanel.setBackground(Color.LIGHT_GRAY);
-        itemsPanel.setPreferredSize(new Dimension(SCREEN_SIZE.width, 120));
+        itemsPanel.setPreferredSize(new Dimension(SCREEN_SIZE.width, 200));
+        itemsPanel.setPreferredSize(new Dimension(SCREEN_SIZE.height, 250));
         itemsPanel.setLayout(new FlowLayout());
         itemsPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
@@ -63,6 +65,8 @@ public class GamePanel extends JPanel {
         buildingItem9.addActionListener(createItemClickedListener());
         BuildingItem buildingItem10 = new BuildingItem(new Buffet());
         buildingItem10.addActionListener(createItemClickedListener());
+        BuildingItem buildingItem11 = new BuildingItem(new ATM());
+        buildingItem11.addActionListener(createItemClickedListener());
 
 
         itemsPanel.add(buildingItem1);
@@ -75,6 +79,7 @@ public class GamePanel extends JPanel {
         itemsPanel.add(buildingItem4);
         itemsPanel.add(buildingItem9);
         itemsPanel.add(buildingItem10);
+        itemsPanel.add(buildingItem11);
 
         JPanel jPanel1 = new JPanel();
         jPanel1.setPreferredSize(new Dimension(200, SCREEN_SIZE.height));
@@ -109,6 +114,7 @@ public class GamePanel extends JPanel {
             }
         }
     }
+
     
     public JButton getStartButton(){
         return this.startButton;
@@ -131,6 +137,9 @@ public class GamePanel extends JPanel {
 
     public boolean buyBuilding() {
         return coinsPanel.decreaseCoins(getSelectedItem().getBuilding().getBuildingPrice());
+    }
+    public boolean payentrancefee(int val) {
+        return coinsPanel.increaseCoins(val);
     }
 
     public BuildingItem getSelectedItem() {

@@ -15,8 +15,8 @@ public class GameGUI {
         setupFrameSettings(frame);
 
         // Setting the top panel
-        CoinsPanel coinsPanel = new CoinsPanel();
-
+        CoinsPanel coinsPanel = new CoinsPanel(); 
+        
         GamePanel engine = new GamePanel(500, coinsPanel);
         engine.setBackground(Color.GRAY);
 

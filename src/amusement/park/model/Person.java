@@ -17,7 +17,10 @@ public class Person {
     private ImageIcon icon;
     private int x = 0;
     private int y = 100;
+    private int a = 0;
+    private int b = 200;
     private final static Random random = new Random();
+    public String pictureName;
 
     public Person(String pictureName) {
         try {
@@ -26,6 +29,7 @@ public class Person {
             Logger.getLogger(Person.class.getName()).log(Level.INFO, "AAAAA", ex);
         }
     }
+    
 
     public ImageIcon getIcon() {
         return icon;
@@ -36,12 +40,35 @@ public class Person {
         y += dy;
     }
     
+    public void move2(int dx, int dy) {
+        a += dx;
+        b += dy;
+    }
+    
     public int getX(){
         return this.x;
     }
     
     public int getY(){
         return this.y;
+    }
+
+  
+
+    public void setX(int x) {
+        this.y = x;
+    }
+
+    public int getA() {
+        return this.a;
+    }
+
+    public int getB() {
+        return this.b;
+    }
+
+    public String getPictureName() {
+        return pictureName;
     }
 
 
