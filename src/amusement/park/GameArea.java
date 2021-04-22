@@ -279,7 +279,7 @@ public class GameArea extends JPanel {
      */
     
     
-    public void changeDirection(Guest guest) {
+    public void changeDirection(Person guest) {
         Direction dir = Direction.values()[random.nextInt(4)];
         if (dir==Direction.UP){
             if(guest.getY()>0){
@@ -307,163 +307,65 @@ public class GameArea extends JPanel {
             }
         }
     }
-   public void changeDirection2(PoliceOfficer guest) {
-        Direction dir = Direction.values()[random.nextInt(4)];
-        if (dir==Direction.UP){
-            if(guest.getY()>0){
-                if(guestMoveInPath(guest.getX(),(guest.getY()-50))){
-                    guest.move(0, -50); 
-                }
-            }
-        }else if (dir==Direction.DOWN){
-            if(guest.getY()<400){
-                if(guestMoveInPath(guest.getX(),guest.getY()+50)){
-                    guest.move(0, 50); 
-                }
-            }
-        }else if (dir==Direction.LEFT){
-            if(guest.getX()>0){
-                if(guestMoveInPath((guest.getX()-50),guest.getY())){
-                    guest.move(-50, 0); 
-                }
-            }
-        }else if (dir==Direction.RIGHT){
-            if(guest.getX()<800){
-                System.out.println();
-                if(guestMoveInPath(guest.getX()+50,guest.getY())){
-                    guest.move(50, 0); 
-                }
-            }
-        }
-    }
-    
-     public void changeDirectionofthief(Thief guest) {
-        Direction dir = Direction.values()[random.nextInt(4)];
-        if (dir==Direction.UP){
-            if(guest.getY()>0){
-                if(guestMoveInPath(guest.getX(),(guest.getY()-50))){
-                    guest.move(0, -50); 
-                }
-            }
-        }else if (dir==Direction.DOWN){
-            if(guest.getY()<400){
-                if(guestMoveInPath(guest.getX(),guest.getY()+50)){
-                    guest.move(0, 50); 
-                }
-            }
-        }else if (dir==Direction.LEFT){
-            if(guest.getX()>0){
-                if(guestMoveInPath((guest.getX()-50),guest.getY())){
-                    guest.move(-50, 0); 
-                }
-            }
-        }else if (dir==Direction.RIGHT){
-            if(guest.getX()<800){
-                System.out.println();
-                if(guestMoveInPath(guest.getX()+50,guest.getY())){
-                    guest.move(50, 0); 
-                }
-            }
-        }
-    }
-      public void changeDirectionofsecurity(Security guest) {
-        Direction dir = Direction.values()[random.nextInt(4)];
-        if (dir==Direction.UP){
-            if(guest.getY()>0){
-                if(guestMoveInPath(guest.getX(),(guest.getY()-10))){
-                    guest.move(0, -10); 
-                }
-            }
-        }else if (dir==Direction.DOWN){
-            if(guest.getY()<400){
-                if(guestMoveInPath(guest.getX(),guest.getY()+10)){
-                    guest.move(0, 10); 
-                }
-            }
-        }else if (dir==Direction.LEFT){
-            if(guest.getX()>0){
-                if(guestMoveInPath((guest.getX()-10),guest.getY())){
-                    guest.move(-10, 0); 
-                }
-            }
-        }else if (dir==Direction.RIGHT){
-            if(guest.getX()<800){
-                System.out.println();
-                if(guestMoveInPath(guest.getX()+10,guest.getY())){
-                    guest.move(10, 0); 
-                }
-            }
-        }
-    }
-    
-    
+ 
     public void moveAllGuests() {
         this.guests.forEach(guest -> {
-             pathFinder BFSFinder;
-             steal();
-             
+            pathFinder BFSFinder;
+            steal();
+
             //if guest has destination, move to the destination
-            if(guest.getDestination() == null || !buildingExists(guest.getDestination()) || guest.reachedDestination){
+            if (guest.getDestination() == null || !buildingExists(guest.getDestination()) || guest.reachedDestination) {
                 guest.generateDestination();
                 //System.out.println(guest.getDestination());
-                if(guest.reachedDestination){
+                if (guest.reachedDestination) {
                     guest.reachedDestination = false;
                 }
-                BFSFinder = new pathFinder(placesMatrix,guest);
-                List<Node> currentPath= BFSFinder.pathExists();
-                guest.currentPath = currentPath; 
+                BFSFinder = new pathFinder(placesMatrix, guest);
+                List<Node> currentPath = BFSFinder.pathExists();
+                guest.currentPath = currentPath;
             }
-            if (buildingExists(guest.getDestination())){
+            if (buildingExists(guest.getDestination())) {
                 System.out.println("BFS movements");
                 guest.getPosition();
-                if(this.placesMatrix[guest.getY()/50][guest.getX()/50].getBuildingType().equals(guest.getDestination())){
+                if (this.placesMatrix[guest.getY() / 50][guest.getX() / 50].getBuildingType().equals(guest.getDestination())) {
                     guest.reachedDestination = true;
-                    if(this.placesMatrix[guest.getY()/50][guest.getX()/50].getBuildingType().equals("ATM")){
-                String value = JOptionPane.showInputDialog(
-                        GameArea.this,
-                        "Amount of money:",
-                        0
-                );
-                guest.pay(-Integer.valueOf(value));
+                    if (this.placesMatrix[guest.getY() / 50][guest.getX() / 50].getBuildingType().equals("ATM")) {
+                        String value = JOptionPane.showInputDialog(
+                                GameArea.this,
+                                "Amount of money:",
+                                0
+                        );
+                        guest.pay(-Integer.valueOf(value));
                         System.out.println("Cash withdrawal is done!");
                     }
                     System.out.println("Yayy guest reached destination");
                     guest.pay(10);
                     guest.changeMood(-10);
-                    if(guest.getMood()<=0){
-                    System.out.println("Mood tanked");
-                    //guest.setDestination("HotDogStand");
+                    if (guest.getMood() <= 0) {
+                        System.out.println("Mood tanked");
+                        //guest.setDestination("HotDogStand");
                     }
-                   // guest.setDestination("HotDogStand");
+                    // guest.setDestination("HotDogStand");
                 }
-            }else{
+            } else {
                 System.out.println("randomly moving");
                 changeDirection(guest);
             }
         });
-     }
+    }
     public void moveAllThieves() {
         this.thieves.forEach(thief -> {
-            //if guest has destination, move to the destination
-            
-            //else move randomly on path
-            changeDirectionofthief(thief);
+            changeDirection(thief);
         });
      }
      public void moveAllcops() {
         this.cops.forEach(PoliceOfficer -> {
-            //if guest has destination, move to the destination
-            
-            //else move randomly on path
-            changeDirection2(PoliceOfficer);
+            changeDirection(PoliceOfficer);
         });
      }
       public void moveAllsecurities() {
         this.securities.forEach(Security -> {
-            //if guest has destination, move to the destination
-            
-            //else move randomly on path
-            changeDirectionofsecurity(Security);
+            changeDirection(Security);
         });
      }
     
@@ -529,28 +431,24 @@ public class GameArea extends JPanel {
     
     public void steal() {
         System.out.println(" ");
-        for(int i =0;i<thieves.size();i++){
-        for (int j=0;j<guests.size();j++){
-            if(placesMatrix[i][j].getBuildingType().equals("Path")){
-                if(guests.get(j).getX()==thieves.get(i).getX()&&guests.get(j).getY()==thieves.get(i).getY()){
-        
-       Random  rnd=new Random();
-       int randomnumber= rnd.nextInt(100)+1;
-       if(thieves.get(i).getSkillevel()>randomnumber){
-          Messagebox.infoBox("Money is stolen", "Attention");
-          guests.get(i).pay(Thief.getSkillevel());
-          guests.get(i).changeMood(Thief.getSkillevel());
-       }
-       else{
-           
-           guests.get(i).call_security();
-           
-       
-       }
-              }
-       }
-         
-        }
+        for (int i = 0; i < thieves.size(); i++) {
+            for (int j = 0; j < guests.size(); j++) {
+                if (guests.get(j).getX() == thieves.get(i).getX() && guests.get(j).getY() == thieves.get(i).getY()) {
+
+                    Random rnd = new Random();
+                    int randomnumber = rnd.nextInt(100) + 1;
+                    if (thieves.get(i).getSkillevel() > randomnumber) {
+                        Messagebox.infoBox("Money is stolen", "Attention");
+                        guests.get(i).pay(Thief.getSkillevel());
+                        guests.get(i).changeMood(Thief.getSkillevel());
+                    } else {
+
+                        guests.get(i).call_security();
+
+                    }
+                }
+
+            }
         }
     }
 
