@@ -2,16 +2,9 @@ package amusement.park;
 
 import amusement.park.model.Guest;
 import amusement.park.model.Person;
-import amusement.park.model.buildings.ATM;
-import amusement.park.model.buildings.BasicBuilding;
-import amusement.park.model.buildings.Building;
-import amusement.park.model.buildings.Path;
-import amusement.park.model.buildings.PoliceStation;
-import amusement.park.model.buildings.ThiefDen;
-import amusement.park.model.buildings.games.BaseGame;
-import amusement.park.model.buildings.games.FirstGame;
-import amusement.park.model.buildings.games.SecondGame;
-import amusement.park.model.buildings.games.ThirdGame;
+import amusement.park.model.buildings.*;
+import amusement.park.model.buildings.games.*;
+import amusement.park.pathfinding.*;
 
 import java.util.List;
 import javax.swing.*;
@@ -143,15 +136,26 @@ public class GameArea extends JPanel {
         return false;
     }
     
+    private boolean buildingExists(String buildingType){
+        for (int i = 0; i < numberOfRows; ++i) {
+            for (int j = 0; j < numberOfCols; ++j) {
+                if(placesMatrix[i][j]!= null){
+                    if(placesMatrix[i][j].getBuildingType().equals(buildingType)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
     
     private class Clicklistener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(!parkOpen){
                 setNumOfGuests(3);
-                System.out.println("Button is clicked");
-                moveAllGuests();
-                parkOpen = true;
+                parkOpen = true;  
             }
         }
     }
@@ -180,14 +184,13 @@ public class GameArea extends JPanel {
     }
 
     /**
-     * Moves the guests in the matrix
+     * guest moves only in path
      */
     public boolean guestMoveInPath(int nextX, int nextY){
         int row = (nextY/50);
         int column = (nextX/50);
         if (placesMatrix[row][column]!= null){
             if(placesMatrix[row][column].getBuildingType().equals("Path")){
-                System.out.println(placesMatrix[row][column].getBuildingType() + " row " + row + " column " + column );
                 return true;
             }
         }
@@ -195,7 +198,9 @@ public class GameArea extends JPanel {
         return false;
     }
     
-    
+    /**
+     * Moves the guests in the matrix
+     */
     public void changeDirection(Guest guest) {
         Direction dir = Direction.values()[random.nextInt(4)];
         if (dir==Direction.UP){
@@ -218,7 +223,6 @@ public class GameArea extends JPanel {
             }
         }else if (dir==Direction.RIGHT){
             if(guest.getX()<800){
-                System.out.println();
                 if(guestMoveInPath(guest.getX()+50,guest.getY())){
                     guest.move(50, 0); 
                 }
@@ -229,10 +233,30 @@ public class GameArea extends JPanel {
     
     public void moveAllGuests() {
         this.guests.forEach(guest -> {
+             pathFinder BFSFinder;
             //if guest has destination, move to the destination
-            
-            //else move randomly on path
-            changeDirection(guest);
+            if(guest.getDestination() == null || !buildingExists(guest.getDestination()) || guest.reachedDestination){
+                guest.generateDestination();
+                //System.out.println(guest.getDestination());
+                if(guest.reachedDestination){
+                    guest.reachedDestination = false;
+                }
+                BFSFinder = new pathFinder(placesMatrix,guest);
+                List<Node> currentPath= BFSFinder.pathExists();
+                guest.currentPath = currentPath; 
+            }
+            if (buildingExists(guest.getDestination())){
+                System.out.println("BFS movements");
+                guest.getPosition();
+                if(this.placesMatrix[guest.getY()/50][guest.getX()/50].getBuildingType().equals(guest.getDestination())){
+                    guest.reachedDestination = true;
+                    System.out.println("Yayy guest reached destination");
+                    guest.pay(10);
+                }
+            }else{
+                System.out.println("randomly moving");
+                changeDirection(guest);
+            }
         });
      }
 
