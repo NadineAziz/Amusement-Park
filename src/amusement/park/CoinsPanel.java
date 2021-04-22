@@ -10,11 +10,12 @@ public class CoinsPanel extends JPanel {
     private static final Font font = new Font("SansSerif", Font.BOLD, 18);
 
     private JTextField coinsField;
+    public static int moneyy=100;
 
     public CoinsPanel() {
         coinsField = new JTextField(JLabel.CENTER);
         coinsField.setFont(font);
-        coinsField.setText("100");
+        coinsField.setText(String.valueOf(moneyy));
         coinsField.setEditable(false);
         coinsField.setSize(new Dimension(250, 20));
 
@@ -28,9 +29,18 @@ public class CoinsPanel extends JPanel {
         add(coinsField);
     }
 
-    public void increaseCoins(int value) {
+    public JTextField getCoinsField() {
+        return coinsField;
+    }
+
+    public void setCoinsField(JTextField coinsField) {
+        this.coinsField = coinsField;
+    }
+
+    public  boolean increaseCoins(int value) {
         int actualValue = Integer.parseInt(coinsField.getText());
         coinsField.setText((actualValue + value) + "");
+        return true;
 
     }
 

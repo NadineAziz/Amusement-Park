@@ -25,6 +25,10 @@ public class Person {
     Node current;
     public boolean reachedDestination = false;
     //private int counter = -1;
+    private int a = 0;
+    private int b = 200;
+    private final static Random random = new Random();
+    public String pictureName;
 
     public Person(String pictureName) {
         currentPath = new ArrayList<Node>();
@@ -72,12 +76,35 @@ public class Person {
         this.y += dy;
     }
     
+    public void move2(int dx, int dy) {
+        a += dx;
+        b += dy;
+    }
+    
     public int getX(){
         return this.x;
     }
     
     public int getY(){
         return this.y;
+    }
+
+  
+
+    public void setX(int x) {
+        this.y = x;
+    }
+
+    public int getA() {
+        return this.a;
+    }
+
+    public int getB() {
+        return this.b;
+    }
+
+    public String getPictureName() {
+        return pictureName;
     }
 
 

@@ -15,6 +15,7 @@ public class Guest extends Person {
 
     private int money = 100;
     private String destination;
+    private int money=random.nextInt(10000)+1;
     private int mood = 50;
     
 
@@ -37,6 +38,7 @@ public class Guest extends Person {
 
 
     public void call_security() {
+        Messagebox.infoBox("Thief is running", "Security is called");
 
     }
     
