@@ -18,6 +18,8 @@ import amusement.park.model.buildings.games.ThirdGame;
 import amusement.park.CoinsPanel;
 import amusement.park.model.Messagebox;
 import amusement.park.model.PoliceOfficer;
+import amusement.park.model.Security;
+import amusement.park.model.SecurityBuilding;
 import amusement.park.model.Thief;
 
 import java.util.List;
@@ -43,6 +45,7 @@ public class GameArea extends JPanel {
     private int numberOfQuests = 0;
     private int numberOfThieves=0;
     private int numofcops=0;
+    private int numofsecurities=0;
     private final int Entrancemoney=30;
     public final BasicBuilding[][] placesMatrix;
     public final int numberOfRows = GAME_AREA_HEIGHT / UNIT_SIZE;
@@ -51,6 +54,7 @@ public class GameArea extends JPanel {
     private final List<Guest> guests = new ArrayList<>();
     private final List<Thief> thieves = new ArrayList<>();
     private final List<PoliceOfficer> cops = new ArrayList<>();
+    private final List<Security> securities = new ArrayList<>();
     Clicklistener click = new Clicklistener();
     JButton startButton;
     
@@ -129,6 +133,12 @@ public class GameArea extends JPanel {
             thieves.add(new Thief(Thief.skillevel));
         }
     }
+       public void setNumOfsecurities(int num){
+        this.numofsecurities = num;
+        for (int i = 0; i < numofsecurities; i++) {
+            securities.add(new Security());
+        }
+    }
 
     private boolean isEnoughSpace(BasicBuilding building, int startX, int startY) {
         if ((startX + building.getSize() <= numberOfRows) && (startY + building.getSize() <= numberOfCols)) {
@@ -204,8 +214,9 @@ public class GameArea extends JPanel {
             if(!parkOpen){
                 setNumOfGuests(3);
                 parkOpen = true;  
-                setNumOfThieves(3);
-                setNumofcops(3);
+                setNumOfThieves(2);
+                setNumofcops(1);
+                setNumOfsecurities(1);
                // gamePanel.buyBuilding();
                 gpanel.payentrancefee(getNumberOfQuests()*Entrancemoney);
                 //CoinsPanel.increaseCoins(90);
@@ -229,10 +240,12 @@ public class GameArea extends JPanel {
     private void placeRandomBuildings() {
         BasicBuilding policeStation = new PoliceStation();
         BasicBuilding cave = new ThiefDen();
+        BasicBuilding security = new SecurityBuilding();
         //BasicBuilding atm = new ATM();
         int indexX = 0;
         int indexY = 0;
         addBuilding(policeStation, indexX, indexY);
+        addBuilding(security,indexX,indexY+15);
 
         addBuilding(cave, indexX+5, indexY);
         //tryPlacingBuilding(atm, indexX, indexY);
@@ -353,11 +366,42 @@ public class GameArea extends JPanel {
             }
         }
     }
+      public void changeDirectionofsecurity(Security guest) {
+        Direction dir = Direction.values()[random.nextInt(4)];
+        if (dir==Direction.UP){
+            if(guest.getY()>0){
+                if(guestMoveInPath(guest.getX(),(guest.getY()-10))){
+                    guest.move(0, -10); 
+                }
+            }
+        }else if (dir==Direction.DOWN){
+            if(guest.getY()<400){
+                if(guestMoveInPath(guest.getX(),guest.getY()+10)){
+                    guest.move(0, 10); 
+                }
+            }
+        }else if (dir==Direction.LEFT){
+            if(guest.getX()>0){
+                if(guestMoveInPath((guest.getX()-10),guest.getY())){
+                    guest.move(-10, 0); 
+                }
+            }
+        }else if (dir==Direction.RIGHT){
+            if(guest.getX()<800){
+                System.out.println();
+                if(guestMoveInPath(guest.getX()+10,guest.getY())){
+                    guest.move(10, 0); 
+                }
+            }
+        }
+    }
     
     
     public void moveAllGuests() {
         this.guests.forEach(guest -> {
              pathFinder BFSFinder;
+             steal();
+             
             //if guest has destination, move to the destination
             if(guest.getDestination() == null || !buildingExists(guest.getDestination()) || guest.reachedDestination){
                 guest.generateDestination();
@@ -374,8 +418,23 @@ public class GameArea extends JPanel {
                 guest.getPosition();
                 if(this.placesMatrix[guest.getY()/50][guest.getX()/50].getBuildingType().equals(guest.getDestination())){
                     guest.reachedDestination = true;
+                    if(this.placesMatrix[guest.getY()/50][guest.getX()/50].getBuildingType().equals("ATM")){
+                String value = JOptionPane.showInputDialog(
+                        GameArea.this,
+                        "Amount of money:",
+                        0
+                );
+                guest.pay(-Integer.valueOf(value));
+                        System.out.println("Cash withdrawal is done!");
+                    }
                     System.out.println("Yayy guest reached destination");
                     guest.pay(10);
+                    guest.changeMood(-10);
+                    if(guest.getMood()<=0){
+                    System.out.println("Mood tanked");
+                    //guest.setDestination("HotDogStand");
+                    }
+                   // guest.setDestination("HotDogStand");
                 }
             }else{
                 System.out.println("randomly moving");
@@ -399,6 +458,14 @@ public class GameArea extends JPanel {
             changeDirection2(PoliceOfficer);
         });
      }
+      public void moveAllsecurities() {
+        this.securities.forEach(Security -> {
+            //if guest has destination, move to the destination
+            
+            //else move randomly on path
+            changeDirectionofsecurity(Security);
+        });
+     }
     
 
      class NewFrameListener implements ActionListener {
@@ -408,6 +475,7 @@ public class GameArea extends JPanel {
              moveAllGuests();
              moveAllThieves();
              moveAllcops();
+             moveAllsecurities();
              repaint();
          }
      }
@@ -424,6 +492,9 @@ public class GameArea extends JPanel {
         });
         this.cops.forEach(PoliceOfficer -> {
             PoliceOfficer.draw(g);
+        });
+        this.securities.forEach(Security -> {
+            Security.draw(g);
         });
         
         //guest.draw(g);
@@ -456,31 +527,31 @@ public class GameArea extends JPanel {
     }
     
     
-//    public void steal(Guest guest) {
-//        
-//        for(int i =0;i<numberOfRows;i++){
-//        for (int j=0;j<numberOfCols;j++){
-//         if (placesMatrix[i][j]!= null){
-//            if(placesMatrix[i][j].getBuildingType().equals("Path")){
-//                
-//        
-//       Random  rnd=new Random();
-//       int randomnumber= rnd.nextInt(100)+1;
-//       if(thieves.get(i).getSkillevel()>randomnumber){
-//          Messagebox.infoBox("Money is stolen", "Attention");
-//          guest.pay(Thief.getSkillevel());
-//          guest.changeMood(Thief.getSkillevel());
-//       }
-//       else{
-//           
-//           guest.call_security();
-//           
-//       
-//       }
-//       }
-//         }
-//        }
-//        }
-//    }
+    public void steal() {
+        System.out.println(" ");
+        for(int i =0;i<thieves.size();i++){
+        for (int j=0;j<guests.size();j++){
+            if(placesMatrix[i][j].getBuildingType().equals("Path")){
+                if(guests.get(j).getX()==thieves.get(i).getX()&&guests.get(j).getY()==thieves.get(i).getY()){
+        
+       Random  rnd=new Random();
+       int randomnumber= rnd.nextInt(100)+1;
+       if(thieves.get(i).getSkillevel()>randomnumber){
+          Messagebox.infoBox("Money is stolen", "Attention");
+          guests.get(i).pay(Thief.getSkillevel());
+          guests.get(i).changeMood(Thief.getSkillevel());
+       }
+       else{
+           
+           guests.get(i).call_security();
+           
+       
+       }
+              }
+       }
+         
+        }
+        }
+    }
 
 }

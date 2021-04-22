@@ -94,6 +94,9 @@ public class Person {
     public void setX(int x) {
         this.y = x;
     }
+     public void setY(int x) {
+        this.x = x;
+    }
 
     public int getA() {
         return this.a;

@@ -10,12 +10,12 @@ import java.util.Random;
 
 public class Guest extends Person {
     private final static String[] PHOTOS = {"boy.png", "girl.png", "guy.png", "hippy_boy.png", "small_girl.png"};
-    private final static String[] Destinations= {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand"};
+    private final static String[] Destinations= {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand","PoliceStation","ATM"};
     private final static Random random = new Random();
 
     private String destination;
     private int money=random.nextInt(10000)+1;
-    private int mood = 50;
+    private int mood = 10;
     
 
     public Guest(int money) {
@@ -42,11 +42,19 @@ public class Guest extends Person {
     }
     
     public void generateDestination(){
-        this.destination = Destinations[random.nextInt(6)];
+        this.destination = Destinations[random.nextInt(8)];
     }
     
     public String getDestination(){
         return this.destination;
+    }
+
+    public int getMood() {
+        return mood;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
     }
 
 }
