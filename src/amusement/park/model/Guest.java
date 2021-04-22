@@ -1,17 +1,22 @@
 package amusement.park.model;
 
 import static amusement.park.GameArea.*;
+import amusement.park.pathfinding.Node;
 
 import java.awt.*;
+import java.util.List;
 import java.util.Random;
+
 
 public class Guest extends Person {
     private final static String[] PHOTOS = {"boy.png", "girl.png", "guy.png", "hippy_boy.png", "small_girl.png"};
     private final static String[] Destinations= {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand"};
     private final static Random random = new Random();
 
-    private int money;
+    private int money = 100;
+    private String destination;
     private int mood = 50;
+    
 
     public Guest(int money) {
         super(PHOTOS[random.nextInt(4)]);
@@ -35,8 +40,12 @@ public class Guest extends Person {
 
     }
     
-    public String generateDestination(){
-        return Destinations[random.nextInt(6)];
+    public void generateDestination(){
+        this.destination = Destinations[random.nextInt(6)];
+    }
+    
+    public String getDestination(){
+        return this.destination;
     }
 
 }

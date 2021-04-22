@@ -20,6 +20,7 @@ public class BasicBuilding implements Cloneable {
     private int auxTurnsToBeReady;
     private final int size;
     private String buildingType;
+    private int x,y;
 
     public BasicBuilding(String picture, int turnsToBeReady,String buildingType) {
         this(picture, turnsToBeReady, 1, buildingType);
@@ -75,9 +76,19 @@ public class BasicBuilding implements Cloneable {
     public void host(Guest guest) {
 
     }
+    
+    public int getX(){
+        return this.x;
+    }
+    
+    public int getY(){
+        return this.y;
+    }
 
 
     public void draw(Graphics graphics, int x, int y) {
+        this.x = x;
+        this.y = y;
         int unitSize = UNIT_SIZE * getSize();
         graphics.drawImage(getIcon().getImage(), x, y, unitSize, unitSize, null);
 
