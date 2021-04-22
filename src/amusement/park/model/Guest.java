@@ -13,7 +13,6 @@ public class Guest extends Person {
     private final static String[] Destinations= {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand"};
     private final static Random random = new Random();
 
-    private int money = 100;
     private String destination;
     private int money=random.nextInt(10000)+1;
     private int mood = 50;
@@ -25,7 +24,7 @@ public class Guest extends Person {
     }
 
     public void pay(int price) {
-        int money = this.money - price;
+        money = money - price;
         this.money = Math.max(money, 0);
     }
 
