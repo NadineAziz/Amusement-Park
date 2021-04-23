@@ -6,6 +6,7 @@
 package amusement.park.pathfinding;
 
 import amusement.park.model.Guest;
+import amusement.park.model.Person;
 import amusement.park.model.buildings.BasicBuilding;
 import java.awt.Point;
 import java.util.*;
@@ -18,7 +19,7 @@ import java.util.*;
 
 public class pathFinder {
     BasicBuilding[][] matrix;
-    Guest guest;
+    Person guest;
     int startX;
     int startY;
     Point startNode;
@@ -26,7 +27,7 @@ public class pathFinder {
     String destination;
     boolean pathExists;
     int ex,ey;
-    public pathFinder(BasicBuilding[][] positionMatrix,Guest guest){
+    public pathFinder(BasicBuilding[][] positionMatrix,Person guest){
         this.matrix = positionMatrix;
         this.startX = guest.getY()/50;
         this.startY = guest.getX()/50;

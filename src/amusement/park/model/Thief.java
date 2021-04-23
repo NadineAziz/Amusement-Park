@@ -53,6 +53,18 @@ public void run(){
 Messagebox.infoBox("Thief is running back to den", "Attention");
 }
 
+ @Override
+    public String getDestination(){
+        return this.destination;
+    }
+
+   
+
+    @Override
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
 
 }
 

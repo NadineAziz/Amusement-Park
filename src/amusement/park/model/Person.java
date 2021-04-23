@@ -23,6 +23,7 @@ public class Person {
     private int y = 100;
     public List<Node> currentPath;
     Node current;
+    public String destination;
     public boolean reachedDestination = false;
     //private int counter = -1;
     private int a = 0;
@@ -116,5 +117,11 @@ public class Person {
         ((Graphics2D) g).setStroke(new BasicStroke(5));
         //g.drawLine(x, y, (UNIT_SIZE * mood) / 100, y);
         g.drawImage(getIcon().getImage(), x, y, UNIT_SIZE, UNIT_SIZE - 15, null);
+    }
+    public void setDestination(String destination) {
+        
+    }
+   public String getDestination(){
+        return null;
     }
 }

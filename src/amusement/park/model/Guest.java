@@ -10,16 +10,20 @@ import java.util.Random;
 
 public class Guest extends Person {
     private final static String[] PHOTOS = {"boy.png", "girl.png", "guy.png", "hippy_boy.png", "small_girl.png"};
-    private final static String[] Destinations= {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand","PoliceStation","ATM"};
+    private final static String[] Destinations= {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand"};
     private final static Random random = new Random();
 
-    private String destination;
-    private int money=random.nextInt(10000)+1;
+    //private String destination;
+    private int money=0;
     private int mood = 10;
     
 
     public Guest(int money) {
         super(PHOTOS[random.nextInt(4)]);
+        this.money = 0;
+    }
+
+    public void setMoney(int money) {
         this.money = money;
     }
 
@@ -35,16 +39,24 @@ public class Guest extends Person {
         } else this.mood = Math.max(mood, 0);
     }
 
+    public int getMoney() {
+        return money;
+    }
 
     public void call_security() {
         Messagebox.infoBox("Thief is running", "Security is called");
 
     }
+    public void goToATM(){
+        this.destination="ATM";
+    }
+   
     
     public void generateDestination(){
-        this.destination = Destinations[random.nextInt(8)];
+        this.destination = Destinations[random.nextInt(6)];
     }
     
+    @Override
     public String getDestination(){
         return this.destination;
     }
@@ -53,6 +65,7 @@ public class Guest extends Person {
         return mood;
     }
 
+    @Override
     public void setDestination(String destination) {
         this.destination = destination;
     }

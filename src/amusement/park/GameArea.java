@@ -51,6 +51,7 @@ public class GameArea extends JPanel {
     public final int numberOfRows = GAME_AREA_HEIGHT / UNIT_SIZE;
     public final int numberOfCols = GAME_AREA_WIDTH / UNIT_SIZE;
     private boolean parkOpen = false;
+    public boolean caught=false;
     private final List<Guest> guests = new ArrayList<>();
     private final List<Thief> thieves = new ArrayList<>();
     private final List<PoliceOfficer> cops = new ArrayList<>();
@@ -214,7 +215,7 @@ public class GameArea extends JPanel {
             if(!parkOpen){
                 setNumOfGuests(3);
                 parkOpen = true;  
-                setNumOfThieves(2);
+                setNumOfThieves(1);
                 setNumofcops(1);
                 setNumOfsecurities(1);
                // gamePanel.buyBuilding();
@@ -307,15 +308,51 @@ public class GameArea extends JPanel {
             }
         }
     }
+    public void changeDirectionofsecurity(Person guest) {
+        Direction dir = Direction.values()[random.nextInt(4)];
+        if (dir==Direction.UP){
+            if(guest.getY()>0){
+                if(guestMoveInPath(guest.getX(),(guest.getY()-10))){
+                    guest.move(0, -10); 
+                }
+            }
+        }else if (dir==Direction.DOWN){
+            if(guest.getY()<400){
+                if(guestMoveInPath(guest.getX(),guest.getY()+10)){
+                    guest.move(0, 10); 
+                }
+            }
+        }else if (dir==Direction.LEFT){
+            if(guest.getX()>0){
+                if(guestMoveInPath((guest.getX()-10),guest.getY())){
+                    guest.move(-10, 0); 
+                }
+            }
+        }else if (dir==Direction.RIGHT){
+            if(guest.getX()<800){
+                if(guestMoveInPath(guest.getX()+10,guest.getY())){
+                    guest.move(10, 0); 
+                }
+            }
+        }
+    }
  
     public void moveAllGuests() {
+        
         this.guests.forEach(guest -> {
+            
+          
             pathFinder BFSFinder;
             steal();
 
             //if guest has destination, move to the destination
             if (guest.getDestination() == null || !buildingExists(guest.getDestination()) || guest.reachedDestination) {
-                guest.generateDestination();
+                
+                   if(guest.getMoney()<=0){
+                    guest.goToATM();
+                    }
+                   else
+                       guest.generateDestination();
                 //System.out.println(guest.getDestination());
                 if (guest.reachedDestination) {
                     guest.reachedDestination = false;
@@ -329,6 +366,10 @@ public class GameArea extends JPanel {
                 guest.getPosition();
                 if (this.placesMatrix[guest.getY() / 50][guest.getX() / 50].getBuildingType().equals(guest.getDestination())) {
                     guest.reachedDestination = true;
+                    //guest.setMoney(0);
+                 
+                    
+                
                     if (this.placesMatrix[guest.getY() / 50][guest.getX() / 50].getBuildingType().equals("ATM")) {
                         String value = JOptionPane.showInputDialog(
                                 GameArea.this,
@@ -339,8 +380,9 @@ public class GameArea extends JPanel {
                         System.out.println("Cash withdrawal is done!");
                     }
                     System.out.println("Yayy guest reached destination");
-                    guest.pay(10);
-                    guest.changeMood(-10);
+                    //guest.pay(10);
+                    gpanel.payentrancefee(10);
+                    guest.changeMood(10);
                     if (guest.getMood() <= 0) {
                         System.out.println("Mood tanked");
                         //guest.setDestination("HotDogStand");
@@ -365,7 +407,13 @@ public class GameArea extends JPanel {
      }
       public void moveAllsecurities() {
         this.securities.forEach(Security -> {
+            if(caught==false){
+            changeDirectionofsecurity(Security);
+            }
+            else
+            {
             changeDirection(Security);
+            }
         });
      }
     
@@ -430,6 +478,7 @@ public class GameArea extends JPanel {
     
     
     public void steal() {
+         pathFinder BFSFinder;
         System.out.println(" ");
         for (int i = 0; i < thieves.size(); i++) {
             for (int j = 0; j < guests.size(); j++) {
@@ -441,15 +490,48 @@ public class GameArea extends JPanel {
                         Messagebox.infoBox("Money is stolen", "Attention");
                         guests.get(i).pay(Thief.getSkillevel());
                         guests.get(i).changeMood(Thief.getSkillevel());
+                        //break;
+                        
                     } else {
-
                         guests.get(i).call_security();
-
+                        thieves.get(i).setDestination("SecurityBuilding");
+                         BFSFinder = new pathFinder(placesMatrix, thieves.get(i));
+                         List<Node> currentPath = BFSFinder.pathExists();
+                         thieves.get(i).currentPath = currentPath;
+                          if (buildingExists(thieves.get(i).getDestination())) {
+                          System.out.println("BFS movements");
+                          thieves.get(i).getPosition();
+                        //securities.get(i).setDestination("ThiefDen");
+                        //catchthethief();
+                        //break;
                     }
                 }
 
             }
         }
     }
+    }
+    public void catchthethief(){
+        System.out.println(" ");
+        for (int i = 0; i < thieves.size(); i++) {
+            for (int j = 0; j < securities.size(); j++) {
+                if (securities.get(j).getX() == thieves.get(i).getX() && securities.get(j).getY() == thieves.get(i).getY()) {
+
+                   
+                        Messagebox.infoBox("Thief got caught", "Attention");
+                       
+
+                        thieves.get(i).setDestination("SecurityBuilding");
+                        securities.get(i).setDestination("SecurityBuilding");
+                        cops.get(i).setDestination("SecuirtyBuilding");
+
+                    
+                }
+
+            }
+        }
+    }
+   
+ 
 
 }
