@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class Guest extends Person {
     private final static String[] PHOTOS = {"boy.png", "girl.png", "guy.png", "hippy_boy.png", "small_girl.png"};
-    private final static String[] Destinations= {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand","PoliceStation","ATM"};
+    private final static String[] Destinations= {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand"};
     private final static Random random = new Random();
 
     private String destination;
