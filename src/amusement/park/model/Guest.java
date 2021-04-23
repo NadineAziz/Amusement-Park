@@ -4,6 +4,8 @@ import static amusement.park.GameArea.*;
 import amusement.park.pathfinding.Node;
 
 import java.awt.*;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Random;
 
@@ -22,6 +24,18 @@ public class Guest extends Person {
         super(PHOTOS[random.nextInt(4)]);
         this.money = money;
     }
+    
+    public boolean isDestinationGame(){
+        boolean isGame = false;
+        if (this.destination.equals("FirstGame") ){
+            isGame = true;
+        }else if(this.destination.equals("SecondGame")){
+            isGame = true;
+        }else if(this.destination.equals("ThirdGame")){
+            isGame = true;
+        }
+        return isGame;
+    }
 
     public void pay(int price) {
         money = money - price;
@@ -33,6 +47,14 @@ public class Guest extends Person {
         if (mood > 100) {
             this.mood = 100;
         } else this.mood = Math.max(mood, 0);
+    }
+    
+    public void waitForIt(int seconds){
+        long start = System.currentTimeMillis();
+        // some time passes
+        long end = System.currentTimeMillis();
+        long elapsedTime = end - start;
+        System.out.println(elapsedTime);
     }
 
 

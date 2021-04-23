@@ -57,6 +57,8 @@ public class GameArea extends JPanel {
     private final List<Security> securities = new ArrayList<>();
     Clicklistener click = new Clicklistener();
     JButton startButton;
+    long start;
+    long elapsed;
     
     private GamePanel gpanel;
     
@@ -307,6 +309,7 @@ public class GameArea extends JPanel {
             }
         }
     }
+    
  
     public void moveAllGuests() {
         this.guests.forEach(guest -> {
@@ -323,12 +326,11 @@ public class GameArea extends JPanel {
                 BFSFinder = new pathFinder(placesMatrix, guest);
                 List<Node> currentPath = BFSFinder.pathExists();
                 guest.currentPath = currentPath;
+                start = System.currentTimeMillis();
             }
             if (buildingExists(guest.getDestination())) {
-                System.out.println("BFS movements");
                 guest.getPosition();
                 if (this.placesMatrix[guest.getY() / 50][guest.getX() / 50].getBuildingType().equals(guest.getDestination())) {
-                    guest.reachedDestination = true;
                     if (this.placesMatrix[guest.getY() / 50][guest.getX() / 50].getBuildingType().equals("ATM")) {
                         String value = JOptionPane.showInputDialog(
                                 GameArea.this,
@@ -338,7 +340,13 @@ public class GameArea extends JPanel {
                         guest.pay(-Integer.valueOf(value));
                         System.out.println("Cash withdrawal is done!");
                     }
-                    System.out.println("Yayy guest reached destination");
+                    int guestInBuildingSecs;
+                    guestInBuildingSecs = this.placesMatrix[guest.getY() / 50][guest.getX() / 50].getTurnTime();
+                    elapsed = System.currentTimeMillis() - start;
+                    if(elapsed>guestInBuildingSecs*1000){
+                        guest.reachedDestination = true;
+                    }
+                    System.out.println("elapsed secs "+ elapsed/1000);
                     guest.pay(10);
                     guest.changeMood(-10);
                     if (guest.getMood() <= 0) {
@@ -348,7 +356,6 @@ public class GameArea extends JPanel {
                     // guest.setDestination("HotDogStand");
                 }
             } else {
-                System.out.println("randomly moving");
                 changeDirection(guest);
             }
         });

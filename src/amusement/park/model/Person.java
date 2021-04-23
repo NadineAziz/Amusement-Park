@@ -24,7 +24,6 @@ public class Person {
     public List<Node> currentPath;
     Node current;
     public boolean reachedDestination = false;
-    //private int counter = -1;
     private int a = 0;
     private int b = 200;
     private final static Random random = new Random();
@@ -51,7 +50,6 @@ public class Person {
     
     public void moveToIndex(){
         if(this.current != null){
-            //System.out.println("index part");
             int nextRow = this.current.getX();
             int nextCol = this.current.getY();
             int row = y/50;
@@ -88,9 +86,7 @@ public class Person {
     public int getY(){
         return this.y;
     }
-
-  
-
+    
     public void setX(int x) {
         this.y = x;
     }
