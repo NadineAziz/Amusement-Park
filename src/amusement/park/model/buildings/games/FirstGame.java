@@ -5,6 +5,7 @@ public class FirstGame extends BaseGame {
 
     public FirstGame(int moodChange, int valueOfTheProduct, int turnsToBeReady) {
         super("games/game1.png", moodChange, valueOfTheProduct, turnsToBeReady, "FirstGame");
+        this.setTurnTime(6);
     }
 
     public FirstGame() {

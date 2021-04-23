@@ -9,6 +9,7 @@ public class ThirdGame extends BaseGame {
 
     public ThirdGame() {
         this(5, 10, 10);
+        this.setTurnTime(8);
     }
 
     @Override

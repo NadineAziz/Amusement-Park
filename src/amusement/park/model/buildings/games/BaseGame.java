@@ -5,21 +5,17 @@ import amusement.park.model.buildings.Building;
 
 
 public class BaseGame extends Building {
-    private int turnTime;
     private int capacityOfGame;
     private int numOfGuests = 0;
     private State state;
 
     public BaseGame(String picture, int moodChange, int valueOfTheProduct, int turnsToBeReady, String buildingType) {
         super(picture, moodChange, valueOfTheProduct, turnsToBeReady, 2, buildingType);
+        this.setTurnTime(5);
     }
 
     public void setCapacity(int capacity) {
         this.capacityOfGame = capacity;
-    }
-
-    public void setTurnTime(int time) {
-        this.turnTime = time;
     }
 
     public void setState(State s) {
