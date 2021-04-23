@@ -4,6 +4,8 @@ import static amusement.park.GameArea.*;
 import amusement.park.pathfinding.Node;
 
 import java.awt.*;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Random;
 
@@ -16,15 +18,29 @@ public class Guest extends Person {
     //private String destination;
     private int money=0;
     private int mood = 10;
-    
+    public boolean isinside=false;
+    public boolean rmv=false;
 
     public Guest(int money) {
         super(PHOTOS[random.nextInt(4)]);
         this.money = 0;
+        this.mood=10;
     }
 
     public void setMoney(int money) {
         this.money = money;
+    }
+    
+    public boolean isDestinationGame(){
+        boolean isGame = false;
+        if (this.destination.equals("FirstGame") ){
+            isGame = true;
+        }else if(this.destination.equals("SecondGame")){
+            isGame = true;
+        }else if(this.destination.equals("ThirdGame")){
+            isGame = true;
+        }
+        return isGame;
     }
 
     public void pay(int price) {
@@ -33,10 +49,18 @@ public class Guest extends Person {
     }
 
     public void changeMood(int change) {
-        int mood = this.mood + change;
+        int mood = this.mood - change;
         if (mood > 100) {
             this.mood = 100;
         } else this.mood = Math.max(mood, 0);
+    }
+    
+    public void waitForIt(int seconds){
+        long start = System.currentTimeMillis();
+        // some time passes
+        long end = System.currentTimeMillis();
+        long elapsedTime = end - start;
+        System.out.println(elapsedTime);
     }
 
     public int getMoney() {
@@ -69,5 +93,7 @@ public class Guest extends Person {
     public void setDestination(String destination) {
         this.destination = destination;
     }
-
+    public void leavethepark(){
+    this.destination="PoliceStation";
+    }
 }

@@ -21,6 +21,7 @@ public class BasicBuilding implements Cloneable {
     private final int size;
     private String buildingType;
     private int x,y;
+    public int turnTime = 3; 
 
     public BasicBuilding(String picture, int turnsToBeReady,String buildingType) {
         this(picture, turnsToBeReady, 1, buildingType);
@@ -40,6 +41,14 @@ public class BasicBuilding implements Cloneable {
         }
     }
     
+    public void setTurnTime(int time) {
+        this.turnTime = time;
+    }
+    
+    public int getTurnTime() {
+        return this.turnTime;
+    }
+    
     public String getBuildingType(){
         return buildingType;
     }
@@ -48,8 +57,6 @@ public class BasicBuilding implements Cloneable {
         return size;
     }
     
-    
-
     public int getTurnsToBeReady() {
         return turnsToBeReady;
     }
@@ -61,7 +68,6 @@ public class BasicBuilding implements Cloneable {
     public String getPicture() {
         return picture;
     }
-
 
     public synchronized void decreaseTurnsToBeReady() {
         --auxTurnsToBeReady;

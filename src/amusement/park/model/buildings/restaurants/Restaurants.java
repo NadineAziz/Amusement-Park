@@ -8,6 +8,7 @@ public class Restaurants extends Building {
 
     public Restaurants(String picture, int moodChange, int valueOfTheProduct, int turnsToBeReady, String buildingType) {
         super(picture, moodChange, valueOfTheProduct, turnsToBeReady, 2, buildingType);
+        this.setTurnTime(5);
     }
 
     
