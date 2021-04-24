@@ -25,6 +25,7 @@ public class Person {
     Node current;
     public String destination;
     public boolean reachedDestination = false;
+    public boolean smth=false;
     private int a = 0;
     private int b = 200;
     private final static Random random = new Random();

@@ -17,14 +17,14 @@ public class Guest extends Person {
 
     //private String destination;
     private int money=0;
-    private int mood = 10;
+    private int mood = 0;
     public boolean isinside=false;
     public boolean rmv=false;
 
     public Guest(int money) {
         super(PHOTOS[random.nextInt(4)]);
-        this.money = 0;
-        this.mood=10;
+        this.money = 100;
+        this.mood=100;
     }
 
     public void setMoney(int money) {

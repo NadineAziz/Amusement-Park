@@ -53,6 +53,7 @@ public class GameArea extends JPanel {
     public final int numberOfCols = GAME_AREA_WIDTH / UNIT_SIZE;
     private boolean parkOpen = false;
     public boolean caught=false;
+    public boolean isstolen=false;
     private final List<Guest> guests = new ArrayList<>();
     private final List<Thief> thieves = new ArrayList<>();
     private final List<PoliceOfficer> cops = new ArrayList<>();
@@ -216,7 +217,7 @@ public class GameArea extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             if(!parkOpen){
-                setNumOfGuests(1);
+                setNumOfGuests(3);
                 parkOpen = true;  
                 setNumOfThieves(1);
                 setNumofcops(1);
@@ -356,15 +357,13 @@ public class GameArea extends JPanel {
                    else if(guest.getMood()<=0){
                    guest.leavethepark();
                    //guest.reachedDestination=true;
+                 
                   
             }
                    else
                        guest.generateDestination();
                 //System.out.println(guest.getDestination());
                 if (guest.reachedDestination) {
-//                    if(guest.getMood()<=0){
-//                    guest.rmv=true;
-//                    }
                     guest.reachedDestination = false;
                     
                 }
@@ -411,7 +410,7 @@ public class GameArea extends JPanel {
                    // System.out.println("elapsed secs "+ elapsed/1000);
                     guest.pay(10);
                     if(!this.placesMatrix[guest.getY() / 50][guest.getX() / 50].getBuildingType().equals("ATM")){
-                    guest.changeMood(100);
+                    guest.changeMood(10);
                     }
                     if (guest.getMood() <= 0) {
                         System.out.println("Mood tanked");
@@ -434,11 +433,71 @@ public class GameArea extends JPanel {
             }
         }});
     }
-    public void moveAllThieves() {
+   
+     public void moveAllThieves() {
         this.thieves.forEach(thief -> {
-            changeDirection(thief);
+            if(!thief.stayThere){
+           changeDirection(thief);
+            }
+            
+            
         });
      }
+    public void movethieftotheden() {
+        this.thieves.forEach(thief -> {
+            if(!thief.stayThere){
+            
+            pathFinder BFSFinder;
+              //if (thief.smth==true) {
+            if (thief.getDestination() == null || !buildingExists(thief.getDestination()) || thief.reachedDestination) {
+                   thief.run();
+                      if (thief.reachedDestination) {
+                    thief.reachedDestination = false;
+                    
+                }
+                BFSFinder = new pathFinder(placesMatrix, thief);
+                List<Node> currentPath = BFSFinder.pathExists();
+                thief.currentPath = currentPath;
+                //start = System.currentTimeMillis();
+            }
+            
+           if (buildingExists(thief.getDestination())) {
+                thief.getPosition();
+                if(this.placesMatrix[thief.getY() / 50][thief.getX() / 50]!=null){
+                if (this.placesMatrix[thief.getY() / 50][thief.getX() / 50].getBuildingType().equals(thief.getDestination())) {
+
+                    thief.reachedDestination = true;
+                    thief.stayThere = true;
+                
+                 
+                    
+             
+                  
+                    System.out.println("ogru yolu guest reached destination");
+             
+               
+                //System.out.println(guest.getDestination());
+               // if (guest.reachedDestination) {
+                    //guest.reachedDestination = false;
+                    //guests.remove(guest);
+                //}
+                //BFSFinder = new pathFinder(placesMatrix, guest);
+                //List<Node> currentPath = BFSFinder.pathExists();
+                //guest.currentPath = currentPath;
+                    // guest.setDestination("HotDogStand");
+                }}
+            } else {
+                changeDirection(thief);
+            }
+            
+              //}
+              
+        }
+            // else
+           // changeDirection(thief);
+        });
+     }
+  
      public void moveAllcops() {
         this.cops.forEach(PoliceOfficer -> {
             changeDirection(PoliceOfficer);
@@ -517,7 +576,7 @@ public class GameArea extends JPanel {
     
     
     public void steal() {
-         pathFinder BFSFinder;
+         //pathFinder BFSFinder;
         System.out.println(" ");
         for (int i = 0; i < thieves.size(); i++) {
             for (int j = 0; j < guests.size(); j++) {
@@ -526,24 +585,27 @@ public class GameArea extends JPanel {
                     Random rnd = new Random();
                     int randomnumber = rnd.nextInt(100) + 1;
                     if (thieves.get(i).getSkillevel() > randomnumber) {
-                        Messagebox.infoBox("Money is stolen", "Attention");
+                        //Messagebox.infoBox("Money is stolen", "Attention");
+                        System.out.println("Money is stolen");
+                        //isstolen=true;
                         guests.get(i).pay(Thief.getSkillevel());
+                        //thieves.get(i).smth=true;
+                        movethieftotheden();
                         guests.get(i).changeMood(Thief.getSkillevel());
                         //break;
                         
                     } else {
-                        guests.get(i).call_security();
-                        thieves.get(i).setDestination("SecurityBuilding");
-                         BFSFinder = new pathFinder(placesMatrix, thieves.get(i));
-                         List<Node> currentPath = BFSFinder.pathExists();
-                         thieves.get(i).currentPath = currentPath;
-                          if (buildingExists(thieves.get(i).getDestination())) {
-                          System.out.println("BFS movements");
-                          thieves.get(i).getPosition();
-                        //securities.get(i).setDestination("ThiefDen");
-                        //catchthethief();
-                        //break;
-                    }
+                        //guests.get(i).call_security();
+                        System.out.println("Thief is running");
+                          movethieftotheden();
+//                        thieves.get(i).setDestination("SecurityBuilding");
+//                         BFSFinder = new pathFinder(placesMatrix, thieves.get(i));
+//                         List<Node> currentPath = BFSFinder.pathExists();
+//                         thieves.get(i).currentPath = currentPath;
+//                          if (buildingExists(thieves.get(i).getDestination())) {
+//                          System.out.println("BFS movements");
+//                          thieves.get(i).getPosition();
+                   // }
                 }
 
             }

@@ -8,6 +8,8 @@ public class Thief extends Person {
 
   
      public static int skillevel;
+     public  int mny=0;
+     public boolean stayThere = false;
     // Random  randomnumber=new Random();
     //stealmoney()
 public Thief(int VOR) {
@@ -50,7 +52,9 @@ public void steal_money(Guest guest) {
      * @param 
      */
 public void run(){
-Messagebox.infoBox("Thief is running back to den", "Attention");
+    this.destination="ThiefDen";
+  
+//Messagebox.infoBox("Thief is running back to den", "Attention");
 }
 
  @Override
@@ -64,6 +68,15 @@ Messagebox.infoBox("Thief is running back to den", "Attention");
     public void setDestination(String destination) {
         this.destination = destination;
     }
+
+    public void setMny(int mny) {
+        this.mny = mny;
+    }
+
+    public  int getMny() {
+        return mny;
+    }
+  
 
 
 }
