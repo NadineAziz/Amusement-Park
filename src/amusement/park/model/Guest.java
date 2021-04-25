@@ -49,7 +49,7 @@ public class Guest extends Person {
     }
 
     public void changeMood(int change) {
-        int mood = this.mood - change;
+        int mood = this.mood + change;
         if (mood > 100) {
             this.mood = 100;
         } else this.mood = Math.max(mood, 0);
