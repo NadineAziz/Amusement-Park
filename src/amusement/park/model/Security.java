@@ -14,6 +14,17 @@ public class Security extends Person {
         super("security.png");
         this.setY(750);
     }
+    public void seccuritygoestosb(){
+      this.destination="SecurityBuilding";
+      }
+    @Override
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+    @Override
+    public String getDestination(){
+        return this.destination;
+    }
 }
 
 

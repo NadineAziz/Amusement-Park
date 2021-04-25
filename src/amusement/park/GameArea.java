@@ -53,7 +53,12 @@ public class GameArea extends JPanel {
     public final int numberOfCols = GAME_AREA_WIDTH / UNIT_SIZE;
     private boolean parkOpen = false;
     public boolean caught=false;
+    public boolean temp=false;
     public boolean isstolen=false;
+    public boolean isThiefInSecBuilding=false;
+    public boolean atthesameplace=false;
+    
+    public int tempthiefmoneyvariable=Thief.mny;
     private final List<Guest> guests = new ArrayList<>();
     private final List<Thief> thieves = new ArrayList<>();
     private final List<PoliceOfficer> cops = new ArrayList<>();
@@ -232,8 +237,8 @@ public class GameArea extends JPanel {
              
                 
                 System.out.println("Button is clicked");
-                moveAllGuests();
-                moveAllcops();
+              //  moveAllGuests();
+                //moveAllcops();
                 parkOpen = true;
             }
         }
@@ -346,10 +351,20 @@ public class GameArea extends JPanel {
             
           if(guest.rmv==false){
             pathFinder BFSFinder;
-            steal();
+            //steal();
+            //catchthethief();
+//            if(isstolen){
+//            movethieftotheden();
+//            }
+//            if(isthiefcaught){
+//           // movethieftothesb();
+//            movecopstothesb();
+//            };
 
             //if guest has destination, move to the destination
             if (guest.getDestination() == null || !buildingExists(guest.getDestination()) || guest.reachedDestination) {
+                
+                
                 
                    if(guest.getMoney()<=0){
                     guest.goToATM();
@@ -434,23 +449,62 @@ public class GameArea extends JPanel {
         }});
     }
    
-     public void moveAllThieves() {
+    public void moveAllThieves() {
+
+        steal();
+        catchthethief();
         this.thieves.forEach(thief -> {
-            if(!thief.stayThere){
-           changeDirection(thief);
+            pathFinder BFSFinder;
+                 if (this.placesMatrix[thief.getY() / 50][thief.getX() / 50].getBuildingType().equals(thief.getDestination())) {
+
+                    thief.reachedDestination = true;}
+            if (thief.getDestination() == null && thief.stealMoney) {
+                thief.run();
+                BFSFinder = new pathFinder(placesMatrix, thief);
+                List<Node> currentPath = BFSFinder.pathExists();
+                thief.currentPath = currentPath;
             }
-            
-            
+         
+      
+            else if(thief.reachedDestination==true){
+              thief.reachedDestination=false;
+             atthesameplace=true;
+          thief.thiefgoestopolstation();
+           BFSFinder = new pathFinder(placesMatrix, thief);
+           List<Node> currentPath = BFSFinder.pathExists();
+           thief.currentPath = currentPath;
+           
+         }
+            else  if (thief.getDestination() == null && thief.isCaught) {
+                thief.thiefgoestosecbuilding();
+                BFSFinder = new pathFinder(placesMatrix, thief);
+                List<Node> currentPath = BFSFinder.pathExists();
+                thief.currentPath = currentPath;
+            }
+            ////  if(!thief.stayThere){
+            if (thief.stealMoney == true) {
+                thief.getPosition();
+            }
+            else if(atthesameplace){
+               thief.getPosition();
+               }
+            else if (thief.isCaught == true) {
+                thief.getPosition();
+            } else {
+                changeDirection(thief);
+            }
+            //  }
+
         });
-     }
-    public void movethieftotheden() {
+    }
+ 
+    public void movethieftothesb() {
         this.thieves.forEach(thief -> {
-            if(!thief.stayThere){
+            //if(!thief.stayThere){
             
             pathFinder BFSFinder;
-              //if (thief.smth==true) {
             if (thief.getDestination() == null || !buildingExists(thief.getDestination()) || thief.reachedDestination) {
-                   thief.run();
+                   thief.thiefgoestosecbuilding();
                       if (thief.reachedDestination) {
                     thief.reachedDestination = false;
                     
@@ -458,7 +512,7 @@ public class GameArea extends JPanel {
                 BFSFinder = new pathFinder(placesMatrix, thief);
                 List<Node> currentPath = BFSFinder.pathExists();
                 thief.currentPath = currentPath;
-                //start = System.currentTimeMillis();
+           
             }
             
            if (buildingExists(thief.getDestination())) {
@@ -467,51 +521,225 @@ public class GameArea extends JPanel {
                 if (this.placesMatrix[thief.getY() / 50][thief.getX() / 50].getBuildingType().equals(thief.getDestination())) {
 
                     thief.reachedDestination = true;
-                    thief.stayThere = true;
-                
-                 
-                    
-             
-                  
-                    System.out.println("ogru yolu guest reached destination");
-             
+                   // thief.stayThere = true;
                
-                //System.out.println(guest.getDestination());
-               // if (guest.reachedDestination) {
-                    //guest.reachedDestination = false;
-                    //guests.remove(guest);
-                //}
-                //BFSFinder = new pathFinder(placesMatrix, guest);
-                //List<Node> currentPath = BFSFinder.pathExists();
-                //guest.currentPath = currentPath;
-                    // guest.setDestination("HotDogStand");
+                    System.out.println("thief is in the Security Building");
+         
                 }}
             } else {
                 changeDirection(thief);
             }
             
-              //}
               
-        }
-            // else
-           // changeDirection(thief);
+        //}
+           
+        });
+     }
+    public void movethieftotheps() {
+        this.thieves.forEach(thief -> {
+            //if(!thief.stayThere){
+            
+            pathFinder BFSFinder;
+            if (thief.getDestination() == null || !buildingExists(thief.getDestination()) || thief.reachedDestination) {
+                   thief.thiefgoestopolstation();
+                      if (thief.reachedDestination) {
+                    thief.reachedDestination = false;
+                    
+                }
+                BFSFinder = new pathFinder(placesMatrix, thief);
+                List<Node> currentPath = BFSFinder.pathExists();
+                thief.currentPath = currentPath;
+           
+            }
+            
+           if (buildingExists(thief.getDestination())) {
+                thief.getPosition();
+                if(this.placesMatrix[thief.getY() / 50][thief.getX() / 50]!=null){
+                if (this.placesMatrix[thief.getY() / 50][thief.getX() / 50].getBuildingType().equals(thief.getDestination())) {
+
+                    thief.reachedDestination = true;
+                   // thief.stayThere = true;
+               
+                    System.out.println("thief is in the Police Station");
+         
+                }}
+            } else {
+                changeDirection(thief);
+            }
+            
+              
+        //}
+           
+        });
+     }
+     public void movecopstotheps() {
+        this.cops.forEach(PoliceOfficer -> {
+            //if(!thief.stayThere){
+            
+            pathFinder BFSFinder;
+            if (PoliceOfficer.getDestination() == null || !buildingExists(PoliceOfficer.getDestination()) || PoliceOfficer.reachedDestination) {
+                   PoliceOfficer.policegoestopolstation();
+                      if (PoliceOfficer.reachedDestination) {
+                    PoliceOfficer.reachedDestination = false;
+                    
+                }
+                BFSFinder = new pathFinder(placesMatrix, PoliceOfficer);
+                List<Node> currentPath = BFSFinder.pathExists();
+                PoliceOfficer.currentPath = currentPath;
+           
+            }
+            
+           if (buildingExists(PoliceOfficer.getDestination())) {
+                PoliceOfficer.getPosition();
+                if(this.placesMatrix[PoliceOfficer.getY() / 50][PoliceOfficer.getX() / 50]!=null){
+                if (this.placesMatrix[PoliceOfficer.getY() / 50][PoliceOfficer.getX() / 50].getBuildingType().equals(PoliceOfficer.getDestination())) {
+
+                    PoliceOfficer.reachedDestination = true;
+                   // thief.stayThere = true;
+               
+                    System.out.println("the Police is in the Police Station");
+         
+                }}
+            } else {
+                changeDirection(PoliceOfficer);
+            }
+            
+              
+        //}
+           
+        });
+     }
+    public void movesecuritytothesb() {
+        this.securities.forEach(Security -> {
+            //if(!thief.stayThere){
+            
+            pathFinder BFSFinder;
+            if (Security.getDestination() == null || !buildingExists(Security.getDestination()) || Security.reachedDestination) {
+                  // Security.seccuritygoestosb();
+                   Security.setDestination("SecurityBuilding");
+                   System.out.println("BB:"+Security.getDestination());
+                      if (Security.reachedDestination) {
+                    Security.reachedDestination = false;
+                    
+                }
+                BFSFinder = new pathFinder(placesMatrix, Security);
+                List<Node> currentPath = BFSFinder.pathExists();
+                Security.currentPath = currentPath;
+           
+            }
+            
+           if (buildingExists(Security.getDestination())) {
+              
+                Security.getPosition();
+                if(this.placesMatrix[Security.getY() / 50][Security.getX() / 50]!=null){
+                if (this.placesMatrix[Security.getY() / 50][Security.getX() / 50].getBuildingType().equals(Security.getDestination())) {
+
+                    Security.reachedDestination = true;
+                   // thief.stayThere = true;
+               
+                    System.out.println("Security is in the Security Building");
+         
+                }}
+            } else {
+                System.out.println("AAAAAAAAAAA");
+                changeDirectionofsecurity(Security);
+            }
+            
+              
+        //}
+           
+        });
+     }
+    
+    
+    public void movecopstothesb() {
+        this.cops.forEach(PoliceOfficer -> {
+            //if(!thief.stayThere){
+            
+            pathFinder BFSFinder;
+            if (PoliceOfficer.getDestination() == null || !buildingExists(PoliceOfficer.getDestination()) || PoliceOfficer.reachedDestination) {
+                   PoliceOfficer.policegoestosecuritybuilding();
+                      if (PoliceOfficer.reachedDestination) {
+                    PoliceOfficer.reachedDestination = false;
+                    
+                }
+                BFSFinder = new pathFinder(placesMatrix, PoliceOfficer);
+                List<Node> currentPath = BFSFinder.pathExists();
+                PoliceOfficer.currentPath = currentPath;
+           
+            }
+            
+           if (buildingExists(PoliceOfficer.getDestination())) {
+                PoliceOfficer.getPosition();
+                if(this.placesMatrix[PoliceOfficer.getY() / 50][PoliceOfficer.getX() / 50]!=null){
+                if (this.placesMatrix[PoliceOfficer.getY() / 50][PoliceOfficer.getX() / 50].getBuildingType().equals(PoliceOfficer.getDestination())) {
+
+                    PoliceOfficer.reachedDestination = true;
+                   // thief.stayThere = true;
+               
+                    System.out.println("the Police is in the Police Station");
+         
+                }}
+            } else {
+                changeDirection(PoliceOfficer);
+            }
+            
+              
+        //}
+           
         });
      }
   
      public void moveAllcops() {
         this.cops.forEach(PoliceOfficer -> {
+             pathFinder BFSFinder;
+               if (this.placesMatrix[PoliceOfficer.getY() / 50][PoliceOfficer.getX() / 50].getBuildingType().equals(PoliceOfficer.getDestination())) {
+
+                    PoliceOfficer.reachedDestination = true;}
+         if (PoliceOfficer.getDestination() == null && isThiefInSecBuilding) {
+                PoliceOfficer.policegoestosecuritybuilding();
+                BFSFinder = new pathFinder(placesMatrix, PoliceOfficer);
+                List<Node> currentPath = BFSFinder.pathExists();
+                PoliceOfficer.currentPath = currentPath;
+            }
+          if(PoliceOfficer.reachedDestination==true){
+              PoliceOfficer.reachedDestination=false;
+             atthesameplace=true;
+          PoliceOfficer.policegoestopolstation();
+           BFSFinder = new pathFinder(placesMatrix, PoliceOfficer);
+           List<Node> currentPath = BFSFinder.pathExists();
+           PoliceOfficer.currentPath = currentPath;
+           
+         }
+        
+         
+               if (isThiefInSecBuilding) {
+                PoliceOfficer.getPosition();
+            }
+               else if(atthesameplace){
+               PoliceOfficer.getPosition();
+               }
+              else {
             changeDirection(PoliceOfficer);
+              }
         });
      }
       public void moveAllsecurities() {
+       
         this.securities.forEach(Security -> {
-            if(caught==false){
-            changeDirectionofsecurity(Security);
+               pathFinder BFSFinder;
+              if (Security.getDestination() == null && temp) {
+                Security.seccuritygoestosb();
+                BFSFinder = new pathFinder(placesMatrix, Security);
+                List<Node> currentPath = BFSFinder.pathExists();
+                Security.currentPath = currentPath;
             }
-            else
-            {
+               if (temp == true) {
+                Security.getPosition();
+            }
+              else {
             changeDirection(Security);
-            }
+              }
         });
      }
     
@@ -522,9 +750,11 @@ public class GameArea extends JPanel {
          public void actionPerformed(ActionEvent e) {
              moveAllGuests();
              moveAllThieves();
-             moveAllcops();
+             if(isThiefInSecBuilding){
+             moveAllcops();}
              moveAllsecurities();
              repaint();
+             
          }
      }
 
@@ -573,58 +803,67 @@ public class GameArea extends JPanel {
             }
         }
     }
+
     
     
-    public void steal() {
-         //pathFinder BFSFinder;
-        System.out.println(" ");
-        for (int i = 0; i < thieves.size(); i++) {
-            for (int j = 0; j < guests.size(); j++) {
-                if (guests.get(j).getX() == thieves.get(i).getX() && guests.get(j).getY() == thieves.get(i).getY()) {
+      public void steal() {        
+        for (int i = 0; i < thieves.size(); i++)
+        {
+            for (int j = 0; j < guests.size(); j++)
+            {
+                if (guests.get(j).getX() == thieves.get(i).getX() && guests.get(j).getY() == thieves.get(i).getY())
+                {
 
                     Random rnd = new Random();
                     int randomnumber = rnd.nextInt(100) + 1;
-                    if (thieves.get(i).getSkillevel() > randomnumber) {
-                        //Messagebox.infoBox("Money is stolen", "Attention");
+                    if (thieves.get(i).getSkillevel() > randomnumber)
+                        {
                         System.out.println("Money is stolen");
-                        //isstolen=true;
-                        guests.get(i).pay(Thief.getSkillevel());
-                        //thieves.get(i).smth=true;
-                        movethieftotheden();
-                        guests.get(i).changeMood(Thief.getSkillevel());
-                        //break;
-                        
-                    } else {
-                        //guests.get(i).call_security();
-                        System.out.println("Thief is running");
-                          movethieftotheden();
-//                        thieves.get(i).setDestination("SecurityBuilding");
-//                         BFSFinder = new pathFinder(placesMatrix, thieves.get(i));
-//                         List<Node> currentPath = BFSFinder.pathExists();
-//                         thieves.get(i).currentPath = currentPath;
-//                          if (buildingExists(thieves.get(i).getDestination())) {
-//                          System.out.println("BFS movements");
-//                          thieves.get(i).getPosition();
-                   // }
-                }
-
-            }
-        }
-    }
-    }
-    public void catchthethief(){
-        System.out.println(" ");
-        for (int i = 0; i < thieves.size(); i++) {
-            for (int j = 0; j < securities.size(); j++) {
-                if (securities.get(j).getX() == thieves.get(i).getX() && securities.get(j).getY() == thieves.get(i).getY()) {
-
-                   
-                        Messagebox.infoBox("Thief got caught", "Attention");
+                       tempthiefmoneyvariable=tempthiefmoneyvariable+randomnumber;  
+                       //isstolen=true;
                        
+                     //  catchthethief();
+                        } 
+                    else 
+                        {
+                        System.out.println("Thief is running");
+                        thieves.get(i).stealMoney=true;
+                        tempthiefmoneyvariable=tempthiefmoneyvariable+randomnumber;  
+                               
+                        }
 
-                        thieves.get(i).setDestination("SecurityBuilding");
-                        securities.get(i).setDestination("SecurityBuilding");
-                        cops.get(i).setDestination("SecuirtyBuilding");
+                }
+                
+            }
+            
+        }
+       // if(isstolen||tempthiefmoneyvariable>0)
+        //movethieftotheden();
+        
+    }
+    public void catchthethief()
+    {
+        //System.out.println(" ");
+        for (int i = 0; i < thieves.size(); i++)
+        {
+            for (int j = 0; j < cops.size(); j++) 
+            {
+                if (cops.get(j).getX() == thieves.get(i).getX() && cops.get(j).getY() == thieves.get(i).getY())
+                
+                {
+                        //if(thieves.get(i).stealMoney){
+                        System.out.println("Thief is caught");
+                        //System.out.println(cops.get(i).reachedDestination);
+                        thieves.get(i).isCaught=true;
+                        temp=thieves.get(i).isCaught;
+                        
+                      if(thieves.get(i).getDestination()!=null){
+                      isThiefInSecBuilding=true;
+                          System.out.println("Police is called");
+                      }
+                        //}
+                        
+                      
 
                     
                 }
@@ -632,6 +871,7 @@ public class GameArea extends JPanel {
             }
         }
     }
+    
    
 
 
