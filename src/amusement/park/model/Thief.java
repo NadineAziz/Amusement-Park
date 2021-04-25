@@ -8,8 +8,11 @@ public class Thief extends Person {
 
   
      public static int skillevel;
-     public  int mny=0;
+     public static int mny=0;
+     public boolean stealMoney=false;
      public boolean stayThere = false;
+     public boolean isinthesb=false;
+     public boolean isCaught=false;
     // Random  randomnumber=new Random();
     //stealmoney()
 public Thief(int VOR) {
@@ -56,6 +59,17 @@ public void run(){
   
 //Messagebox.infoBox("Thief is running back to den", "Attention");
 }
+public void thiefgoestosecbuilding(){
+    this.destination="SecurityBuilding";
+  
+//Messagebox.infoBox("Thief is running back to den", "Attention");
+}
+public void thiefgoestopolstation(){
+    this.destination="PoliceStation";
+  
+//Messagebox.infoBox("Thief is running back to den", "Attention");
+}
+
 
  @Override
     public String getDestination(){
