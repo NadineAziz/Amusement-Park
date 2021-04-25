@@ -11,7 +11,7 @@ package amusement.park.model;
  */
 public class Security extends Person {
       public Security() {
-        super("police_officer.png");
+        super("security.png");
         this.setY(750);
     }
     public void seccuritygoestosb(){
