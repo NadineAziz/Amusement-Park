@@ -476,6 +476,7 @@ public class GameArea extends JPanel {
            
          }
             else  if (thief.getDestination() == null && thief.isCaught) {
+              //  setNumofcops(1);
                 thief.thiefgoestosecbuilding();
                 BFSFinder = new pathFinder(placesMatrix, thief);
                 List<Node> currentPath = BFSFinder.pathExists();
