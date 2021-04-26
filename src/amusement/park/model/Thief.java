@@ -18,7 +18,9 @@ public class Thief extends Person {
         Random random = new Random();
         VOR = random.nextInt(100) + 1;
         this.skillevel = VOR;
-        this.setX(200);
+       // this.setX(200);
+        //this.setX(GameArea.aa);
+        //this.setY(GameArea.bb);
     }
 //int 
 

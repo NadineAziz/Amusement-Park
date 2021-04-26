@@ -59,7 +59,8 @@ public class GameArea extends JPanel {
     public boolean isstolen = false;
     public boolean isThiefInSecBuilding = false;
     public boolean atthesameplace = false;
-
+    public static int aa=0;
+    public static int bb=0;
     public int tempthiefmoneyvariable = Thief.mny;
     private final List<Guest> guests = new ArrayList<>();
     private final List<Thief> thieves = new ArrayList<>();
@@ -75,7 +76,6 @@ public class GameArea extends JPanel {
     private GamePanel gpanel;
 
     public GameArea(GamePanel gamePanel) {
-        // gamePanel.payentrancefee(getNumberOfQuests()*Entrancemoney); //bunu harasa qoymaliyam ki pul cixsin
         super();
         this.gpanel = gamePanel;
         startButton = gamePanel.getStartButton();
@@ -117,7 +117,13 @@ public class GameArea extends JPanel {
             return false;
         }
     }
-
+    private boolean canCaveBePlaced(int indexX, int indexY) {
+        if (indexX < numberOfRows && indexY < numberOfCols) {
+            return placesMatrix[indexX][indexY].getBuildingType().equals("Path");
+        } else {
+            return false;
+        }
+    }
     public int getNumberOfQuests() {
         return numberOfQuests;
     }
@@ -168,6 +174,20 @@ public class GameArea extends JPanel {
             return false;
         }
     }
+    private boolean isEnoughSpaceForCave(BasicBuilding building, int startX, int startY) {
+        if ((startX + building.getSize() <= numberOfRows) && (startY + building.getSize() <= numberOfCols)) {
+            for (int x = startX; x < (startX + building.getSize()); x++) {
+                for (int y = startY; y < (startY + building.getSize()); y++) {
+                    if (!canCaveBePlaced(x, y)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     private boolean addBuilding(BasicBuilding building, int indexX, int indexY) {
         if (!checkIfGameExists(building)) {
@@ -185,6 +205,23 @@ public class GameArea extends JPanel {
             return false;
         }
     }
+    private boolean addCave(BasicBuilding building, int indexX, int indexY) {
+        if (!checkIfGameExists(building)) {
+            if (canCaveBePlaced(indexX, indexY) && isEnoughSpaceForCave(building, indexX, indexY)) {
+                for (int x = indexX; x < (indexX + building.getSize()); x++) {
+                    for (int y = indexY; y < (indexY + building.getSize()); y++) {
+                        placesMatrix[x][y] = building;
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+ 
 
     private boolean checkIfGameExists(BasicBuilding building) {
         if (building instanceof BaseGame) {
@@ -283,6 +320,7 @@ public class GameArea extends JPanel {
                 setNumOfThieves(1);
                 setNumofcops(1);
                 setNumOfsecurities(1);
+                placecave();
                 gpanel.payentrancefee(getNumberOfQuests() * Entrancemoney);
             }
             parkOpen = true;
@@ -295,7 +333,6 @@ public class GameArea extends JPanel {
      */
     private void placeRandomBuildings() {
         BasicBuilding policeStation = new PoliceStation();
-        BasicBuilding cave = new ThiefDen();
         BasicBuilding security = new SecurityBuilding();
         //BasicBuilding atm = new ATM();
         int indexX = 0;
@@ -303,18 +340,74 @@ public class GameArea extends JPanel {
         addBuilding(policeStation, indexX, indexY);
         addBuilding(security, indexX, indexY + 15);
 
-        addBuilding(cave, indexX + 5, indexY);
+        //addBuilding(cave, indexX + 5, indexY);
         //tryPlacingBuilding(atm, indexX, indexY);
 
     }
-
+    public void placecave(){
+    BasicBuilding cave = new ThiefDen();
+     int i=0,j=0;
+       /*
+       System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
+       for(int k=0;k<i+j;k++){
+           if(placesMatrix[i][j]!=null)
+             {
+        if (!placesMatrix[i][j].getBuildingType().equals("Path"))
+        {
+                i=random.nextInt(10)+1;
+                j=random.nextInt(10)+1;
+        }
+        else
+        {
+             
+        break;
+        }
+             }
+       }*/
+       boolean found= false;
+       while(!found){
+           i=random.nextInt(9);
+            j=random.nextInt(9);
+            //System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
+           if(placesMatrix[i][j]!=null){
+                if (placesMatrix[i][j].getBuildingType().equals("Path")){
+                    found = true;
+                } else{
+                    i=random.nextInt(9);
+                    j=random.nextInt(9);
+                }
+           } 
+           
+       }
+        if(placesMatrix[i][j].getBuildingType().equals("Path"))
+            {
+                tryPlacingCave(cave, i, j);
+                thieves.get(0).setX(i*50);
+                thieves.get(0).setY(j*50);
+                //System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
+            }
+        
+            
+        
+        
+     
+        System.out.println("indeks "+thieves.get(0).getX());
+        System.out.println("indeks "+thieves.get(0).getY());
+  
+        
+    }
     private void tryPlacingBuilding(BasicBuilding building, int indexX, int indexY) {
         while (!addBuilding(building, indexX, indexY)) {
             indexX = random.nextInt(numberOfRows - 1);
             indexY = random.nextInt(numberOfCols - 1);
         }
     }
-
+    private void tryPlacingCave(BasicBuilding building, int indexX, int indexY) {
+        while (!addCave(building, indexX, indexY)) {
+            indexX = random.nextInt(numberOfRows - 1);
+            indexY = random.nextInt(numberOfCols - 1);
+        }
+    }
     /**
      * guest moves only in path
      */
@@ -322,7 +415,7 @@ public class GameArea extends JPanel {
         int row = (nextY / 50);
         int column = (nextX / 50);
         if (placesMatrix[row][column] != null) {
-            if (placesMatrix[row][column].getBuildingType().equals("Path")) {
+            if(placesMatrix[row][column].getBuildingType().equals("Path")||placesMatrix[row][column].getBuildingType().equals("ThiefDen")){
                 return true;
             }
         }
@@ -455,12 +548,13 @@ public class GameArea extends JPanel {
 
                         //increaseCounter();
                         if (this.placesMatrix[guest.getY() / 50][guest.getX() / 50].getBuildingType().equals("ATM")) {
-                            String value = JOptionPane.showInputDialog(
-                                    GameArea.this,
-                                    "Amount of money:",
-                                    0
-                            );
-                            guest.pay(-Integer.valueOf(value));
+//                            String value = JOptionPane.showInputDialog(
+//                                    GameArea.this,
+//                                    "Amount of money:",
+//                                    0
+//                            );
+                             int num=random.nextInt(100)+101;
+                             guest.pay(-num);
                             System.out.println("Cash withdrawal is done!");
                             changeDirection(guest);
 

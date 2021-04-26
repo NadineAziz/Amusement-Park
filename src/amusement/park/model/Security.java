@@ -13,7 +13,7 @@ public class Security extends Person {
 
     public Security() {
         super("security.png");
-        this.setY(0);
+        this.setY(750);
     }
 
     public void seccuritygoestosb() {
