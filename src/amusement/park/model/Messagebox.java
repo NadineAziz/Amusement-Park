@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package amusement.park.model;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -11,9 +12,8 @@ import javax.swing.JOptionPane;
  * @author User
  */
 public class Messagebox {
-    
-    public static void infoBox(String infoMessage, String titleBar)
-    {
+
+    public static void infoBox(String infoMessage, String titleBar) {
         JOptionPane.showMessageDialog(null, infoMessage, "InfoBox: " + titleBar, JOptionPane.INFORMATION_MESSAGE);
     }
     //ClassNameHere.infoBox("YOUR INFORMATION HERE", "TITLE BAR MESSAGE");

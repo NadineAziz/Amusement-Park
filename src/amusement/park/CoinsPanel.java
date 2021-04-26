@@ -10,7 +10,7 @@ public class CoinsPanel extends JPanel {
     private static final Font font = new Font("SansSerif", Font.BOLD, 18);
 
     private JTextField coinsField;
-    public static int moneyy=100;
+    public static int moneyy = 100;
 
     public CoinsPanel() {
         coinsField = new JTextField(JLabel.CENTER);
@@ -37,7 +37,7 @@ public class CoinsPanel extends JPanel {
         this.coinsField = coinsField;
     }
 
-    public  boolean increaseCoins(int value) {
+    public boolean increaseCoins(int value) {
         int actualValue = Integer.parseInt(coinsField.getText());
         coinsField.setText((actualValue + value) + "");
         return true;
@@ -46,7 +46,7 @@ public class CoinsPanel extends JPanel {
 
     public boolean hasEnoughMoney(int value) {
         int actualValue = Integer.parseInt(coinsField.getText());
-        return  (actualValue  - value) >= 0;
+        return (actualValue - value) >= 0;
     }
 
     public boolean decreaseCoins(int value) {

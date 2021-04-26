@@ -7,11 +7,12 @@ package amusement.park.model.buildings.gardens;
 
 /**
  *
- * @author khaligov
+ * @author PC
  */
-public class Shrub extends Garden {
+public class Trash extends Garden {
 
-    public Shrub() {
-        super("gardens/shrub.png");
+    public Trash(String pic) {
+        super(pic);
     }
+
 }

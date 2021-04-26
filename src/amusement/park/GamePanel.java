@@ -24,6 +24,7 @@ import amusement.park.model.buildings.ATM;
 import java.awt.event.ActionEvent;
 
 public class GamePanel extends JPanel {
+
     private BuildingItem selectedItem;
     private int fps;
     private CoinsPanel coinsPanel;
@@ -68,7 +69,6 @@ public class GamePanel extends JPanel {
         BuildingItem buildingItem11 = new BuildingItem(new ATM());
         buildingItem11.addActionListener(createItemClickedListener());
 
-
         itemsPanel.add(buildingItem1);
         itemsPanel.add(buildingItem2);
         itemsPanel.add(buildingItem3);
@@ -95,7 +95,6 @@ public class GamePanel extends JPanel {
         add(BorderLayout.SOUTH, itemsPanel);
     }
 
-
     public int getFps() {
         return fps;
     }
@@ -115,8 +114,7 @@ public class GamePanel extends JPanel {
         }
     }
 
-    
-    public JButton getStartButton(){
+    public JButton getStartButton() {
         return this.startButton;
     }
 
@@ -129,7 +127,6 @@ public class GamePanel extends JPanel {
             }
         };
     }
-    
 
     public boolean hasEnoughMoney() {
         return coinsPanel.hasEnoughMoney(getSelectedItem().getBuilding().getBuildingPrice());
@@ -138,6 +135,7 @@ public class GamePanel extends JPanel {
     public boolean buyBuilding() {
         return coinsPanel.decreaseCoins(getSelectedItem().getBuilding().getBuildingPrice());
     }
+
     public boolean payentrancefee(int val) {
         return coinsPanel.increaseCoins(val);
     }
@@ -145,7 +143,6 @@ public class GamePanel extends JPanel {
     public BuildingItem getSelectedItem() {
         return selectedItem;
     }
-    
 
     @Override
     protected void paintComponent(Graphics g) {

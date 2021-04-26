@@ -11,18 +11,21 @@ import java.util.List;
  *
  * @author khaligov
  */
-public class Node{
+public class Node {
+
     int x;
     int y;
-    Node(int x,int y){
+
+    Node(int x, int y) {
         this.x = x;
         this.y = y;
     }
-    public int getX(){
+
+    public int getX() {
         return this.x;
     }
-    
-    public int getY(){
+
+    public int getY() {
         return this.y;
     }
 }

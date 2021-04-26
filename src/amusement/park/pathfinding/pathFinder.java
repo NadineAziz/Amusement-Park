@@ -5,7 +5,6 @@
  */
 package amusement.park.pathfinding;
 
-import amusement.park.model.Guest;
 import amusement.park.model.Person;
 import amusement.park.model.buildings.BasicBuilding;
 import java.awt.Point;
@@ -15,9 +14,8 @@ import java.util.*;
  *
  * @author khaligov
  */
-
-
 public class pathFinder {
+
     BasicBuilding[][] matrix;
     Person guest;
     int startX;
@@ -26,49 +24,48 @@ public class pathFinder {
     Point endNode;
     String destination;
     boolean pathExists;
-    int ex,ey;
-    public pathFinder(BasicBuilding[][] positionMatrix,Person guest){
+    int ex, ey;
+
+    public pathFinder(BasicBuilding[][] positionMatrix, Person guest) {
         this.matrix = positionMatrix;
-        this.startX = guest.getY()/50;
-        this.startY = guest.getX()/50;
-        this.startNode = new Point(startX,startY);
+        this.startX = guest.getY() / 50;
+        this.startY = guest.getX() / 50;
+        this.startNode = new Point(startX, startY);
         this.destination = guest.getDestination();
         this.guest = guest;
-        this.endNode = new Point(ex,ey);
-        
+        this.endNode = new Point(ex, ey);
 
-        }
+    }
 
-
-    public List<Node> pathExists(){
+    public List<Node> pathExists() {
         boolean[][] matrixBool = new boolean[9][17];
         //List<Node> queue = new ArrayList<Node>();
         ArrayList<ArrayList<Node>> queue = new ArrayList<ArrayList<Node>>();
         ArrayList<Node> currentPath = new ArrayList<Node>();
-        currentPath.add(new Node(startX,startY));
+        currentPath.add(new Node(startX, startY));
         queue.add(currentPath); // guest position will be added
         boolean pathExists = false;
-        while(queue.size()>0){
+        while (queue.size() > 0) {
             currentPath = queue.get(0);
             queue.remove(0);
-            
+
             Node nextNode = currentPath.get(currentPath.size() - 1);
             //System.out.println("Current node in path: " + nextNode.getX() + " "+ nextNode.getY());
             matrixBool[nextNode.getX()][nextNode.getY()] = true;
-            if(matrix[nextNode.getX()][nextNode.getY()]!=null){
-                if(matrix[nextNode.getX()][nextNode.getY()].getBuildingType().equals(this.destination)){
+            if (matrix[nextNode.getX()][nextNode.getY()] != null) {
+                if (matrix[nextNode.getX()][nextNode.getY()].getBuildingType().equals(this.destination)) {
                     pathExists = true;
                     //currentPath.add(nextNode);
                     return currentPath;
                 }
             }
-            ArrayList<Node> neighbors = getNeighbors(nextNode,matrixBool );
-            
+            ArrayList<Node> neighbors = getNeighbors(nextNode, matrixBool);
+
             for (int i = 0; i < neighbors.size(); i++) {
                 ArrayList<Node> tempPath = new ArrayList<Node>();
 
                 for (Node p : currentPath) {
-                        tempPath.add(p);
+                    tempPath.add(p);
                 }
                 tempPath.add(neighbors.get(i));
                 queue.add(tempPath);
@@ -79,9 +76,9 @@ public class pathFinder {
         //    System.out.println("End Path "+ path.getX() + " " + path.getY()); 
         //});
         return currentPath;
-        
+
     }
-    
+
     public ArrayList<Node> getNeighbors(Node nextNode, boolean[][] visited) {
         int curX = nextNode.x;
         int curY = nextNode.y;
@@ -90,7 +87,7 @@ public class pathFinder {
         // if can check up
         if (curX > 0) {
             Node tempPoint = new Node(curX - 1, curY);
-            if (this.matrix[curX - 1][curY] != null  && isValidPoint(tempPoint, visited)) {
+            if (this.matrix[curX - 1][curY] != null && isValidPoint(tempPoint, visited)) {
                 nextNodes.add(tempPoint);
             }
         }
@@ -120,18 +117,16 @@ public class pathFinder {
         }
         return nextNodes;
     }
-    
-    public boolean isValidPoint(Node curr,boolean[][] matrixBool){
+
+    public boolean isValidPoint(Node curr, boolean[][] matrixBool) {
         int x = curr.getX();
         int y = curr.getY();
-        if((x>=0 && x<9) && (y>=0 && y<17) && this.matrix[x][y]!= null && !matrixBool[x][y]){
-            if(this.matrix[x][y].getBuildingType().equals(destination) || this.matrix[x][y].getBuildingType().equals("Path") ){
+        if ((x >= 0 && x < 9) && (y >= 0 && y < 17) && this.matrix[x][y] != null && !matrixBool[x][y]) {
+            if (this.matrix[x][y].getBuildingType().equals(destination) || this.matrix[x][y].getBuildingType().equals("Path")) {
                 return true;
             }
         }
         return false;
     }
-       
-    
-    
+
 }

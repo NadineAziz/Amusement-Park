@@ -5,19 +5,29 @@
  */
 package amusement.park.model;
 
+import amusement.park.model.buildings.Path;
+import amusement.park.model.buildings.gardens.Trash;
+
 /**
  *
- * @author User
+ * @author PC
  */
-public class Security extends Person {
+public class Cleaner extends Person {
 
-    public Security() {
-        super("security.png");
-        this.setY(0);
+    int startx;
+    int starty;
+    int radius;
+
+    public Cleaner() {
+        super("cleaner.jpeg");
     }
 
-    public void seccuritygoestosb() {
-        this.destination = "SecurityBuilding";
+    public void pickUpTrash(Trash trash) {
+        //if()
+    }
+
+    public void findTrash(Path path) {
+
     }
 
     @Override
