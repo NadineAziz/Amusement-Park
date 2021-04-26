@@ -10,21 +10,23 @@ package amusement.park.model;
  * @author User
  */
 public class Security extends Person {
-      public Security() {
+
+    public Security() {
         super("security.png");
         this.setY(0);
     }
-    public void seccuritygoestosb(){
-      this.destination="SecurityBuilding";
-      }
+
+    public void seccuritygoestosb() {
+        this.destination = "SecurityBuilding";
+    }
+
     @Override
     public void setDestination(String destination) {
         this.destination = destination;
     }
+
     @Override
-    public String getDestination(){
+    public String getDestination() {
         return this.destination;
     }
 }
-
-

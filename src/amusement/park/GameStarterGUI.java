@@ -6,8 +6,8 @@ import java.awt.*;
 import static amusement.park.GameGUI.SCREEN_SIZE;
 
 public class GameStarterGUI {
-    
-     public GameStarterGUI() {
+
+    public GameStarterGUI() {
         // initialization
         JFrame frame = new JFrame();
         JPanel buttonPanel = new JPanel();
@@ -25,7 +25,6 @@ public class GameStarterGUI {
         gameNameLabel.setHorizontalAlignment(JLabel.CENTER);
 
         // Setting up the start frame
-
         // Adding the button panel
         frame.getContentPane().add(gamePicLabel, BorderLayout.NORTH);
         frame.getContentPane().add(gameNameLabel, BorderLayout.CENTER);
@@ -50,25 +49,26 @@ public class GameStarterGUI {
 
         //Should be here to avoid the not appearing bug
         setupFrameAppearance(frame);
-        
+
     }
 
     /**
      * Setting the basic settings for the frame
+     *
      * @param f
      */
-    private void setupFrameSettings(JFrame f){
+    private void setupFrameSettings(JFrame f) {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setPreferredSize(new Dimension(SCREEN_SIZE.width, SCREEN_SIZE.height));
         f.pack();
     }
 
-
     /**
      * Setting the general appearance for the frame
+     *
      * @param f
      */
-    private void setupFrameAppearance(JFrame f){
+    private void setupFrameAppearance(JFrame f) {
         f.setVisible(true);
         f.setResizable(false);
         f.setSize(new Dimension(1300, 600));
@@ -76,9 +76,10 @@ public class GameStarterGUI {
 
     /**
      * Setting up buttons appearance
+     *
      * @param b
      */
-    private void setupButtonAppearance(JButton b){
+    private void setupButtonAppearance(JButton b) {
         b.setPreferredSize(new Dimension(120, 100));
         b.setBackground(new Color(0, 0, 0));
         b.setForeground(Color.WHITE);

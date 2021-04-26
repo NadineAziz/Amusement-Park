@@ -8,13 +8,14 @@ import java.net.MalformedURLException;
 import java.nio.file.Paths;
 
 import static amusement.park.GameArea.UNIT_SIZE;
-import java.io.IOException;
 import java.util.Arrays;
-import javax.imageio.ImageIO;
 
-enum State {BEING_BUILT, IN_USE, NEEDS_TO_BE_REPAIRED}
+enum State {
+    BEING_BUILT, IN_USE, NEEDS_TO_BE_REPAIRED
+}
 
 public class BasicBuilding implements Cloneable {
+
     private final String picture;
     private State state;
     private final int turnsToBeReady;
@@ -27,11 +28,11 @@ public class BasicBuilding implements Cloneable {
     private final int size;
     private String buildingType;
     public long startTimer;
-    private int x,y;
-    public int turnTime = 3; 
-    private final String[] Destinations= {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand"};
+    private int x, y;
+    public int turnTime = 3;
+    private final String[] Destinations = {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand"};
 
-    public BasicBuilding(String picture, int turnsToBeReady,String buildingType) {
+    public BasicBuilding(String picture, int turnsToBeReady, String buildingType) {
         this(picture, turnsToBeReady, 1, buildingType);
         state = state.IN_USE;
     }
@@ -50,68 +51,68 @@ public class BasicBuilding implements Cloneable {
             icon = null;
         }
     }
-    
-    public void setBuildingType(String s){
+
+    public void setBuildingType(String s) {
         this.buildingType = s;
     }
-    
+
     public void breakDownTheGame() {
 
-            if (Arrays.asList(Destinations).contains(this.getBuildingType())) {
-                this.state = state.NEEDS_TO_BE_REPAIRED;
-                this.setBuildingType(this.getBuildingType());
-                try {
-                    this.icon = new ImageIcon(Paths.get("images/" + "fix.png").toUri().toURL());
-                } catch (MalformedURLException ex) {
+        if (Arrays.asList(Destinations).contains(this.getBuildingType())) {
+            this.state = state.NEEDS_TO_BE_REPAIRED;
+            this.setBuildingType(this.getBuildingType());
+            try {
+                this.icon = new ImageIcon(Paths.get("images/" + "fix.png").toUri().toURL());
+            } catch (MalformedURLException ex) {
 
-                    this.icon = null;
-                }
+                this.icon = null;
+            }
 
         }
     }
-    
-    public boolean isWorking(){
+
+    public boolean isWorking() {
         if (!this.state.equals(state.NEEDS_TO_BE_REPAIRED)) {
             return true;
         }
         return false;
     }
-    
-    public void setPrevPic(){
+
+    public void setPrevPic() {
         try {
             this.icon = new ImageIcon(Paths.get("images/" + this.picture).toUri().toURL());
         } catch (MalformedURLException ex) {
 
             this.icon = null;
         }
-        
+
         this.setState(state.IN_USE);
     }
-    
-    public void setState(State s){
+
+    public void setState(State s) {
         this.state = s;
     }
-    
-    public State getState(){
+
+    public State getState() {
         return this.state;
     }
-    
+
     public void setTurnTime(int time) {
         this.turnTime = time;
     }
-    
+
     public int getTurnTime() {
         return this.turnTime;
     }
-    
-    public String getBuildingType(){
+
+    public String getBuildingType() {
         return buildingType;
     }
 
     public int getSize() {
         return size;
     }
-    
+
     public int getTurnsToBeReady() {
         return turnsToBeReady;
     }
@@ -129,23 +130,22 @@ public class BasicBuilding implements Cloneable {
     }
 
     /**
-     * This method is going to increase the mood of the guests
-     * and decrease their money
+     * This method is going to increase the mood of the guests and decrease
+     * their money
      *
      * @param guest
      */
     public void host(Guest guest) {
 
     }
-    
-    public int getX(){
+
+    public int getX() {
         return this.x;
     }
-    
-    public int getY(){
+
+    public int getY() {
         return this.y;
     }
-
 
     public void draw(Graphics graphics, int x, int y) {
         this.x = x;
@@ -157,7 +157,7 @@ public class BasicBuilding implements Cloneable {
             if (auxTurnsToBeReady > 0) {
                 graphics.setColor(Color.yellow);
                 ((Graphics2D) graphics).setStroke(new BasicStroke(5));
-                graphics.drawLine(x, y, x + (unitSize* auxTurnsToBeReady) / turnsToBeReady, y);
+                graphics.drawLine(x, y, x + (unitSize * auxTurnsToBeReady) / turnsToBeReady, y);
                 decreaseTurnsToBeReady();
             } else {
                 if (auxTurnsToBeBroken > 0) {

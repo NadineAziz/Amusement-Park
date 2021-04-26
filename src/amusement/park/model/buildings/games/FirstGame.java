@@ -1,6 +1,5 @@
 package amusement.park.model.buildings.games;
 
-
 public class FirstGame extends BaseGame {
 
     public FirstGame(int moodChange, int valueOfTheProduct, int turnsToBeReady) {

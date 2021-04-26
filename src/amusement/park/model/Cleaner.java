@@ -12,29 +12,31 @@ import amusement.park.model.buildings.gardens.Trash;
  *
  * @author PC
  */
-public class Cleaner extends Person{
+public class Cleaner extends Person {
+
     int startx;
     int starty;
     int radius;
 
-    public Cleaner(){
+    public Cleaner() {
         super("cleaner.jpeg");
     }
-    
+
     public void pickUpTrash(Trash trash) {
         //if()
     }
-    
-    public void findTrash(Path path){
-        
+
+    public void findTrash(Path path) {
+
     }
-    
-@Override
+
+    @Override
     public void setDestination(String destination) {
         this.destination = destination;
     }
-@Override
-    public String getDestination(){
+
+    @Override
+    public String getDestination() {
         return this.destination;
     }
 }

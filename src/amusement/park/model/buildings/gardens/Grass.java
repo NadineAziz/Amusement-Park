@@ -10,7 +10,8 @@ package amusement.park.model.buildings.gardens;
  * @author khaligov
  */
 public class Grass extends Garden {
-    public Grass(){
+
+    public Grass() {
         super("gardens/grass.png");
     }
 }

@@ -6,6 +6,7 @@ import amusement.park.model.buildings.games.BaseGame;
 import javax.swing.*;
 
 public class BuildingItem extends JButton {
+
     private final Building building;
 
     public BuildingItem(Building building) {

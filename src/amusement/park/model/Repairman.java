@@ -5,33 +5,34 @@
  */
 package amusement.park.model;
 
-import amusement.park.model.buildings.BasicBuilding;
 
 /**
  *
  * @author khaligov
  */
-public class Repairman extends Person{
-    public boolean isCalled  = false;
+public class Repairman extends Person {
+
+    public boolean isCalled = false;
     private String destination;
-    public Repairman(){
+
+    public Repairman() {
         super("repairman.png");
         this.reachedDestination = false;
     }
-    
-    public void fixTheGame(String gameType){
+
+    public void fixTheGame(String gameType) {
         this.setDestination(gameType);
     }
-    
-    public void leaveThePark(){
+
+    public void leaveThePark() {
         this.setDestination("PoliceStation");
     }
-    
-    public void setDestination(String destination){
+
+    public void setDestination(String destination) {
         this.destination = destination;
     }
-    
-    public String getDestination(){
+
+    public String getDestination() {
         return this.destination;
     }
 }

@@ -12,8 +12,9 @@ import amusement.park.model.buildings.BasicBuilding;
  * @author User
  */
 public class SecurityBuilding extends BasicBuilding {
+
     public SecurityBuilding() {
-        super("security_building.png", -1, 2,"SecurityBuilding");
+        super("security_building.png", -1, 2, "SecurityBuilding");
     }
-    
+
 }

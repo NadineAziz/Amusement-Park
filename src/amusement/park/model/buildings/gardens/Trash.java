@@ -9,10 +9,10 @@ package amusement.park.model.buildings.gardens;
  *
  * @author PC
  */
-public class Trash extends Garden{
-    
+public class Trash extends Garden {
+
     public Trash(String pic) {
         super(pic);
     }
-    
+
 }

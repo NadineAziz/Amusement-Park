@@ -1,43 +1,36 @@
 package amusement.park.model;
 
-import static amusement.park.GameArea.*;
-import amusement.park.pathfinding.Node;
-
-import java.awt.*;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.List;
 import java.util.Random;
 
-
 public class Guest extends Person {
+
     private final static String[] PHOTOS = {"boy.png", "girl.png", "guy.png", "hippy_boy.png", "small_girl.png"};
-    private final static String[] Destinations= {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand"};
+    private final static String[] Destinations = {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand"};
     private final static Random random = new Random();
 
     //private String destination;
-    private int money=0;
+    private int money = 0;
     private int mood = 0;
-    public boolean isinside=false;
-    public boolean rmv=false;
+    public boolean isinside = false;
+    public boolean rmv = false;
 
     public Guest(int money) {
         super(PHOTOS[random.nextInt(4)]);
         this.money = 100;
-        this.mood=100;
+        this.mood = 100;
     }
 
     public void setMoney(int money) {
         this.money = money;
     }
-    
-    public boolean isDestinationGame(){
+
+    public boolean isDestinationGame() {
         boolean isGame = false;
-        if (this.destination.equals("FirstGame") ){
+        if (this.destination.equals("FirstGame")) {
             isGame = true;
-        }else if(this.destination.equals("SecondGame")){
+        } else if (this.destination.equals("SecondGame")) {
             isGame = true;
-        }else if(this.destination.equals("ThirdGame")){
+        } else if (this.destination.equals("ThirdGame")) {
             isGame = true;
         }
         return isGame;
@@ -52,10 +45,12 @@ public class Guest extends Person {
         int mood = this.mood + change;
         if (mood > 100) {
             this.mood = 100;
-        } else this.mood = Math.max(mood, 0);
+        } else {
+            this.mood = Math.max(mood, 0);
+        }
     }
-    
-    public void waitForIt(int seconds){
+
+    public void waitForIt(int seconds) {
         long start = System.currentTimeMillis();
         // some time passes
         long end = System.currentTimeMillis();
@@ -71,17 +66,17 @@ public class Guest extends Person {
         Messagebox.infoBox("Thief is running", "Security is called");
 
     }
-    public void goToATM(){
-        this.destination="ATM";
+
+    public void goToATM() {
+        this.destination = "ATM";
     }
-   
-    
-    public void generateDestination(){
+
+    public void generateDestination() {
         this.destination = Destinations[random.nextInt(6)];
     }
-    
+
     @Override
-    public String getDestination(){
+    public String getDestination() {
         return this.destination;
     }
 
@@ -93,7 +88,8 @@ public class Guest extends Person {
     public void setDestination(String destination) {
         this.destination = destination;
     }
-    public void leavethepark(){
-    this.destination="PoliceStation";
+
+    public void leavethepark() {
+        this.destination = "PoliceStation";
     }
 }
