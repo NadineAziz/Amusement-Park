@@ -32,6 +32,7 @@ public class Building extends BasicBuilding {
     public void setBuildingPrice(int price) {
         prices.putIfAbsent(getClass(), price);
     }
+    
 
     public int getBuildingPrice() {
         return prices.get(getClass());

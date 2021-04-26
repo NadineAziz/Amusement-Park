@@ -18,6 +18,7 @@ import amusement.park.model.buildings.games.ThirdGame;
 import amusement.park.CoinsPanel;
 import amusement.park.model.Messagebox;
 import amusement.park.model.PoliceOfficer;
+import amusement.park.model.Repairman;
 import amusement.park.model.Security;
 import amusement.park.model.SecurityBuilding;
 import amusement.park.model.Thief;
@@ -63,9 +64,11 @@ public class GameArea extends JPanel {
     private final List<Thief> thieves = new ArrayList<>();
     private final List<PoliceOfficer> cops = new ArrayList<>();
     private final List<Security> securities = new ArrayList<>();
+    private Repairman repairman;
+    private BasicBuilding repairmanDest;
     Clicklistener click = new Clicklistener();
     JButton startButton;
-    long start;
+    //long start;
     long elapsed;
     
     private GamePanel gpanel;
@@ -94,6 +97,7 @@ public class GameArea extends JPanel {
                             gamePanel.buyBuilding();
                             
                             addBuilding(building, indexX, indexY);
+                            building.startTimer = System.currentTimeMillis();
                         }
                     }
                     repaint();
@@ -204,43 +208,95 @@ public class GameArea extends JPanel {
         return false;
     }
     
+    
+    public int getDuration(long start) {
+        long endTime = System.currentTimeMillis();
+        String seconds = ((endTime - start) / 1000) + "";
+        return Integer.parseInt(seconds);
+    }
+    
     private boolean buildingExists(String buildingType){
         for (int i = 0; i < numberOfRows; ++i) {
             for (int j = 0; j < numberOfCols; ++j) {
                 if(placesMatrix[i][j]!= null){
-                    if(placesMatrix[i][j].getBuildingType().equals(buildingType)){
+                    if(placesMatrix[i][j].getBuildingType().equals(buildingType) && placesMatrix[i][j].isWorking()){
                         return true;
                     }
+
+                    
                 }
             }
         }
         return false;
     }
     
+    private BasicBuilding repairmanDestExists(String buildingType){
+        for (int i = 0; i < numberOfRows; ++i) {
+            for (int j = 0; j < numberOfCols; ++j) {
+                if(placesMatrix[i][j]!= null){
+                    if(placesMatrix[i][j].getBuildingType().equals(buildingType) && !placesMatrix[i][j].isWorking()){
+                        repairmanDest = placesMatrix[i][j];
+                        return placesMatrix[i][j];
+                    }
+
+                    
+                }
+            }
+        }
+        return null;
+    }
+    
+    
+    
+    private void checkToBreakDown() {
+        
+        for (int i = 0; i < numberOfRows; ++i) {
+            for (int j = 0; j < numberOfCols; ++j) {
+                if (placesMatrix[i][j] != null) {
+                    if (placesMatrix[i][j] instanceof BaseGame) {
+                        if (getDuration(placesMatrix[i][j].startTimer) > 30) {
+                            placesMatrix[i][j].breakDownTheGame();
+                            if (repairman==null) {
+                                repairman = new Repairman();
+                                this.repairman.setDestination(placesMatrix[i][j].getBuildingType());
+                                repairman.isCalled = true;
+                            } else if (repairman.reachedDestination) {
+                                repairman.setDestination(placesMatrix[i][j].getBuildingType());    
+                                repairman.isCalled = true;
+                                repairman.reachedDestination = false;
+                                    
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    private void gameIsFixed(BasicBuilding game){
+            game.setPrevPic();
+            game.startTimer = System.currentTimeMillis();
+    }
+    
+    
+    
     
     private class Clicklistener implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
-            if(!parkOpen){
+            if (!parkOpen) {
                 setNumOfGuests(3);
-                parkOpen = true;  
+                parkOpen = true;
                 setNumOfThieves(1);
                 setNumofcops(1);
                 setNumOfsecurities(1);
-               // gamePanel.buyBuilding();
-                gpanel.payentrancefee(getNumberOfQuests()*Entrancemoney);
-                //CoinsPanel.increaseCoins(90);
-                
-               //CoinsPanel.moneyy=CoinsPanel.moneyy+Entrancemoney*getNumberOfQuests();
-               //CoinsPanel.getCoinsField().setText((actualValue + value) + "");
-               
-             
-                
-                System.out.println("Button is clicked");
-              //  moveAllGuests();
-                //moveAllcops();
-                parkOpen = true;
+                gpanel.payentrancefee(getNumberOfQuests() * Entrancemoney);
             }
+            parkOpen = true;
+
         }
     }
 
@@ -287,7 +343,31 @@ public class GameArea extends JPanel {
     /**
      * Moves the guests in the matrix
      */
-    
+    public void moveRepairman() {
+        pathFinder BFS;
+        if (repairman != null && repairmanDestExists(repairman.getDestination())!= null) {
+            if (repairman.isCalled) {
+                BFS = new pathFinder(placesMatrix, this.repairman);
+                List<Node> currentPath = BFS.pathExists();
+                repairman.currentPath = currentPath;
+                repairman.isCalled = false;
+            }
+            repairman.getPosition();
+            if (repairmanDest != null) {
+                if (placesMatrix[repairman.getY() / 50][repairman.getX() / 50].getBuildingType().equals(repairman.getDestination())) {
+                    gameIsFixed(repairmanDest);
+                    repairman.reachedDestination = true;
+                }
+               
+            }
+            
+        }else if(repairman!= null){
+            if (repairmanDest==null && !repairman.isCalled && repairman.reachedDestination) {
+                repairman.leaveThePark();
+        }
+        }
+    }
+
     
     public void changeDirection(Person guest) {
         Direction dir = Direction.values()[random.nextInt(4)];
@@ -351,21 +431,10 @@ public class GameArea extends JPanel {
             
           if(guest.rmv==false){
             pathFinder BFSFinder;
-            //steal();
-            //catchthethief();
-//            if(isstolen){
-//            movethieftotheden();
-//            }
-//            if(isthiefcaught){
-//           // movethieftothesb();
-//            movecopstothesb();
-//            };
 
             //if guest has destination, move to the destination
             if (guest.getDestination() == null || !buildingExists(guest.getDestination()) || guest.reachedDestination) {
-                
-                
-                
+                   //checkToBreakDown();
                    if(guest.getMoney()<=0){
                     guest.goToATM();
                     }
@@ -377,7 +446,6 @@ public class GameArea extends JPanel {
             }
                    else
                        guest.generateDestination();
-                //System.out.println(guest.getDestination());
                 if (guest.reachedDestination) {
                     guest.reachedDestination = false;
                     
@@ -394,10 +462,10 @@ public class GameArea extends JPanel {
                     guest.reachedDestination = true;
                     
                   if(guest.getMood()<=0){
-                   guest.rmv=true;
+                    guest.rmv=true;
                    }
                  
-                    
+                    //increaseCounter();
              
                     if (this.placesMatrix[guest.getY() / 50][guest.getX() / 50].getBuildingType().equals("ATM")) {
                         String value = JOptionPane.showInputDialog(
@@ -410,7 +478,6 @@ public class GameArea extends JPanel {
                         changeDirection(guest);
                        
                     }
-                    System.out.println("Yayy guest reached destination");
                     //guest.pay(10);
                     if(!this.placesMatrix[guest.getY() / 50][guest.getX() / 50].getBuildingType().equals("ATM")){
                     gpanel.payentrancefee(10);
@@ -429,24 +496,15 @@ public class GameArea extends JPanel {
                     }
                     if (guest.getMood() <= 0) {
                         System.out.println("Mood tanked");
-                        //guest.leavethepark();
-                        //guest.rmv=true;
-                        //guest.setDestination("HotDogStand");
                     }
-                //System.out.println(guest.getDestination());
-               // if (guest.reachedDestination) {
-                    //guest.reachedDestination = false;
-                    //guests.remove(guest);
-                //}
-                //BFSFinder = new pathFinder(placesMatrix, guest);
-                //List<Node> currentPath = BFSFinder.pathExists();
-                //guest.currentPath = currentPath;
-                    // guest.setDestination("HotDogStand");
+
                 }
-            } else {
+            }
+             else {
                 changeDirection(guest);
             }
-        }});
+          }
+        });
     }
    
     public void moveAllThieves() {
@@ -751,9 +809,11 @@ public class GameArea extends JPanel {
          public void actionPerformed(ActionEvent e) {
              moveAllGuests();
              moveAllThieves();
+             checkToBreakDown();
              if(isThiefInSecBuilding){
              moveAllcops();}
              moveAllsecurities();
+             moveRepairman();
              repaint();
              
          }
@@ -775,6 +835,9 @@ public class GameArea extends JPanel {
         this.securities.forEach(Security -> {
             Security.draw(g);
         });
+        if(this.repairman!= null){
+            repairman.draw(g);
+        }
         
         //guest.draw(g);
         //guest.changeMood(5);
@@ -842,21 +905,22 @@ public class GameArea extends JPanel {
         //movethieftotheden();
         
     }
-    public void catchthethief()
+public void catchthethief()
     {
         //System.out.println(" ");
         for (int i = 0; i < thieves.size(); i++)
         {
-            for (int j = 0; j < cops.size(); j++) 
+            for (int j = 0; j < securities.size(); j++) 
             {
-                if (cops.get(j).getX() == thieves.get(i).getX() && cops.get(j).getY() == thieves.get(i).getY())
+                if (securities.get(j).getX() == thieves.get(i).getX() && securities.get(j).getY() == thieves.get(i).getY())
                 
                 {
                         //if(thieves.get(i).stealMoney){
+                    if(thieves.get(i).stealMoney==true){
                         System.out.println("Thief is caught");
                         //System.out.println(cops.get(i).reachedDestination);
                         thieves.get(i).isCaught=true;
-                        temp=thieves.get(i).isCaught;
+                        temp=thieves.get(i).isCaught;}
                         
                       if(thieves.get(i).getDestination()!=null){
                       isThiefInSecBuilding=true;
@@ -866,8 +930,12 @@ public class GameArea extends JPanel {
                         
                       
 
+ 
+
                     
                 }
+
+ 
 
             }
         }
