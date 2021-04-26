@@ -78,7 +78,6 @@ public class BasicBuilding implements Cloneable {
     }
     
     public void setPrevPic(){
-        System.out.println("setting prev pic");
         try {
             this.icon = new ImageIcon(Paths.get("images/" + this.picture).toUri().toURL());
         } catch (MalformedURLException ex) {
