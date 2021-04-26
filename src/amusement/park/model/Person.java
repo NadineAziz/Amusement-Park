@@ -43,7 +43,6 @@ public class Person {
     public void getPosition(){
         if(!currentPath.isEmpty()){
             this.current = currentPath.remove(0);
-            //System.out.println("Path: "+ current.getX() + " "+ current.getY());
             if(this.current != null){
                 this.moveToIndex();
             }

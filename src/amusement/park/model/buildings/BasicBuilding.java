@@ -8,9 +8,15 @@ import java.net.MalformedURLException;
 import java.nio.file.Paths;
 
 import static amusement.park.GameArea.UNIT_SIZE;
+import java.io.IOException;
+import java.util.Arrays;
+import javax.imageio.ImageIO;
+
+enum State {BEING_BUILT, IN_USE, NEEDS_TO_BE_REPAIRED}
 
 public class BasicBuilding implements Cloneable {
     private final String picture;
+    private State state;
     private final int turnsToBeReady;
     private final int turnsToBeBroken = 10;
     private ImageIcon icon;
@@ -20,11 +26,14 @@ public class BasicBuilding implements Cloneable {
     private int auxTurnsToBeReady;
     private final int size;
     private String buildingType;
+    public long startTimer;
     private int x,y;
     public int turnTime = 3; 
+    private final String[] Destinations= {"FirstGame", "SecondGame", "ThirdGame", "SweetShop", "Buffet", "HotDogStand"};
 
     public BasicBuilding(String picture, int turnsToBeReady,String buildingType) {
         this(picture, turnsToBeReady, 1, buildingType);
+        state = state.IN_USE;
     }
 
     public BasicBuilding(String picture, int turnsToBeReady, int size, String buildingType) {
@@ -33,12 +42,59 @@ public class BasicBuilding implements Cloneable {
         this.turnsToBeReady = turnsToBeReady;
         this.buildingType = buildingType;
         auxTurnsToBeReady = turnsToBeReady;
+        state = state.IN_USE;
         try {
             icon = new ImageIcon(Paths.get("images/" + picture).toUri().toURL());
         } catch (MalformedURLException ex) {
 
             icon = null;
         }
+    }
+    
+    public void setBuildingType(String s){
+        this.buildingType = s;
+    }
+    
+    public void breakDownTheGame() {
+
+            if (Arrays.asList(Destinations).contains(this.getBuildingType())) {
+                this.state = state.NEEDS_TO_BE_REPAIRED;
+                this.setBuildingType(this.getBuildingType());
+                try {
+                    this.icon = new ImageIcon(Paths.get("images/" + "fix.png").toUri().toURL());
+                } catch (MalformedURLException ex) {
+
+                    this.icon = null;
+                }
+
+        }
+    }
+    
+    public boolean isWorking(){
+        if (!this.state.equals(state.NEEDS_TO_BE_REPAIRED)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public void setPrevPic(){
+        System.out.println("setting prev pic");
+        try {
+            this.icon = new ImageIcon(Paths.get("images/" + this.picture).toUri().toURL());
+        } catch (MalformedURLException ex) {
+
+            this.icon = null;
+        }
+        
+        this.setState(state.IN_USE);
+    }
+    
+    public void setState(State s){
+        this.state = s;
+    }
+    
+    public State getState(){
+        return this.state;
     }
     
     public void setTurnTime(int time) {
