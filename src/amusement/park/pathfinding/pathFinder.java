@@ -122,7 +122,7 @@ public class pathFinder {
         int x = curr.getX();
         int y = curr.getY();
         if ((x >= 0 && x < 9) && (y >= 0 && y < 17) && this.matrix[x][y] != null && !matrixBool[x][y]) {
-            if (this.matrix[x][y].getBuildingType().equals(destination) || this.matrix[x][y].getBuildingType().equals("Path")) {
+            if (this.matrix[x][y].getBuildingType().equals(destination) || this.matrix[x][y].getBuildingType().equals("Path")||this.matrix[x][y].getBuildingType().equals("ThiefDen")) {
                 return true;
             }
         }

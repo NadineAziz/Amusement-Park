@@ -17,7 +17,7 @@ public class Guest extends Person {
     public Guest(int money) {
         super(PHOTOS[random.nextInt(4)]);
         this.money = 0;
-        this.mood = 100;
+        this.mood = 100000;
     }
 
     public void setMoney(int money) {

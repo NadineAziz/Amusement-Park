@@ -55,6 +55,7 @@ public class GameArea extends JPanel {
     public final int numberOfCols = GAME_AREA_WIDTH / UNIT_SIZE;
     private boolean parkOpen = false;
     public boolean caught = false;
+    public boolean thiefIsCaught= false;
     public boolean temp = false;
     public boolean isstolen = false;
     public boolean isThiefInSecBuilding = false;
@@ -418,6 +419,7 @@ public class GameArea extends JPanel {
             if(placesMatrix[row][column].getBuildingType().equals("Path")||placesMatrix[row][column].getBuildingType().equals("ThiefDen")){
                 return true;
             }
+           
         }
 
         return false;
@@ -589,7 +591,7 @@ public class GameArea extends JPanel {
 
     public void moveAllThieves() {
 
-        steal();
+       // steal();
         catchthethief();
         this.thieves.forEach(thief -> {
             pathFinder BFSFinder;
@@ -597,7 +599,18 @@ public class GameArea extends JPanel {
 
                 thief.reachedDestination = true;
             }
-            if (thief.getDestination() == null && thief.stealMoney) {
+//            if(thiefIsCaught==true)
+//            { 
+//                
+//                 System.out.println("girirem22222");
+//                  
+//                  thief.thiefgoestosecbuilding();
+//                BFSFinder = new pathFinder(placesMatrix, thief);
+//                List<Node> currentPath = BFSFinder.pathExists();
+//                thief.currentPath = currentPath;
+//            }
+           // else
+                if (thief.getDestination() == null && thief.stealMoney) {
                 thief.run();
                 BFSFinder = new pathFinder(placesMatrix, thief);
                 List<Node> currentPath = BFSFinder.pathExists();
@@ -618,18 +631,23 @@ public class GameArea extends JPanel {
                 thief.currentPath = currentPath;
             }
             ////  if(!thief.stayThere){
-            if (thief.stealMoney == true) {
+            if (thiefIsCaught == true) {
+                thief.getPosition();
+            }
+            else if (thief.stealMoney == true) {
                 thief.getPosition();
             } else if (atthesameplace) {
                 thief.getPosition();
             } else if (thief.isCaught == true) {
                 thief.getPosition();
-            } else {
+            }  
+            else {
                 changeDirection(thief);
             }
             //  }
 
         });
+    
     }
 
     public void movethieftothesb() {
@@ -973,12 +991,13 @@ public class GameArea extends JPanel {
         for (int i = 0; i < thieves.size(); i++) {
             for (int j = 0; j < securities.size(); j++) {
                 if (securities.get(j).getX() == thieves.get(i).getX() && securities.get(j).getY() == thieves.get(i).getY()) {
-                    if (thieves.get(i).stealMoney == true) {
+                   // if (thieves.get(i).stealMoney == true) {
                         System.out.println("Thief is caught");
                         //System.out.println(cops.get(i).reachedDestination);
                         thieves.get(i).isCaught = true;
+                        thiefIsCaught=true;
                         temp = thieves.get(i).isCaught;
-                    }
+                    //}
 
                     if (thieves.get(i).getDestination() != null) {
                         isThiefInSecBuilding = true;
