@@ -18,8 +18,8 @@ import javax.swing.*;
 public class Person {
 
     private ImageIcon icon;
-    private int x = 0;
-    private int y = 100;
+    int x = 0;
+    int y = 100;
     public List<Node> currentPath;
     Node current;
     public String destination;

@@ -1,5 +1,10 @@
 package amusement.park.model;
 
+import static amusement.park.GameArea.UNIT_SIZE;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.Random;
 
 public class Guest extends Person {
@@ -13,11 +18,13 @@ public class Guest extends Person {
     private int mood = 0;
     public boolean isinside = false;
     public boolean rmv = false;
+    //private final int size;
 
     public Guest(int money) {
         super(PHOTOS[random.nextInt(4)]);
         this.money = 0;
-        this.mood = 100000;
+        this.mood = 100;
+       // this.size = size;
     }
 
     public void setMoney(int money) {
@@ -47,6 +54,33 @@ public class Guest extends Person {
             this.mood = 100;
         } else {
             this.mood = Math.max(mood, 0);
+        }
+    }
+
+    public void draw(Graphics graphics) {
+        int x = this.x;
+        int y = this.y;
+        //int unitSize = UNIT_SIZE * getSize();
+        graphics.drawImage(getIcon().getImage(), x, y, UNIT_SIZE, UNIT_SIZE - 15, null);
+        System.out.println("WHORE");  
+        if (this.getMood() > 70 && this.getMood()<=100) {
+            System.out.println("BITCH");  
+            graphics.setColor(Color.red);
+            ((Graphics2D) graphics).setStroke(new BasicStroke(10));
+            graphics.drawLine(x, y, x+UNIT_SIZE , y);
+        } else {
+            if (this.getMood() > 20 && this.mood <= 70) {
+                graphics.setColor(Color.yellow);
+                ((Graphics2D) graphics).setStroke(new BasicStroke(5));
+                graphics.drawLine(x, y, x+UNIT_SIZE , y);
+            } 
+            else {
+                if (this.getMood() <= 20) {
+                    graphics.setColor(Color.red);
+                    ((Graphics2D) graphics).setStroke(new BasicStroke(5));
+                    graphics.drawLine(x, y, x+UNIT_SIZE, y);
+                }
+            }
         }
     }
 
@@ -83,7 +117,7 @@ public class Guest extends Person {
     public int getMood() {
         return mood;
     }
-
+ 
     @Override
     public void setDestination(String destination) {
         this.destination = destination;

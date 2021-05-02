@@ -915,6 +915,7 @@ public class GameArea extends JPanel {
         g.setColor(Color.orange);
         this.guests.forEach(guest -> {
             guest.draw(g);
+            System.out.print("DRAW");
         });
         this.thieves.forEach(thief -> {
             thief.draw(g);

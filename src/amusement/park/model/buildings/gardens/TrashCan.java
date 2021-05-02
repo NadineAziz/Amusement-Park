@@ -9,10 +9,8 @@ package amusement.park.model.buildings.gardens;
  *
  * @author PC
  */
-public class Trash extends Garden {
-
-    public Trash() {
-        super("gardens/trash.png");
+public class TrashCan extends Garden{
+    public TrashCan() {
+        super("gardens/trashcan.png");
     }
-
 }
