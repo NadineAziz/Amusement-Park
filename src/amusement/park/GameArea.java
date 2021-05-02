@@ -22,6 +22,7 @@ import amusement.park.model.Repairman;
 import amusement.park.model.Security;
 import amusement.park.model.SecurityBuilding;
 import amusement.park.model.Thief;
+import amusement.park.model.Cleaner;
 
 import java.util.List;
 import javax.swing.*;
@@ -68,6 +69,7 @@ public class GameArea extends JPanel {
     private final List<PoliceOfficer> cops = new ArrayList<>();
     private final List<Security> securities = new ArrayList<>();
     private Repairman repairman;
+    private Cleaner cleaner;
     private BasicBuilding repairmanDest;
     Clicklistener click = new Clicklistener();
     JButton startButton;
