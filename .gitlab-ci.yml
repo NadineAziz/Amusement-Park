@@ -1,0 +1,9 @@
+test-job1:
+  stage: test
+  script:
+    - mvn test
+
+build-job:
+  stage: build
+  script:
+    - mvn test jar:jar
