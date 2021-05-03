@@ -393,6 +393,8 @@ public class GameArea extends JPanel {
                         guest.generateDestination();
                     }
                     if (guest.reachedDestination) {
+                        //mood increaser if they went to game or restaurant
+                        //guest.changeMood(10);
                         guest.reachedDestination = false;
 
                     }

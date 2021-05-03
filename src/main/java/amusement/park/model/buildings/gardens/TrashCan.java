@@ -6,12 +6,11 @@
 package amusement.park.model.buildings.gardens;
 
 /**
+ *
  * @author PC
  */
-public class Trash extends Garden {
-
-    public Trash(String pic) {
-        super("garden/trash.png", 1);
+public class TrashCan extends Garden{
+    public TrashCan() {
+        super("gardens/trashcan.png", 2);
     }
-
 }

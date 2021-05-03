@@ -28,13 +28,15 @@ public class Cleaner extends Person {
     public void findTrash(Path path) {
 
     }
+    
+    public void leaveThePark() {
+        this.setDestination("PoliceStation");
+    }
 
-    @Override
     public String getDestination() {
         return this.destination;
     }
 
-    @Override
     public void setDestination(String destination) {
         this.destination = destination;
     }

@@ -20,6 +20,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 import static amusement.park.GameGUI.SCREEN_SIZE;
+import amusement.park.model.buildings.gardens.TrashCan;
 
 public class GamePanel extends JPanel {
 
@@ -68,6 +69,8 @@ public class GamePanel extends JPanel {
         buildingItem10.addActionListener(createItemClickedListener());
         BuildingItem buildingItem11 = new BuildingItem(new ATM());
         buildingItem11.addActionListener(createItemClickedListener());
+        BuildingItem buildingItem12 = new BuildingItem(new TrashCan());
+        buildingItem12.addActionListener(createItemClickedListener());
 
 
         itemsPanel.add(buildingItem1);
@@ -81,6 +84,7 @@ public class GamePanel extends JPanel {
         itemsPanel.add(buildingItem9);
         itemsPanel.add(buildingItem10);
         itemsPanel.add(buildingItem11);
+        itemsPanel.add(buildingItem12);
 
         JPanel jPanel1 = new JPanel();
         jPanel1.setPreferredSize(new Dimension(200, SCREEN_SIZE.height));
