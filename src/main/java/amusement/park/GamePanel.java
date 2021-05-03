@@ -14,7 +14,7 @@ import amusement.park.model.buildings.restaurants.Buffet;
 import amusement.park.model.buildings.restaurants.HotDogStand;
 import amusement.park.model.buildings.restaurants.SweetShop;
 import amusement.park.ui.BuildingItem;
-
+import amusement.park.model.SecurityBuilding;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -71,7 +71,8 @@ public class GamePanel extends JPanel {
         buildingItem11.addActionListener(createItemClickedListener());
         BuildingItem buildingItem12 = new BuildingItem(new TrashCan());
         buildingItem12.addActionListener(createItemClickedListener());
-
+        BuildingItem buildingItem13 = new BuildingItem(new SecurityBuilding());
+        buildingItem13.addActionListener(createItemClickedListener());
 
         itemsPanel.add(buildingItem1);
         itemsPanel.add(buildingItem2);
@@ -85,6 +86,7 @@ public class GamePanel extends JPanel {
         itemsPanel.add(buildingItem10);
         itemsPanel.add(buildingItem11);
         itemsPanel.add(buildingItem12);
+        itemsPanel.add(buildingItem13);
 
         JPanel jPanel1 = new JPanel();
         jPanel1.setPreferredSize(new Dimension(200, SCREEN_SIZE.height));

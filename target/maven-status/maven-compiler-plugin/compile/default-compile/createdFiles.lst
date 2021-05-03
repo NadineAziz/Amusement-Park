@@ -13,6 +13,7 @@ amusement\park\pathfinding\PathFinder.class
 amusement\park\model\buildings\games\BaseGame.class
 amusement\park\model\buildings\restaurants\Restaurant.class
 amusement\park\pathfinding\Node.class
+amusement\park\model\buildings\gardens\TrashCan.class
 amusement\park\model\buildings\ThiefDen.class
 amusement\park\model\PoliceOfficer.class
 amusement\park\model\Repairman.class
