@@ -57,6 +57,44 @@ public class GameArea extends JPanel {
     private Repairman repairman;
     private BasicBuilding repairmanDest;
     private GamePanel gpanel;
+    
+    //NEW THINGS REGARDING MOOD
+    private int numOfGarbage = 10;
+    private int numOfPlants = 0;
+    
+    public int getNumOfGarbage() {
+        return numOfGarbage;
+    }
+    //NEW THIGNS REGARDING MOOD
+    public void setNumOfGarbage(int numOfGarbage) {
+        this.numOfGarbage = numOfGarbage;
+    }
+    //NEW THIGNS REGARDING MOOD
+    public int getNumOfPlants() {
+        return numOfPlants;
+    }    
+    //NEW THIGNS REGARDING MOOD
+    public void setNumOfPlants(int numOfPlants) {
+        this.numOfPlants = numOfPlants;
+    }
+    //NEW THIGNS REGARDING MOOD
+    public void addGarbage() {
+        this.numOfGarbage += 1;
+    }
+    //NEW THIGNS REGARDING MOOD
+    public void addPlant() {
+        this.numOfPlants += 1;
+    }
+    //NEW THIGNS REGARDING MOOD - CHANGE -1,0 AND 1 VALUES IN ORDER TO INCREASE/DECREASE THE MOOD CHANGE
+    public int moodChangeAmountPerMove()
+    {
+        if (numOfGarbage > numOfPlants)
+            return -1; 
+        else if (numOfGarbage == numOfPlants)
+            return 0;
+        else
+            return 1;
+    }
 
     public GameArea(GamePanel gamePanel) {
         super();
@@ -394,7 +432,7 @@ public class GameArea extends JPanel {
                     }
                     if (guest.reachedDestination) {
                         //mood increaser if they went to game or restaurant
-                        //guest.changeMood(10);
+                        guest.changeMood(10);
                         guest.reachedDestination = false;
 
                     }
@@ -461,6 +499,10 @@ public class GameArea extends JPanel {
                 } else {
                     changeDirection(guest);
                 }
+                int amountOfMoodChange = this.moodChangeAmountPerMove();
+                System.out.println(guest.getMood());
+                guest.changeMood(amountOfMoodChange);
+                System.out.println(guest.getMood());
             }
         });
     }

@@ -13,9 +13,9 @@ import amusement.park.model.buildings.gardens.Trash;
  */
 public class Cleaner extends Person {
 
-    int startx;
-    int starty;
-    int radius;
+    //int startx;
+    //int starty;
+    //int radius;
 
     public Cleaner() {
         super("cleaner.jpeg");
@@ -33,10 +33,12 @@ public class Cleaner extends Person {
         this.setDestination("PoliceStation");
     }
 
+    @Override
     public String getDestination() {
         return this.destination;
     }
 
+    @Override
     public void setDestination(String destination) {
         this.destination = destination;
     }

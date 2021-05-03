@@ -77,13 +77,13 @@ public class Guest extends Person {
         } else {
             if (this.getMood() > 20 && this.mood <= 70) {
                 graphics.setColor(Color.yellow);
-                ((Graphics2D) graphics).setStroke(new BasicStroke(5));
+                ((Graphics2D) graphics).setStroke(new BasicStroke(10));
                 graphics.drawLine(x, y, x+UNIT_SIZE , y);
             } 
             else {
                 if (this.getMood() <= 20) {
                     graphics.setColor(Color.red);
-                    ((Graphics2D) graphics).setStroke(new BasicStroke(5));
+                    ((Graphics2D) graphics).setStroke(new BasicStroke(10));
                     graphics.drawLine(x, y, x+UNIT_SIZE, y);
                 }
             }
