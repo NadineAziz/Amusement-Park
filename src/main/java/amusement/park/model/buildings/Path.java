@@ -33,7 +33,7 @@ public class Path extends Building {
     /**
      * This method is going to check whether path has trashcan or not
      *
-     * @param
+     * @return test
      */
     public boolean hasTrashCan() {
         return false;

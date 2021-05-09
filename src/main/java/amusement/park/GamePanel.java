@@ -106,6 +106,10 @@ public class GamePanel extends JPanel {
         return fps;
     }
 
+    /**
+     * Getting price that the guests are going to pay for each building
+     * @return 
+     */
     private int getPrice() {
         while (true) {
             try {

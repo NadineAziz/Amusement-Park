@@ -65,6 +65,10 @@ public class Guest extends Person {
         }
     }
     
+    /**
+     * Mood tracker for guests
+     * @param graphics 
+     */
     public void draw(Graphics graphics) {
         int x = this.x;
         int y = this.y;

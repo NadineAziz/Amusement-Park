@@ -96,6 +96,10 @@ public class GameArea extends JPanel {
             return 1;
     }
 
+    /**
+     * Setting game UI
+     * @param gamePanel 
+     */
     public GameArea(GamePanel gamePanel) {
         super();
         this.gpanel = gamePanel;
@@ -203,7 +207,9 @@ public class GameArea extends JPanel {
         }
         return null;
     }
-
+    /**
+     * Checking if game is broken down and sets destination for the repairman 
+     */
     private void checkToBreakDown() {
         for (int i = 0; i < numberOfRows; ++i) {
             for (int j = 0; j < numberOfCols; ++j) {
@@ -362,6 +368,9 @@ public class GameArea extends JPanel {
 
     /**
      * guest moves only in path
+     * @param nextX next x position for guest step
+     * @param nextY next y position for guest step
+     * @return 
      */
     public boolean guestMoveInPath(int nextX, int nextY) {
         int row = (nextY / 50);
