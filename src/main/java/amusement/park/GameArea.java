@@ -140,6 +140,14 @@ public class GameArea extends JPanel {
 
     }
 
+    public int getNumberOfThieves() {
+        return numberOfThieves;
+    }
+
+    public int getNumofsecurities() {
+        return numofsecurities;
+    }
+
     public int getNumberOfQuests() {
         return numberOfQuests;
     }
