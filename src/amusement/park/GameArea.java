@@ -20,7 +20,7 @@ import amusement.park.model.Messagebox;
 import amusement.park.model.PoliceOfficer;
 import amusement.park.model.Repairman;
 import amusement.park.model.Security;
-import amusement.park.model.SecurityBuilding;
+//import amusement.park.model.SecurityBuilding;
 import amusement.park.model.Thief;
 import amusement.park.model.Cleaner;
 
@@ -324,6 +324,7 @@ public class GameArea extends JPanel {
                 setNumofcops(1);
                 setNumOfsecurities(1);
                 placecave();
+               // placesecurity();
                 gpanel.payentrancefee(getNumberOfQuests() * Entrancemoney);
             }
             parkOpen = true;
@@ -336,12 +337,12 @@ public class GameArea extends JPanel {
      */
     private void placeRandomBuildings() {
         BasicBuilding policeStation = new PoliceStation();
-        BasicBuilding security = new SecurityBuilding();
+        //BasicBuilding security = new SecurityBuilding();
         //BasicBuilding atm = new ATM();
         int indexX = 0;
         int indexY = 0;
         addBuilding(policeStation, indexX, indexY);
-        addBuilding(security, indexX, indexY + 15);
+        //addBuilding(security, indexX, indexY + 15);
 
         //addBuilding(cave, indexX + 5, indexY);
         //tryPlacingBuilding(atm, indexX, indexY);
@@ -396,6 +397,56 @@ public class GameArea extends JPanel {
      
         System.out.println("indeks "+thieves.get(0).getX());
         System.out.println("indeks "+thieves.get(0).getY());
+  
+        
+    }
+    
+    public void placesecurity(){
+    //BasicBuilding securityb = new SecurityBuilding();
+     int i=0,j=0;
+       /*
+       System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
+       for(int k=0;k<i+j;k++){
+           if(placesMatrix[i][j]!=null)
+             {
+        if (!placesMatrix[i][j].getBuildingType().equals("Path"))
+        {
+                i=random.nextInt(10)+1;
+                j=random.nextInt(10)+1;
+        }
+        else
+        {
+             
+        break;
+        }
+             }
+       }*/
+       boolean found= false;
+       while(!found){
+           i=random.nextInt(8);
+            j=random.nextInt(8);
+            //System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
+           if(placesMatrix[i][j]!=null){
+                
+                    i=random.nextInt(9);
+                    j=random.nextInt(9);
+                
+           } 
+           
+       }
+      
+                tryPlacingBuilding(securityb, i, j);
+                securities.get(0).setX(i*50);
+                securities.get(0).setY(j*50);
+                //System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
+            
+        
+            
+        
+        
+     
+        System.out.println("indeks "+securities.get(0).getX());
+        System.out.println("indeks "+securities.get(0).getY());
   
         
     }

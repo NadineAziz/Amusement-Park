@@ -57,6 +57,44 @@ public class GameArea extends JPanel {
     private Repairman repairman;
     private BasicBuilding repairmanDest;
     private GamePanel gpanel;
+    
+    //NEW THINGS REGARDING MOOD
+    private int numOfGarbage = 10;
+    private int numOfPlants = 0;
+    
+    public int getNumOfGarbage() {
+        return numOfGarbage;
+    }
+    //NEW THIGNS REGARDING MOOD
+    public void setNumOfGarbage(int numOfGarbage) {
+        this.numOfGarbage = numOfGarbage;
+    }
+    //NEW THIGNS REGARDING MOOD
+    public int getNumOfPlants() {
+        return numOfPlants;
+    }    
+    //NEW THIGNS REGARDING MOOD
+    public void setNumOfPlants(int numOfPlants) {
+        this.numOfPlants = numOfPlants;
+    }
+    //NEW THIGNS REGARDING MOOD
+    public void addGarbage() {
+        this.numOfGarbage += 1;
+    }
+    //NEW THIGNS REGARDING MOOD
+    public void addPlant() {
+        this.numOfPlants += 1;
+    }
+    //NEW THIGNS REGARDING MOOD - CHANGE -1,0 AND 1 VALUES IN ORDER TO INCREASE/DECREASE THE MOOD CHANGE
+    public int moodChangeAmountPerMove()
+    {
+        if (numOfGarbage > numOfPlants)
+            return -1; 
+        else if (numOfGarbage == numOfPlants)
+            return 0;
+        else
+            return 1;
+    }
 
     public GameArea(GamePanel gamePanel) {
         super();
@@ -200,20 +238,67 @@ public class GameArea extends JPanel {
      */
     private void placeRandomBuildings() {
         BasicBuilding policeStation = new PoliceStation();
-        BasicBuilding security = new SecurityBuilding();
+        //BasicBuilding security = new SecurityBuilding();
         //BasicBuilding atm = new ATM();
         int indexX = 0;
         int indexY = 0;
         this.placeManager.addBuilding(policeStation, indexX, indexY);
-        this.placeManager.addBuilding(security, indexX, indexY + 15);
+        //this.placeManager.addBuilding(security, indexX, indexY + 15);
 
         //addBuilding(cave, indexX + 5, indexY);
         //tryPlacingBuilding(atm, indexX, indexY);
 
     }
-
-    public void placecave() {
+ public void placecave() {
         BasicBuilding cave = new ThiefDen();
+        int i = 0, j = 0;
+       /*
+       System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
+       for(int k=0;k<i+j;k++){
+           if(placesMatrix[i][j]!=null)
+             {
+        if (!placesMatrix[i][j].getBuildingType().equals("Path"))
+        {
+                i=random.nextInt(10)+1;
+                j=random.nextInt(10)+1;
+        }
+        else
+        {
+
+        break;
+        }
+             }
+       }*/
+        boolean found = false;
+        while (!found) {
+            i = random.nextInt(9);
+            j = random.nextInt(9);
+            //System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
+            if (this.placeManager.getPlace(i, j) != null) {
+                if (this.placeManager.getPlace(i, j).getBuildingType().equals("Path")) {
+                    found = true;
+                } else {
+                    i = random.nextInt(9);
+                    j = random.nextInt(9);
+                }
+            }
+
+        }
+        if (this.placeManager.getPlace(i, j).getBuildingType().equals("Path")) {
+            tryPlacingCave(cave, i, j);
+            thieves.get(0).setX(i * 50);
+            thieves.get(0).setY(j * 50);
+            //System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
+        }
+
+
+        System.out.println("indeks " + thieves.get(0).getX());
+        System.out.println("indeks " + thieves.get(0).getY());
+
+
+    }
+    public void placesec() {
+        BasicBuilding cave = new SecurityBuilding();
         int i = 0, j = 0;
        /*
        System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
@@ -393,6 +478,8 @@ public class GameArea extends JPanel {
                         guest.generateDestination();
                     }
                     if (guest.reachedDestination) {
+                        //mood increaser if they went to game or restaurant
+                        guest.changeMood(10);
                         guest.reachedDestination = false;
 
                     }
@@ -459,6 +546,10 @@ public class GameArea extends JPanel {
                 } else {
                     changeDirection(guest);
                 }
+                int amountOfMoodChange = this.moodChangeAmountPerMove();
+                System.out.println(guest.getMood());
+                guest.changeMood(amountOfMoodChange);
+                System.out.println(guest.getMood());
             }
         });
     }

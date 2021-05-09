@@ -61,10 +61,8 @@ public class Guest extends Person {
         int x = this.x;
         int y = this.y;
         //int unitSize = UNIT_SIZE * getSize();
-        graphics.drawImage(getIcon().getImage(), x, y, UNIT_SIZE, UNIT_SIZE - 15, null);
-        System.out.println("WHORE");  
+        graphics.drawImage(getIcon().getImage(), x, y, UNIT_SIZE, UNIT_SIZE - 15, null); 
         if (this.getMood() > 70 && this.getMood()<=100) {
-            System.out.println("BITCH");  
             graphics.setColor(Color.red);
             ((Graphics2D) graphics).setStroke(new BasicStroke(10));
             graphics.drawLine(x, y, x+UNIT_SIZE , y);
