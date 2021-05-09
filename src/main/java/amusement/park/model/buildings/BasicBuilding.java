@@ -143,7 +143,12 @@ public class BasicBuilding implements Cloneable {
     public int getY() {
         return this.y;
     }
-
+    /**
+     * Drawing building UI to graphics
+     * @param graphics game panel UI
+     * @param x position of the building
+     * @param y position of the building
+     */
     public void draw(Graphics graphics, int x, int y) {
         this.x = x;
         this.y = y;

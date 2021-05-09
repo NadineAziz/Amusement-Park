@@ -45,6 +45,6 @@ public class GameGUI {
     private void setupFrameAppearance(JFrame f) {
         f.setVisible(true);
         f.setResizable(false);
-        f.setSize(new Dimension(1300, 800));
+        f.setSize(new Dimension(2000, 800));
     }
 }
