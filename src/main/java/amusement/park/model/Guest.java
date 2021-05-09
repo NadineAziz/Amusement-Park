@@ -23,7 +23,7 @@ public class Guest extends Person {
 
     public Guest(int money) {
         super(PHOTOS[random.nextInt(4)]);
-        this.money = 0;
+        this.money = money;
         this.mood = 1000;
     }
 
@@ -46,11 +46,11 @@ public class Guest extends Person {
     public void pay(int price) throws NotEnoughMoneyException {
         int auxMoney = money - price;
         if (auxMoney >= 0) {
-            if (coinsPanel != null) {
-                money = money - price;
+            //if (coinsPanel != null) {
+                this.money = money - price;
                 this.money = Math.max(money, 0);
-                coinsPanel.increaseCoins(price);
-            }
+                //coinsPanel.increaseCoins(price);
+            //}
         } else {
             throw new NotEnoughMoneyException();
         }

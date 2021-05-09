@@ -118,10 +118,10 @@ public class Person {
     }
 
     public String getDestination() {
-        return null;
+        return this.destination;
     }
 
     public void setDestination(String destination) {
-
+        this.destination = destination;
     }
 }
