@@ -1,32 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package amusement.park;
 
-import static amusement.park.GameGUI.SCREEN_SIZE;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
+import java.awt.*;
 
-/**
- *
- * @author Family
- */
+import static amusement.park.GameGUI.SCREEN_SIZE;
+
 public class CoinsPanel extends JPanel {
-    
+
     private static final Font font = new Font("SansSerif", Font.BOLD, 18);
-    
+
     private JTextField coinsField;
-    
+    public static int moneyy = 100;
+
     public CoinsPanel() {
         coinsField = new JTextField(JLabel.CENTER);
         coinsField.setFont(font);
-        coinsField.setText("100");
+        coinsField.setText(String.valueOf(moneyy));
         coinsField.setEditable(false);
         coinsField.setSize(new Dimension(250, 20));
 
@@ -39,21 +28,35 @@ public class CoinsPanel extends JPanel {
         add(coinsLabel);
         add(coinsField);
     }
-    
-    public void increaseCoins(int value) {
-       int actualValue = Integer.parseInt(coinsField.getText());
-       coinsField.setText((actualValue + value) + "");
-      
+
+    public JTextField getCoinsField() {
+        return coinsField;
     }
-    
-    public boolean decreaseCoins(int value) {
-       int actualValue = Integer.parseInt(coinsField.getText());
-       if (actualValue - value > 0) {
+
+    public void setCoinsField(JTextField coinsField) {
+        this.coinsField = coinsField;
+    }
+
+    public boolean increaseCoins(int value) {
+        int actualValue = Integer.parseInt(coinsField.getText());
         coinsField.setText((actualValue + value) + "");
         return true;
-       } else {
-        return false;
-       }
+
     }
-    
+
+    public boolean hasEnoughMoney(int value) {
+        int actualValue = Integer.parseInt(coinsField.getText());
+        return (actualValue - value) >= 0;
+    }
+
+    public boolean decreaseCoins(int value) {
+        int actualValue = Integer.parseInt(coinsField.getText());
+        if (hasEnoughMoney(value)) {
+            coinsField.setText((actualValue - value) + "");
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

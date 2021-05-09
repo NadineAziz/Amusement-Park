@@ -1,12 +1,14 @@
 package amusement.park.model.buildings.games;
 
-import amusement.park.model.buildings.Building;
+public class FirstGame extends BaseGame {
 
+    public FirstGame(int moodChange, int valueOfTheProduct, int turnsToBeReady) {
+        super("game1.png", moodChange, valueOfTheProduct, turnsToBeReady, "FirstGame");
+        this.setTurnTime(6);
+    }
 
-public class FirstGame extends Building {
-    
     public FirstGame() {
-        super("games/game1.png", 5, 10, 10);
+        this(5, 10, 10);
     }
 
     @Override

@@ -9,8 +9,9 @@ package amusement.park.model.buildings.gardens;
  *
  * @author khaligov
  */
-public class Tree extends Garden{
-    public Tree(){
+public class Tree extends Garden {
+
+    public Tree() {
         super("gardens/tree.png");
     }
 }
