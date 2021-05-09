@@ -1,5 +1,8 @@
-default:
-  image: maven:latest
+image: ubuntu:20.10
+
+stages:
+  - build
+  - test
 
 variables:
   MAVEN_CLI_OPTS: "-s .m2/settings.xml --batch-mode"
