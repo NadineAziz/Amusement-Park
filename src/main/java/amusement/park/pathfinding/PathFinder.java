@@ -38,10 +38,12 @@ public class PathFinder {
         this.endNode = new Point(ex, ey);
 
     }
-
+    /**
+     * Breadth First Search algorithm.
+     * @return list of destination path's nodes.
+     */
     public List<Node> pathExists() {
         boolean[][] matrixBool = new boolean[9][17];
-        //List<Node> queue = new ArrayList<Node>();
         ArrayList<ArrayList<Node>> queue = new ArrayList<ArrayList<Node>>();
         ArrayList<Node> currentPath = new ArrayList<Node>();
         currentPath.add(new Node(startX, startY));
@@ -52,12 +54,10 @@ public class PathFinder {
             queue.remove(0);
 
             Node nextNode = currentPath.get(currentPath.size() - 1);
-            //System.out.println("Current node in path: " + nextNode.getX() + " "+ nextNode.getY());
             matrixBool[nextNode.getX()][nextNode.getY()] = true;
             if (matrix[nextNode.getX()][nextNode.getY()] != null) {
                 if (matrix[nextNode.getX()][nextNode.getY()].getBuildingType().equals(this.destination)) {
                     pathExists = true;
-                    //currentPath.add(nextNode);
                     return currentPath;
                 }
             }
@@ -73,14 +73,16 @@ public class PathFinder {
                 queue.add(tempPath);
             }
         }
-        //System.out.println(pathExists ? "YES" : "NO");
-        //currentPath.forEach(path -> {
-        //    System.out.println("End Path "+ path.getX() + " " + path.getY()); 
-        //});
         return currentPath;
 
     }
 
+    /**
+     * 
+     * @param nextNode currently checked node
+     * @param visited matrix array of visited nodes
+     * @return nodes that are adjacent to currently checked node
+     */
     public ArrayList<Node> getNeighbors(Node nextNode, boolean[][] visited) {
         int curX = nextNode.x;
         int curY = nextNode.y;
@@ -120,6 +122,12 @@ public class PathFinder {
         return nextNodes;
     }
 
+    /**
+     * 
+     * @param curr is currently checked node
+     * @param matrixBool is contains all visited nodes as true
+     * @return if next node is in board and is either Path, destination or thiefDen.
+     */
     public boolean isValidPoint(Node curr, boolean[][] matrixBool) {
         int x = curr.getX();
         int y = curr.getY();

@@ -47,7 +47,6 @@ public class GameArea extends JPanel {
     public int tempthiefmoneyvariable = Thief.mny;
     Clicklistener click = new Clicklistener();
     JButton startButton;
-    //long start;
     long elapsed;
     private int numberOfQuests = 0;
     private int numberOfThieves = 0;
@@ -57,48 +56,55 @@ public class GameArea extends JPanel {
     private Repairman repairman;
     private BasicBuilding repairmanDest;
     private GamePanel gpanel;
-    
+
     //NEW THINGS REGARDING MOOD
     private int numOfGarbage = 10;
     private int numOfPlants = 0;
-    
+
     public int getNumOfGarbage() {
         return numOfGarbage;
     }
+
     //NEW THIGNS REGARDING MOOD
     public void setNumOfGarbage(int numOfGarbage) {
         this.numOfGarbage = numOfGarbage;
     }
+
     //NEW THIGNS REGARDING MOOD
     public int getNumOfPlants() {
         return numOfPlants;
-    }    
+    }
+
     //NEW THIGNS REGARDING MOOD
     public void setNumOfPlants(int numOfPlants) {
         this.numOfPlants = numOfPlants;
     }
+
     //NEW THIGNS REGARDING MOOD
     public void addGarbage() {
         this.numOfGarbage += 1;
     }
+
     //NEW THIGNS REGARDING MOOD
     public void addPlant() {
         this.numOfPlants += 1;
     }
+
     //NEW THIGNS REGARDING MOOD - CHANGE -1,0 AND 1 VALUES IN ORDER TO INCREASE/DECREASE THE MOOD CHANGE
-    public int moodChangeAmountPerMove()
-    {
-        if (numOfGarbage > numOfPlants)
-            return -1; 
-        else if (numOfGarbage == numOfPlants)
+    public int moodChangeAmountPerMove() {
+        if (numOfGarbage > numOfPlants) {
+            return -1;
+        } else if (numOfGarbage == numOfPlants) {
             return 0;
-        else
+        } else {
             return 1;
+        }
     }
 
     /**
      * Setting game UI
-     * @param gamePanel 
+     *
+     * @param gamePanel
      */
     public GameArea(GamePanel gamePanel) {
         super();
@@ -172,21 +178,6 @@ public class GameArea extends JPanel {
         }
     }
 
-    private boolean isEnoughSpace(BasicBuilding building, int startX, int startY) {
-        if ((startX + building.getSize() <= numberOfRows) && (startY + building.getSize() <= numberOfCols)) {
-            for (int x = startX; x < (startX + building.getSize()); x++) {
-                for (int y = startY; y < (startY + building.getSize()); y++) {
-                    if (!placeManager.canBePlaced(x, y)) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     public int getDuration(long start) {
         long endTime = System.currentTimeMillis();
         String seconds = ((endTime - start) / 1000) + "";
@@ -207,8 +198,9 @@ public class GameArea extends JPanel {
         }
         return null;
     }
+
     /**
-     * Checking if game is broken down and sets destination for the repairman 
+     * Checking if game is broken down and sets destination for the repairman
      */
     private void checkToBreakDown() {
         for (int i = 0; i < numberOfRows; ++i) {
@@ -234,6 +226,12 @@ public class GameArea extends JPanel {
         }
     }
 
+    /**
+     *
+     * @param game needs to be fixed Repairman fixes game by setting original
+     * game picture startTimer starts time so after some time game will be
+     * broken again
+     */
     private void gameIsFixed(BasicBuilding game) {
         game.setPrevPic();
         game.startTimer = System.currentTimeMillis();
@@ -244,42 +242,19 @@ public class GameArea extends JPanel {
      */
     private void placeRandomBuildings() {
         BasicBuilding policeStation = new PoliceStation();
-        //BasicBuilding security = new SecurityBuilding();
-        //BasicBuilding atm = new ATM();
         int indexX = 0;
         int indexY = 0;
         this.placeManager.addBuilding(policeStation, indexX, indexY);
-        //this.placeManager.addBuilding(security, indexX, indexY + 15);
-
-        //addBuilding(cave, indexX + 5, indexY);
-        //tryPlacingBuilding(atm, indexX, indexY);
 
     }
- public void placecave() {
+
+    public void placecave() {
         BasicBuilding cave = new ThiefDen();
         int i = 0, j = 0;
-       /*
-       System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
-       for(int k=0;k<i+j;k++){
-           if(placesMatrix[i][j]!=null)
-             {
-        if (!placesMatrix[i][j].getBuildingType().equals("Path"))
-        {
-                i=random.nextInt(10)+1;
-                j=random.nextInt(10)+1;
-        }
-        else
-        {
-
-        break;
-        }
-             }
-       }*/
         boolean found = false;
         while (!found) {
             i = random.nextInt(9);
             j = random.nextInt(9);
-            //System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
             if (this.placeManager.getPlace(i, j) != null) {
                 if (this.placeManager.getPlace(i, j).getBuildingType().equals("Path")) {
                     found = true;
@@ -294,68 +269,6 @@ public class GameArea extends JPanel {
             tryPlacingCave(cave, i, j);
             thieves.get(0).setX(i * 50);
             thieves.get(0).setY(j * 50);
-            //System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
-        }
-
-
-        System.out.println("indeks " + thieves.get(0).getX());
-        System.out.println("indeks " + thieves.get(0).getY());
-
-
-    }
-    public void placesec() {
-        BasicBuilding cave = new SecurityBuilding();
-        int i = 0, j = 0;
-       /*
-       System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
-       for(int k=0;k<i+j;k++){
-           if(placesMatrix[i][j]!=null)
-             {
-        if (!placesMatrix[i][j].getBuildingType().equals("Path"))
-        {
-                i=random.nextInt(10)+1;
-                j=random.nextInt(10)+1;
-        }
-        else
-        {
-
-        break;
-        }
-             }
-       }*/
-        boolean found = false;
-        while (!found) {
-            i = random.nextInt(9);
-            j = random.nextInt(9);
-            //System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
-            if (this.placeManager.getPlace(i, j) != null) {
-                if (this.placeManager.getPlace(i, j).getBuildingType().equals("Path")) {
-                    found = true;
-                } else {
-                    i = random.nextInt(9);
-                    j = random.nextInt(9);
-                }
-            }
-
-        }
-        if (this.placeManager.getPlace(i, j).getBuildingType().equals("Path")) {
-            tryPlacingCave(cave, i, j);
-            thieves.get(0).setX(i * 50);
-            thieves.get(0).setY(j * 50);
-            //System.out.println("aaaaaaaaaaaaaa"+i+" "+j);
-        }
-
-
-        System.out.println("indeks " + thieves.get(0).getX());
-        System.out.println("indeks " + thieves.get(0).getY());
-
-
-    }
-
-    private void tryPlacingBuilding(BasicBuilding building, int indexX, int indexY) {
-        while (!this.placeManager.addBuilding(building, indexX, indexY)) {
-            indexX = random.nextInt(numberOfRows - 1);
-            indexY = random.nextInt(numberOfCols - 1);
         }
     }
 
@@ -368,9 +281,10 @@ public class GameArea extends JPanel {
 
     /**
      * guest moves only in path
+     *
      * @param nextX next x position for guest step
      * @param nextY next y position for guest step
-     * @return 
+     * @return
      */
     public boolean guestMoveInPath(int nextX, int nextY) {
         int row = (nextY / 50);
@@ -395,7 +309,7 @@ public class GameArea extends JPanel {
                 repairman.currentPath = BFS.pathExists();
                 repairman.isCalled = false;
             }
-            repairman.getPosition();
+            repairman.moveTowardsDestination();
             if (repairmanDest != null) {
                 int repairManX = repairman.getY() / 50;
                 int repairManY = repairman.getX() / 50;
@@ -413,59 +327,68 @@ public class GameArea extends JPanel {
         }
     }
 
-    public void changeDirection(Person guest) {
+    /**
+     * Random movement for person
+     * @param person Person that will be moved randomly
+     */
+    public void changeDirection(Person person) {
         Direction dir = Direction.values()[random.nextInt(4)];
         if (dir == Direction.UP) {
-            if (guest.getY() > 0) {
-                if (guestMoveInPath(guest.getX(), (guest.getY() - 50))) {
-                    guest.move(0, -50);
+            if (person.getY() > 0) {
+                if (guestMoveInPath(person.getX(), (person.getY() - 50))) {
+                    person.move(0, -50);
                 }
             }
         } else if (dir == Direction.DOWN) {
-            if (guest.getY() < 400) {
-                if (guestMoveInPath(guest.getX(), guest.getY() + 50)) {
-                    guest.move(0, 50);
+            if (person.getY() < 400) {
+                if (guestMoveInPath(person.getX(), person.getY() + 50)) {
+                    person.move(0, 50);
                 }
             }
         } else if (dir == Direction.LEFT) {
-            if (guest.getX() > 0) {
-                if (guestMoveInPath((guest.getX() - 50), guest.getY())) {
-                    guest.move(-50, 0);
+            if (person.getX() > 0) {
+                if (guestMoveInPath((person.getX() - 50), person.getY())) {
+                    person.move(-50, 0);
                 }
             }
         } else if (dir == Direction.RIGHT) {
-            if (guest.getX() < 800) {
-                if (guestMoveInPath(guest.getX() + 50, guest.getY())) {
-                    guest.move(50, 0);
+            if (person.getX() < 800) {
+                if (guestMoveInPath(person.getX() + 50, person.getY())) {
+                    person.move(50, 0);
                 }
             }
         }
     }
+    
 
-    public void changeDirectionofsecurity(Person guest) {
+    /**
+     * 
+     * @param person Security will be moved randomly but with slower speed
+     */
+    public void changeDirectionofsecurity(Person person) {
         Direction dir = Direction.values()[random.nextInt(4)];
         if (dir == Direction.UP) {
-            if (guest.getY() > 0) {
-                if (guestMoveInPath(guest.getX(), (guest.getY() - 10))) {
-                    guest.move(0, -10);
+            if (person.getY() > 0) {
+                if (guestMoveInPath(person.getX(), (person.getY() - 10))) {
+                    person.move(0, -10);
                 }
             }
         } else if (dir == Direction.DOWN) {
-            if (guest.getY() < 400) {
-                if (guestMoveInPath(guest.getX(), guest.getY() + 10)) {
-                    guest.move(0, 10);
+            if (person.getY() < 400) {
+                if (guestMoveInPath(person.getX(), person.getY() + 10)) {
+                    person.move(0, 10);
                 }
             }
         } else if (dir == Direction.LEFT) {
-            if (guest.getX() > 0) {
-                if (guestMoveInPath((guest.getX() - 10), guest.getY())) {
-                    guest.move(-10, 0);
+            if (person.getX() > 0) {
+                if (guestMoveInPath((person.getX() - 10), person.getY())) {
+                    person.move(-10, 0);
                 }
             }
         } else if (dir == Direction.RIGHT) {
-            if (guest.getX() < 800) {
-                if (guestMoveInPath(guest.getX() + 10, guest.getY())) {
-                    guest.move(10, 0);
+            if (person.getX() < 800) {
+                if (guestMoveInPath(person.getX() + 10, person.getY())) {
+                    person.move(10, 0);
                 }
             }
         }
@@ -476,13 +399,10 @@ public class GameArea extends JPanel {
             if (!guest.rmv) {
                 //if guest has destination, move to the destination
                 if (guest.getDestination() == null || !this.placeManager.buildingExists(guest.getDestination()) || guest.reachedDestination) {
-                    //checkToBreakDown();
                     if (guest.getMoney() <= 0) {
                         guest.goToATM();
                     } else if (guest.getMood() <= 0) {
                         guest.leaveThePark();
-                        //guest.reachedDestination=true;
-
                     } else {
                         guest.generateDestination();
                     }
@@ -490,14 +410,12 @@ public class GameArea extends JPanel {
                         //mood increaser if they went to game or restaurant
                         guest.changeMood(10);
                         guest.reachedDestination = false;
-
                     }
                     PathFinder BFSFinder = new PathFinder(this.placeManager, guest);
                     guest.currentPath = BFSFinder.pathExists();
-                    //start = System.currentTimeMillis();
                 }
                 if (this.placeManager.buildingExists(guest.getDestination())) {
-                    guest.getPosition();
+                    guest.moveTowardsDestination();
                     System.out.println("guest position: " + guest.getY() / 50 + " " + guest.getX() / 50);
                     int guestX = guest.getY() / 50;
                     int guestY = guest.getX() / 50;
@@ -513,31 +431,16 @@ public class GameArea extends JPanel {
                                     ((Building) destinationBuilding).performAction(guest);
                                 }
                             }
-
-                            //increaseCounter();
                             if (this.placeManager.getPlace(guest.getY() / 50, guest.getX() / 50).getBuildingType().equals("ATM")) {
-//                            String value = JOptionPane.showInputDialog(
-//                                    GameArea.this,
-//                                    "Amount of money:",
-//                                    0
-//                            );
                                 int num = random.nextInt(100) + 101;
                                 guest.fillPocket(num);
                                 System.out.println("Cash withdrawal is done!");
                                 changeDirection(guest);
 
                             }
-                            //guest.pay(10);
                             if (!this.placeManager.getPlace(guest.getY() / 50, guest.getX() / 50).getBuildingType().equals("ATM")) {
                                 gpanel.payEntranceFee(10);
                             }
-                            //guest.changeMood(10);
-                            int guestInBuildingSecs = this.placeManager.getPlace(guest.getY() / 50, guest.getX() / 50).getTurnTime();
-                            // elapsed = System.currentTimeMillis() - start;
-                            // if(elapsed>guestInBuildingSecs*1000){
-                            //     guest.reachedDestination = true;
-                            // }
-                            // System.out.println("elapsed secs "+ elapsed/1000);
                             try {
                                 guest.pay(10);
                             } catch (Guest.NotEnoughMoneyException ignored) {
@@ -573,17 +476,7 @@ public class GameArea extends JPanel {
 
                 thief.reachedDestination = true;
             }
-//            if(thiefIsCaught==true)
-//            {
-//
-//                 System.out.println("girirem22222");
-//
-//                  thief.thiefgoestosecbuilding();
-//                BFSFinder = new pathFinder(placesMatrix, thief);
-//                List<Node> currentPath = BFSFinder.pathExists();
-//                thief.currentPath = currentPath;
-//            }
-            // else
+
             if (thief.getDestination() == null && thief.stealMoney) {
                 thief.run();
                 BFSFinder = new PathFinder(this.placeManager, thief);
@@ -596,24 +489,21 @@ public class GameArea extends JPanel {
                 thief.currentPath = BFSFinder.pathExists();
 
             } else if (thief.getDestination() == null && thief.isCaught) {
-                //  setNumofcops(1);
                 thief.thiefgoestosecbuilding();
                 BFSFinder = new PathFinder(this.placeManager, thief);
                 thief.currentPath = BFSFinder.pathExists();
             }
-            ////  if(!thief.stayThere){
             if (thiefIsCaught) {
-                thief.getPosition();
+                thief.moveTowardsDestination();
             } else if (thief.stealMoney) {
-                thief.getPosition();
+                thief.moveTowardsDestination();
             } else if (atthesameplace) {
-                thief.getPosition();
+                thief.moveTowardsDestination();
             } else if (thief.isCaught) {
-                thief.getPosition();
+                thief.moveTowardsDestination();
             } else {
                 changeDirection(thief);
             }
-            //  }
 
         });
 
@@ -621,8 +511,6 @@ public class GameArea extends JPanel {
 
     public void movethieftothesb() {
         this.thieves.forEach(thief -> {
-            //if(!thief.stayThere){
-
             PathFinder BFSFinder;
             if (thief.getDestination() == null || !this.placeManager.buildingExists(thief.getDestination()) || thief.reachedDestination) {
                 thief.thiefgoestosecbuilding();
@@ -636,29 +524,21 @@ public class GameArea extends JPanel {
             }
 
             if (this.placeManager.buildingExists(thief.getDestination())) {
-                thief.getPosition();
+                thief.moveTowardsDestination();
                 if (this.placeManager.getPlace(thief.getY() / 50, thief.getX() / 50) != null) {
                     if (this.placeManager.getPlace(thief.getY() / 50, thief.getX() / 50).getBuildingType().equals(thief.getDestination())) {
 
                         thief.reachedDestination = true;
-                        // thief.stayThere = true;
-
-                        System.out.println("thief is in the Security Building");
-
                     }
                 }
             } else {
                 changeDirection(thief);
             }
-
-            //}
         });
     }
 
     public void movethieftotheps() {
         this.thieves.forEach(thief -> {
-            //if(!thief.stayThere){
-
             PathFinder BFSFinder;
             if (thief.getDestination() == null || !this.placeManager.buildingExists(thief.getDestination()) || thief.reachedDestination) {
                 thief.thiefgoestopolstation();
@@ -672,29 +552,20 @@ public class GameArea extends JPanel {
             }
 
             if (this.placeManager.buildingExists(thief.getDestination())) {
-                thief.getPosition();
+                thief.moveTowardsDestination();
                 if (this.placeManager.getPlace(thief.getY() / 50, thief.getX() / 50) != null) {
                     if (this.placeManager.getPlace(thief.getY() / 50, thief.getX() / 50).getBuildingType().equals(thief.getDestination())) {
-
                         thief.reachedDestination = true;
-                        // thief.stayThere = true;
-
-                        System.out.println("thief is in the Police Station");
-
                     }
                 }
             } else {
                 changeDirection(thief);
             }
-
-            //}
         });
     }
 
     public void movecopstotheps() {
         this.cops.forEach(PoliceOfficer -> {
-            //if(!thief.stayThere){
-
             PathFinder BFSFinder;
             if (PoliceOfficer.getDestination() == null || !this.placeManager.buildingExists(PoliceOfficer.getDestination()) || PoliceOfficer.reachedDestination) {
                 PoliceOfficer.policegoestopolstation();
@@ -708,32 +579,25 @@ public class GameArea extends JPanel {
             }
 
             if (this.placeManager.buildingExists(PoliceOfficer.getDestination())) {
-                PoliceOfficer.getPosition();
+                PoliceOfficer.moveTowardsDestination();
                 if (this.placeManager.getPlace(PoliceOfficer.getY() / 50, PoliceOfficer.getX() / 50) != null) {
                     if (this.placeManager.getPlace(PoliceOfficer.getY() / 50, PoliceOfficer.getX() / 50).getBuildingType().equals(PoliceOfficer.getDestination())) {
 
                         PoliceOfficer.reachedDestination = true;
-                        // thief.stayThere = true;
-
-                        System.out.println("the Police is in the Police Station");
 
                     }
                 }
             } else {
                 changeDirection(PoliceOfficer);
             }
-
-            //}
         });
     }
 
     public void movesecuritytothesb() {
         this.securities.forEach(Security -> {
-            //if(!thief.stayThere){
 
             PathFinder BFSFinder;
             if (Security.getDestination() == null || !this.placeManager.buildingExists(Security.getDestination()) || Security.reachedDestination) {
-                // Security.seccuritygoestosb();
                 Security.setDestination("SecurityBuilding");
                 System.out.println("BB:" + Security.getDestination());
                 if (Security.reachedDestination) {
@@ -747,30 +611,20 @@ public class GameArea extends JPanel {
 
             if (this.placeManager.buildingExists(Security.getDestination())) {
 
-                Security.getPosition();
+                Security.moveTowardsDestination();
                 if (this.placeManager.getPlace(Security.getY() / 50, Security.getX() / 50) != null) {
                     if (this.placeManager.getPlace(Security.getY() / 50, Security.getX() / 50).getBuildingType().equals(Security.getDestination())) {
-
                         Security.reachedDestination = true;
-                        // thief.stayThere = true;
-
-                        System.out.println("Security is in the Security Building");
-
                     }
                 }
             } else {
-                System.out.println("AAAAAAAAAAA");
                 changeDirectionofsecurity(Security);
             }
-
-            //}
         });
     }
 
     public void movecopstothesb() {
         this.cops.forEach(PoliceOfficer -> {
-            //if(!thief.stayThere){
-
             PathFinder BFSFinder;
             if (PoliceOfficer.getDestination() == null || !this.placeManager.buildingExists(PoliceOfficer.getDestination()) || PoliceOfficer.reachedDestination) {
                 PoliceOfficer.policegoestosecuritybuilding();
@@ -784,22 +638,16 @@ public class GameArea extends JPanel {
             }
 
             if (this.placeManager.buildingExists(PoliceOfficer.getDestination())) {
-                PoliceOfficer.getPosition();
+                PoliceOfficer.moveTowardsDestination();
                 if (this.placeManager.getPlace(PoliceOfficer.getY() / 50, PoliceOfficer.getX() / 50) != null) {
                     if (this.placeManager.getPlace(PoliceOfficer.getY() / 50, PoliceOfficer.getX() / 50).getBuildingType().equals(PoliceOfficer.getDestination())) {
 
                         PoliceOfficer.reachedDestination = true;
-                        // thief.stayThere = true;
-
-                        System.out.println("the Police is in the Police Station");
-
                     }
                 }
             } else {
                 changeDirection(PoliceOfficer);
             }
-
-            //}
         });
     }
 
@@ -825,9 +673,9 @@ public class GameArea extends JPanel {
             }
 
             if (isThiefInSecBuilding) {
-                PoliceOfficer.getPosition();
+                PoliceOfficer.moveTowardsDestination();
             } else if (atthesameplace) {
-                PoliceOfficer.getPosition();
+                PoliceOfficer.moveTowardsDestination();
             } else {
                 changeDirection(PoliceOfficer);
             }
@@ -844,7 +692,7 @@ public class GameArea extends JPanel {
                 Security.currentPath = BFSFinder.pathExists();
             }
             if (temp) {
-                Security.getPosition();
+                Security.moveTowardsDestination();
             } else {
                 changeDirection(Security);
             }
@@ -870,9 +718,6 @@ public class GameArea extends JPanel {
         if (this.repairman != null) {
             repairman.draw(g);
         }
-
-        //guest.draw(g);
-        //guest.changeMood(5);
 //          Display a grid
         for (int i = 0; i <= GAME_AREA_WIDTH / UNIT_SIZE; i++) {
             g.drawLine(i * UNIT_SIZE, 0, i * UNIT_SIZE, GAME_AREA_HEIGHT);
@@ -900,6 +745,9 @@ public class GameArea extends JPanel {
         }
     }
 
+    /**
+     * Thief steal money from Guest, if they are on the same tile, and thief's skillLevel is high enough.
+     */
     public void steal() {
         for (Thief thief : thieves) {
             for (Guest guest : guests) {
@@ -909,9 +757,6 @@ public class GameArea extends JPanel {
                     int randomnumber = rnd.nextInt(100) + 1;
                     if (Thief.getSkillevel() > randomnumber) {
                         System.out.println("Money is stolen");
-                        //isstolen=true;
-
-                        //  catchthethief();
                     } else {
                         System.out.println("Thief is running");
                         thief.stealMoney = true;
@@ -924,38 +769,33 @@ public class GameArea extends JPanel {
             }
 
         }
-        // if(isstolen||tempthiefmoneyvariable>0)
-        //movethieftotheden();
 
     }
 
+    /**
+     *  Security will try catch the Thief that has stolen money from guests. 
+     */
     public void catchthethief() {
-        //System.out.println(" ");
         for (Thief thief : thieves) {
             for (Security security : securities) {
                 if (security.getX() == thief.getX() && security.getY() == thief.getY()) {
-                    // if (thieves.get(i).stealMoney == true) {
                     System.out.println("Thief is caught");
-                    //System.out.println(cops.get(i).reachedDestination);
                     thief.isCaught = true;
                     thiefIsCaught = true;
                     temp = true;
-                    //}
-
                     if (thief.getDestination() != null) {
                         isThiefInSecBuilding = true;
                         System.out.println("Police is called");
                     }
-                    //}
-
                 }
-
             }
         }
     }
 
+    /**
+     * startButton actionListener is used to openGame, and guests and others can get in park.
+     */
     private class Clicklistener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             if (!parkOpen) {
@@ -972,6 +812,9 @@ public class GameArea extends JPanel {
         }
     }
 
+    /**
+     * moves all people, Timer calls NewFrameListener.
+     */
     class NewFrameListener implements ActionListener {
 
         @Override

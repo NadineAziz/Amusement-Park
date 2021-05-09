@@ -16,7 +16,6 @@ public class Guest extends Person {
     private final static Random random = new Random();
     public boolean isinside = false;
     public boolean rmv = false;
-    //private String destination;
     private int money = 0;
     private int mood = 0;
     public static CoinsPanel coinsPanel = null;
@@ -72,7 +71,6 @@ public class Guest extends Person {
     public void draw(Graphics graphics) {
         int x = this.x;
         int y = this.y;
-        //int unitSize = UNIT_SIZE * getSize();
         graphics.drawImage(getIcon().getImage(), x, y, UNIT_SIZE, UNIT_SIZE - 15, null);  
         if (this.getMood() > 70 && this.getMood()<=100) {
             graphics.setColor(Color.red);
@@ -92,15 +90,6 @@ public class Guest extends Person {
                 }
             }
         }
-    }
-
-
-    public void waitForIt(int seconds) {
-        long start = System.currentTimeMillis();
-        // some time passes
-        long end = System.currentTimeMillis();
-        long elapsedTime = end - start;
-        System.out.println(elapsedTime);
     }
 
     public int getMoney() {

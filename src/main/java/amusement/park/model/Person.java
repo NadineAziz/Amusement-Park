@@ -37,8 +37,10 @@ public class Person {
             Logger.getLogger(Person.class.getName()).log(Level.INFO, "AAAAA", ex);
         }
     }
-
-    public void getPosition() {
+    /**
+     *  gets position from currentPath, moves person to that direction
+     */
+    public void moveTowardsDestination() {
         if (!currentPath.isEmpty()) {
             this.current = currentPath.remove(0);
             if (this.current != null) {
@@ -46,7 +48,9 @@ public class Person {
             }
         }
     }
-
+    /**
+     *  get Node from Path and checks if it is possible to move there.
+     */
     public void moveToIndex() {
         if (this.current != null) {
             int nextRow = this.current.getX();
