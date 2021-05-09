@@ -7,6 +7,7 @@ amusement\park\GameArea.class
 amusement\park\model\buildings\Path.class
 amusement\park\model\buildings\restaurants\HotDogStand.class
 amusement\park\model\buildings\Building.class
+amusement\park\CoinsManagerImpl.class
 amusement\park\model\buildings\gardens\Shrub.class
 amusement\park\model\SecurityBuilding.class
 amusement\park\pathfinding\PathFinder.class
@@ -14,6 +15,7 @@ amusement\park\model\buildings\games\BaseGame.class
 amusement\park\model\buildings\restaurants\Restaurant.class
 amusement\park\pathfinding\Node.class
 amusement\park\model\buildings\ThiefDen.class
+amusement\park\CoinsManager.class
 amusement\park\model\PoliceOfficer.class
 amusement\park\model\Repairman.class
 amusement\park\GameArea$1.class

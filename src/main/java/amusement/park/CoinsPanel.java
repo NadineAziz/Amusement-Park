@@ -5,16 +5,17 @@ import java.awt.*;
 
 import static amusement.park.GameGUI.SCREEN_SIZE;
 
-public class CoinsPanel extends JPanel {
+public class CoinsPanel extends JPanel implements CoinsManager {
 
     private static final Font font = new Font("SansSerif", Font.BOLD, 18);
-    public static int moneyy = 100;
     private JTextField coinsField;
+    private final CoinsManager coinsManager;
 
     public CoinsPanel() {
+        this.coinsManager = new CoinsManagerImpl(); 
         coinsField = new JTextField(JLabel.CENTER);
         coinsField.setFont(font);
-        coinsField.setText(String.valueOf(moneyy));
+        coinsField.setText(String.valueOf(coinsManager.getValue()));
         coinsField.setEditable(false);
         coinsField.setSize(new Dimension(250, 20));
 
@@ -36,29 +37,32 @@ public class CoinsPanel extends JPanel {
         this.coinsField = coinsField;
     }
 
+    @Override
     public boolean increaseCoins(int value) {
-        int actualValue = Integer.parseInt(coinsField.getText());
-        coinsField.setText((actualValue + value) + "");
-        return true;
+        boolean ret = coinsManager.increaseCoins(value);
+        coinsField.setText(coinsManager.getValue() + "");
+        return ret;
 
     }
 
+    @Override
     public boolean hasEnoughMoney(int value) {
-        int actualValue = Integer.parseInt(coinsField.getText());
-        return (actualValue - value) >= 0;
+        return coinsManager.hasEnoughMoney(value);
     }
 
+    @Override
     public boolean decreaseCoins(int value) {
-        int actualValue = Integer.parseInt(coinsField.getText());
-        if (hasEnoughMoney(value)) {
-            coinsField.setText((actualValue - value) + "");
-            return true;
+        boolean canDecrease = coinsManager.decreaseCoins(value);
+        if (canDecrease) {
+            coinsField.setText(coinsManager.getValue() + "");
+            return canDecrease;
         } else {
-            return false;
+            return canDecrease;
         }
     }
 
+    @Override
     public Integer getValue() {
-        return Integer.parseInt(coinsField.getText());
+        return this.coinsManager.getValue();
     }
 }

@@ -105,7 +105,7 @@ public class GamePanel extends JPanel {
             try {
                 String value = JOptionPane.showInputDialog(
                         GamePanel.this,
-                        "Price of the building",
+                        "Product price: ",
                         0
                 );
                 if (value != null) {

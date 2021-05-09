@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="amusement.park.PlaceManagerTest" time="3.386" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="amusement.park.CoinsManagerTest" time="0.017" tests="2" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="14"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,8 +15,9 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-14.0.2\bin"/>
-    <property name="sun.java.command" value="C:\Users\Family\AppData\Local\Temp\surefire9452240398525438226\surefirebooter10850337729208920130.jar C:\Users\Family\AppData\Local\Temp\surefire9452240398525438226 2021-05-03T11-29-57_713-jvmRun1 surefire17217677308551029902tmp surefire_014520900156076472916tmp"/>
+    <property name="sun.java.command" value="C:\Users\Family\AppData\Local\Temp\surefire12175691788107711189\surefirebooter10110719941207611715.jar C:\Users\Family\AppData\Local\Temp\surefire12175691788107711189 2021-05-09T15-48-26_797-jvmRun1 surefire69416830078346957tmp surefire_02125426094262912991tmp"/>
     <property name="jdk.debug" value="release"/>
+    <property name="test" value="amusement.park.CoinsManagerTest"/>
     <property name="surefire.test.class.path" value="C:\Users\Family\Documents\NetBeansProjects\gr2021\gr2021\target\test-classes;C:\Users\Family\Documents\NetBeansProjects\gr2021\gr2021\target\classes;C:\Users\Family\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\Family\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\Family"/>
@@ -30,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Family\AppData\Local\Temp\surefire9452240398525438226\surefirebooter10850337729208920130.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Family\AppData\Local\Temp\surefire12175691788107711189\surefirebooter10110719941207611715.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="14.0.2+12-46"/>
@@ -56,8 +57,6 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="58.0"/>
   </properties>
-  <testcase name="test_addingTheSameGame2Times" classname="amusement.park.PlaceManagerTest" time="2.864"/>
-  <testcase name="test_addingBuildingToAFreeSpace" classname="amusement.park.PlaceManagerTest" time="0.433"/>
-  <testcase name="test_getCorrectPlace" classname="amusement.park.PlaceManagerTest" time="0.088"/>
-  <testcase name="test_canBePlaced" classname="amusement.park.PlaceManagerTest" time="0.001"/>
+  <testcase name="test_increasingMoney" classname="amusement.park.CoinsManagerTest" time="0.002"/>
+  <testcase name="test_decreasingMoney" classname="amusement.park.CoinsManagerTest" time="0"/>
 </testsuite>
