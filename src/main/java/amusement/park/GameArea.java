@@ -3,10 +3,12 @@ package amusement.park;
 import amusement.park.model.*;
 import amusement.park.model.buildings.BasicBuilding;
 import amusement.park.model.buildings.Building;
+import amusement.park.model.buildings.Path;
 import amusement.park.model.buildings.PoliceStation;
 import amusement.park.model.buildings.ThiefDen;
 import amusement.park.model.buildings.games.BaseGame;
 import amusement.park.model.buildings.gardens.Trash;
+import amusement.park.model.buildings.gardens.TrashCan;
 import amusement.park.pathfinding.PathFinder;
 
 import javax.swing.*;
@@ -39,7 +41,8 @@ public class GameArea extends JPanel {
     private final List<Thief> thieves = new ArrayList<>();
     private final List<PoliceOfficer> cops = new ArrayList<>();
     private final List<Security> securities = new ArrayList<>();
-    private final List<Cleaner> cleaners = new ArrayList<>();
+    //private final List<Cleaner> cleaners = new ArrayList<>();
+    private final List<TrashCan> trashCans = new ArrayList<>();
     public boolean caught = false;
     public boolean thiefIsCaught = false;
     public boolean temp = false;
@@ -56,12 +59,15 @@ public class GameArea extends JPanel {
     private int numofsecurities = 0;
     private boolean parkOpen = false;
     private Repairman repairman;
+    private Cleaner cleaner;
     private BasicBuilding repairmanDest;
+    private BasicBuilding cleanerDest;
     private GamePanel gpanel;
 
     //NEW THINGS REGARDING MOOD
     private int numOfGarbage = 10;
     private int numOfPlants = 0;
+   
 
     public int getNumOfGarbage() {
         return numOfGarbage;
@@ -200,6 +206,21 @@ public class GameArea extends JPanel {
         }
         return null;
     }
+    
+    private BasicBuilding cleanerDestExists() {
+        for (int i = 0; i < numberOfRows; ++i) {
+            for (int j = 0; j < numberOfCols; ++j) {
+                if (this.placeManager.getPlace(i, j) != null) {
+                    if (this.placeManager.getPlace(i, j).getBuildingType().equals("Garden")) {
+                        cleanerDest = this.placeManager.getPlace(i, j);
+                        return this.placeManager.getPlace(i, j);
+                    }
+
+                }
+            }
+        }
+        return null;
+    }
 
     /**
      * Checking if game is broken down and sets destination for the repairman
@@ -275,10 +296,16 @@ public class GameArea extends JPanel {
     }
 
     public void placeTrash() {
+        System.out.println("ckm");
         BasicBuilding tr = new Trash();
         int i = 0, j = 0;
         boolean found = false;
+        long started = System.currentTimeMillis();
         while (!found) {
+            System.out.println("infinty");
+            if(System.currentTimeMillis() - started > 5000){
+                break;
+            }
             i = random.nextInt(9);
             j = random.nextInt(9);
             if (this.placeManager.getPlace(i, j) != null) {
@@ -293,8 +320,6 @@ public class GameArea extends JPanel {
         }
         if (this.placeManager.getPlace(i, j).getBuildingType().equals("Path")) {
             tryPlacingTrash(tr, i, j);
-            thieves.get(0).setX(i * 50);
-            thieves.get(0).setY(j * 50);
         }
     }
     
@@ -307,6 +332,7 @@ public class GameArea extends JPanel {
     
     private void tryPlacingTrash(BasicBuilding building, int indexX, int indexY) {
         while (!this.placeManager.addTrash(building, indexX, indexY)) {
+            System.out.println("waiting");
             indexX = random.nextInt(numberOfRows - 1);
             indexY = random.nextInt(numberOfCols - 1);
         }
@@ -358,6 +384,28 @@ public class GameArea extends JPanel {
                 repairman.leaveThePark();
             }
         }
+    }
+    
+    
+    public void moveCleaner() {
+        PathFinder BFS;
+        if (cleaner != null && cleanerDestExists() != null) {
+            
+            BFS = new PathFinder(this.placeManager, this.cleaner);
+            cleaner.currentPath = BFS.pathExists();
+            
+            cleaner.moveTowardsDestination();
+            if (cleanerDest != null) {
+                int cleanerX = cleaner.getY() / 50;
+                int cleanerY = cleaner.getX() / 50;
+                if (this.placeManager.getPlace(cleanerX, cleanerY) != null && this.placeManager.getPlace(cleanerX, cleanerY).getBuildingType().equals("Garden")) {
+                    //cleaner.pickUpTrash();
+                    this.placeManager.setPlace(cleanerX, cleanerY, new Path());
+                }
+
+            }
+
+        } 
     }
 
     /**
@@ -452,8 +500,9 @@ public class GameArea extends JPanel {
                     guest.currentPath = BFSFinder.pathExists();
                 }
                 
-                if(guest.hasEaten && (System.currentTimeMillis()-guest.eatingTime)>3000) {
-                    placeManager.addBuilding(new Trash(), guest.getX() / 50, guest.getY() / 50);
+                if(guest.hasEaten && (System.currentTimeMillis()-guest.eatingTime)>10000) {
+                    //placeTrash(new Trash(), guest.getX() / 50, guest.getY() / 50);
+                    placeTrash();
                     System.out.println("Trash is thrown");
                     System.out.println(guest.getX() / UNIT_SIZE);
                     System.out.println(guest.getY() / UNIT_SIZE);
@@ -850,6 +899,7 @@ public class GameArea extends JPanel {
                 setNumofcops(1);
                 setNumOfsecurities(1);
                 placecave();
+                cleaner = new Cleaner();
                 gpanel.payEntranceFee(getNumberOfQuests() * entranceMoney);
             }
             parkOpen = true;
@@ -872,6 +922,7 @@ public class GameArea extends JPanel {
             }
             moveAllsecurities();
             moveRepairman();
+            moveCleaner();
             repaint();
 
         }

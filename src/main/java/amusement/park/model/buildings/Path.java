@@ -20,6 +20,11 @@ public class Path extends Building {
         this.trashCount = trashCount;
     }
 
+    public Path() {
+       super("path3.png", 5, 1, 10, "Path");
+       this.tileCost = 1;
+    }
+
     /**
      * This method is going to build the path for the guests and decrease their
      * money

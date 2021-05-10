@@ -124,6 +124,10 @@ public class PlaceManager {
     public BasicBuilding getPlace(int row, int col) {
         return placesMatrix[row][col];
     }
+    
+    public void setPlace(int row, int col, BasicBuilding b) {
+        placesMatrix[row][col] = b;
+    }
 
     public boolean checkIfGameExists(BasicBuilding building) {
         if (building instanceof BaseGame) {

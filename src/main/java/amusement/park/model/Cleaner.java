@@ -28,7 +28,7 @@ public class Cleaner extends Person {
     
     public Cleaner() {
         super("person/cleaner.gif");
-        random= new Random();
+        Random rand= new Random();
     }
 
     public void pickUpTrash() {

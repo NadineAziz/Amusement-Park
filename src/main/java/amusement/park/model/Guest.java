@@ -107,6 +107,7 @@ public class Guest extends Person {
             }
         }
     }
+    
 
     public int getMoney() {
         return money;
