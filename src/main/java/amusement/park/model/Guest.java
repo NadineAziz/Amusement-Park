@@ -18,6 +18,8 @@ public class Guest extends Person {
     public boolean rmv = false;
     private int money = 0;
     private int mood = 0;
+    public long eatingTime;
+    public boolean hasEaten=false;
     public static CoinsPanel coinsPanel = null;
 
     public Guest(int money) {
@@ -38,6 +40,20 @@ public class Guest extends Person {
         return isGame;
     }
 
+    public boolean isDestinationRestaurant() {
+        boolean isRest=false;
+        if(this.destination.equals("Buffet")) {
+            isRest=true;
+        }
+        else if(this.destination.equals("HotDogStand")) {
+            isRest=true;
+        }
+        else if(this.destination.equals("SweetShop")) {
+            isRest=true;
+        }
+        return isRest;
+    }
+    
     public void fillPocket(int money) {
         this.money = money;
     }
@@ -73,7 +89,7 @@ public class Guest extends Person {
         int y = this.y;
         graphics.drawImage(getIcon().getImage(), x, y, UNIT_SIZE, UNIT_SIZE - 15, null);  
         if (this.getMood() > 70 && this.getMood()<=100) {
-            graphics.setColor(Color.red);
+            graphics.setColor(Color.green);
             ((Graphics2D) graphics).setStroke(new BasicStroke(10));
             graphics.drawLine(x, y, x+UNIT_SIZE , y);
         } else {

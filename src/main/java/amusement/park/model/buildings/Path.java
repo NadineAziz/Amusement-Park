@@ -15,7 +15,7 @@ public class Path extends Building {
     private int trashCount;
 
     public Path(int tileCost, int trashCount) {
-        super("path3.png", 5, 3, 10, "Path");
+        super("path3.png", 5, 1, 10, "Path");
         this.tileCost = tileCost;
         this.trashCount = trashCount;
     }

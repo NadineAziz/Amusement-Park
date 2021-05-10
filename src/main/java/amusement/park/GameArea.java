@@ -6,6 +6,7 @@ import amusement.park.model.buildings.Building;
 import amusement.park.model.buildings.PoliceStation;
 import amusement.park.model.buildings.ThiefDen;
 import amusement.park.model.buildings.games.BaseGame;
+import amusement.park.model.buildings.gardens.Trash;
 import amusement.park.pathfinding.PathFinder;
 
 import javax.swing.*;
@@ -38,6 +39,7 @@ public class GameArea extends JPanel {
     private final List<Thief> thieves = new ArrayList<>();
     private final List<PoliceOfficer> cops = new ArrayList<>();
     private final List<Security> securities = new ArrayList<>();
+    private final List<Cleaner> cleaners = new ArrayList<>();
     public boolean caught = false;
     public boolean thiefIsCaught = false;
     public boolean temp = false;
@@ -122,7 +124,7 @@ public class GameArea extends JPanel {
                     BasicBuilding building = gamePanel.getSelectedItem().createBuilding();
                     int indexY = (e.getX() / UNIT_SIZE);
                     int indexX = (e.getY() / UNIT_SIZE);
-                    if (placeManager.canBePlaced(indexX, indexY)) {
+                    if (placeManager.canBePlaced(indexX, indexY /*, building instanceof Trash*/)) {
                         if (gamePanel.hasEnoughMoney() && !placeManager.checkIfGameExists(building)) {
                             gamePanel.buyBuilding();
                             placeManager.addBuilding(building, indexX, indexY);
@@ -272,8 +274,39 @@ public class GameArea extends JPanel {
         }
     }
 
+    public void placeTrash() {
+        BasicBuilding tr = new Trash();
+        int i = 0, j = 0;
+        boolean found = false;
+        while (!found) {
+            i = random.nextInt(9);
+            j = random.nextInt(9);
+            if (this.placeManager.getPlace(i, j) != null) {
+                if (this.placeManager.getPlace(i, j).getBuildingType().equals("Path")) {
+                    found = true;
+                } else {
+                    i = random.nextInt(9);
+                    j = random.nextInt(9);
+                }
+            }
+
+        }
+        if (this.placeManager.getPlace(i, j).getBuildingType().equals("Path")) {
+            tryPlacingTrash(tr, i, j);
+            thieves.get(0).setX(i * 50);
+            thieves.get(0).setY(j * 50);
+        }
+    }
+    
     private void tryPlacingCave(BasicBuilding building, int indexX, int indexY) {
         while (!this.placeManager.addCave(building, indexX, indexY)) {
+            indexX = random.nextInt(numberOfRows - 1);
+            indexY = random.nextInt(numberOfCols - 1);
+        }
+    }
+    
+    private void tryPlacingTrash(BasicBuilding building, int indexX, int indexY) {
+        while (!this.placeManager.addTrash(building, indexX, indexY)) {
             indexX = random.nextInt(numberOfRows - 1);
             indexY = random.nextInt(numberOfCols - 1);
         }
@@ -409,11 +442,23 @@ public class GameArea extends JPanel {
                     if (guest.reachedDestination) {
                         //mood increaser if they went to game or restaurant
                         guest.changeMood(10);
+                        if (guest.isDestinationRestaurant()){
+                            guest.hasEaten=true;
+                            guest.eatingTime=System.currentTimeMillis();
+                        }
                         guest.reachedDestination = false;
                     }
                     PathFinder BFSFinder = new PathFinder(this.placeManager, guest);
                     guest.currentPath = BFSFinder.pathExists();
                 }
+                
+                if(guest.hasEaten && (System.currentTimeMillis()-guest.eatingTime)>3000) {
+                    placeManager.addBuilding(new Trash(), guest.getX() / 50, guest.getY() / 50);
+                    System.out.println("Trash is thrown");
+                    System.out.println(guest.getX() / UNIT_SIZE);
+                    System.out.println(guest.getY() / UNIT_SIZE);
+                }
+                
                 if (this.placeManager.buildingExists(guest.getDestination())) {
                     guest.moveTowardsDestination();
                     System.out.println("guest position: " + guest.getY() / 50 + " " + guest.getX() / 50);

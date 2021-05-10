@@ -5,6 +5,7 @@ import amusement.park.model.buildings.games.BaseGame;
 import amusement.park.model.buildings.games.FirstGame;
 import amusement.park.model.buildings.games.SecondGame;
 import amusement.park.model.buildings.games.ThirdGame;
+import amusement.park.model.buildings.gardens.Trash;
 
 public class PlaceManager {
 
@@ -25,7 +26,9 @@ public class PlaceManager {
 
     public boolean addBuilding(BasicBuilding building, int indexX, int indexY) {
         if (!checkIfGameExists(building)) {
-            if (canBePlaced(indexX, indexY) && isEnoughSpace(building, indexX, indexY)) {
+            System.out.println(building instanceof Trash);
+            boolean t= building instanceof Trash;
+            if (canBePlaced(indexX, indexY/*, t*/) && isEnoughSpace(building, indexX, indexY)) {
                 for (int x = indexX; x < (indexX + building.getSize()); x++) {
                     for (int y = indexY; y < (indexY + building.getSize()); y++) {
                         placesMatrix[x][y] = building;
@@ -40,8 +43,8 @@ public class PlaceManager {
         }
     }
 
-    public boolean canBePlaced(int indexX, int indexY) {
-        if (indexX < numberOfRows && indexY < numberOfCols) {
+    public boolean canBePlaced(int indexX, int indexY/*, boolean isTrash*/) {
+        if (/*isTrash ||*/ (indexX < numberOfRows && indexY < numberOfCols)) {
             return placesMatrix[indexX][indexY] == null;
         } else {
             return false;
@@ -64,6 +67,23 @@ public class PlaceManager {
     }
 
     public boolean addCave(BasicBuilding building, int indexX, int indexY) {
+        if (!checkIfGameExists(building)) {
+            if (canCaveBePlaced(indexX, indexY) && isEnoughSpaceForCave(building, indexX, indexY)) {
+                for (int x = indexX; x < (indexX + building.getSize()); x++) {
+                    for (int y = indexY; y < (indexY + building.getSize()); y++) {
+                        placesMatrix[x][y] = building;
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean addTrash(BasicBuilding building, int indexX, int indexY) {
         if (!checkIfGameExists(building)) {
             if (canCaveBePlaced(indexX, indexY) && isEnoughSpaceForCave(building, indexX, indexY)) {
                 for (int x = indexX; x < (indexX + building.getSize()); x++) {
@@ -130,7 +150,8 @@ public class PlaceManager {
         if ((startX + building.getSize() <= numberOfRows) && (startY + building.getSize() <= numberOfCols)) {
             for (int x = startX; x < (startX + building.getSize()); x++) {
                 for (int y = startY; y < (startY + building.getSize()); y++) {
-                    if (!canBePlaced(x, y)) {
+                    boolean t= building instanceof Trash;
+                    if (!canBePlaced(x, y /*, t*/)) {
                         return false;
                     }
                 }
